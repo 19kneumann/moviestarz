@@ -75,7 +75,6 @@ typings/
 # FuseBox cache
 .fusebox/
 
-
 /backend/docker/mongodb/Data
 /backend/.idea/libraries
 /backend/.idea/artifacts

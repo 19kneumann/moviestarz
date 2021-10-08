@@ -38,6 +38,17 @@ services:
     networks:
       - movieStarz
 
+  watchlist-app:
+    container_name: watchlist-app
+    build:
+      context: ./watchlists
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "8084:8080"
+    networks:
+      - movieStarz
 networks:
   movieStarz:
     name: movieStarz
