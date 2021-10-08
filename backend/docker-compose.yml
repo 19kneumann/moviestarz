@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  mongo:
+    image : mongo
+    container_name: mongo
+    environment:
+      - PUID=1000
+      - PGID=1000
+    volumes:
+      - .\docker\mongodb\Data:/data/db
+    ports:
+      - "27018:27017"
+    networks:
+      - movieStarz
+
+  user-app:
+    container_name: user-app
+    build:
+      context: ./user
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "8082:8080"
+    networks:
+      - movieStarz
+
+  review-app:
+    container_name: review-app
+    build:
+      context: ./review
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - "8083:8080"
+    networks:
+      - movieStarz
+
+networks:
+  movieStarz:
+    name: movieStarz
