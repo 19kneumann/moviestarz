@@ -1,4 +1,4 @@
-from tomcat:8-jdk8-openjdk
+FROM tomcat:8-jdk8-openjdk
 
 ENV SERVER_PORT=8080
 

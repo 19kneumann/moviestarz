@@ -9,9 +9,6 @@ import java.util.Random;
 
 @Document(collection = "Review")
 public class Review {
-    //Review(){
-        //reviewId = Integer.valueOf(generateId());
-    //}
     @Id
     private String reviewId;
     private boolean isPublic;
