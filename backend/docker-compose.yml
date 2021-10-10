@@ -14,6 +14,16 @@ services:
     networks:
       - movieStarz
 
+  eureka-registry:
+    container_name: eureka-registry
+    build:
+      context: ./EurekaRegistry
+    ports:
+      - 8888:8080
+      #- 8080
+    networks:
+      - movieStarz
+
   user-app:
     container_name: user-app
     build:
@@ -49,6 +59,20 @@ services:
       - "8084:8080"
     networks:
       - movieStarz
+
+  zuul-gateway:
+    container_name: zuul-gateway
+    build:
+      context: ./zuul-gateway
+    restart: always
+    #depends_on:
+      #- eureka-registry
+    ports:
+      - "8089:8080"
+    networks:
+      - movieStarz
+
+
 networks:
   movieStarz:
     name: movieStarz

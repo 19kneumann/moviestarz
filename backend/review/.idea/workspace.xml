@@ -5,24 +5,30 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c60823ef-c1e7-4520-b970-4114940f3ab6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../watchlists/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/mvnw" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/mvnw.cmd" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/ServletInitializer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/Watchlist.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/WatchlistController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/WatchlistRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/WatchlistsApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/src/main/resources/application.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../watchlists/src/test/java/moviestarz/watchlists/WatchlistsApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/src/main/java/ec/EurekaRegistry/EurekaRegistryApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/src/main/java/ec/EurekaRegistry/ServletInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../EurekaRegistry/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/.mvn/wrapper/MavenWrapperDownloader.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/.mvn/wrapper/maven-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/src/main/java/moviestarz/zuulgateway/MyAuthenticationFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/src/main/java/moviestarz/zuulgateway/ServletInitializer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/src/main/java/moviestarz/zuulgateway/ZuulGatewayApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zuul-gateway/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,6 +108,7 @@
       <workItem from="1633615511190" duration="51000" />
       <workItem from="1633615589120" duration="2835000" />
       <workItem from="1633713205852" duration="1282000" />
+      <workItem from="1633903211627" duration="297000" />
     </task>
     <servers />
   </component>
