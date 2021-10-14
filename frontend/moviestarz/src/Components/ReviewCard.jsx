@@ -5,6 +5,7 @@ class ReviewCard extends Component {
     state = {};
 
 
+
   render() {
     return (
       <div>
@@ -19,7 +20,7 @@ class ReviewCard extends Component {
         Rating: {this.props.rating}
         <br/>
         Description: {this.props.description}
-        <br/><br/><br/>
+        <br/>
       </div>
     );
   }

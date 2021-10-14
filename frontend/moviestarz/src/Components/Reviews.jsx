@@ -1,13 +1,18 @@
 import React, { Component } from "react";
 import ReviewCard from "./ReviewCard";
 import axios from "axios";
+import CreateReview from "./CreateReview";
 
 class Reviews extends Component {
 
     state = {
         reviews: [],
       };
-    
+
+      editReview(review){
+        console.log(review.id);
+      }
+
       componentDidMount = () => {    
         // axios
         //   .get("https://api.themoviedb.org/3/discover/movie?api_key=af69558f05513147c6444f75dd27b6a1&language=en-US&sort_by=popularity.desc"
@@ -45,7 +50,6 @@ class Reviews extends Component {
       <div>
           {this.state.reviews.map((review) => (
               <React.Fragment key={review.id}>
-
             <ReviewCard 
             id={review.id}
             ownerUsername={review.ownerUsername}
@@ -53,9 +57,11 @@ class Reviews extends Component {
             title={review.title}
             rating={review.rating}
             description={review.description}
-            ></ReviewCard>
+            >
+            </ReviewCard>
+            <button onClick={() => this.editReview(review)}>Edit</button>
+            <br/><br/>
             </React.Fragment>
-
           ))}
       </div>
     );
