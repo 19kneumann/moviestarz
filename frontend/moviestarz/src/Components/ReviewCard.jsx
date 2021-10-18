@@ -9,13 +9,13 @@ class ReviewCard extends Component {
   render() {
     return (
       <div>
-        Id: {this.props.id}
+        Id: {this.props.reviewId}
         <br/>
         OwnerUsername: {this.props.ownerUsername}
         <br/>
         Is Public: {this.props.isPublic}
         <br/>
-        Title: {this.props.title}
+        Movie: {this.props.movie}
         <br/>
         Rating: {this.props.rating}
         <br/>

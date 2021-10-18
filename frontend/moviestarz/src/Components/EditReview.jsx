@@ -1,25 +1,52 @@
 import React, { Component } from "react";
 class CreateReview extends Component {
 
+
+    state = {
+      reviewId: null,
+        isPublic: null,
+        movie: null,
+        rating: null,
+        description: null
+      };
+
+      componentWillMount = () => {
+          this.setState({
+              reviewId: this.props.reviewId,
+              isPublic: this.props.isPublic,
+              movie: this.props.movie,
+              rating: this.props.rating,
+              description: this.props.description
+          })
+      }
+    onChange = (evt) => {
+        this.setState({
+          [evt.target.name]: evt.target.value,
+        });
+      };
+
+
   render() {
     return (
       <div>
         <h1> EDIT REVIEW </h1>
-        <form>
+        <form onSubmit={this.props.updateReview}>
+            <input type="text" name="id" value={this.state.reviewId} readOnly/>
+            <br/>
               <label>Visibility</label>
               <br/>
-              <select id="isPublic" name="isPublic" >
+              <select id="isPublic" name="isPublic" value={this.state.isPublic} onChange={this.onChange} >
                     <option value="true">Public</option>
                     <option value="false">Friends Only</option>
               </select>
               <br/>
               <label>Movie Title</label>
               <br/>
-              <input type="text"/>
+              <input type="text" name ="title" value={this.state.movie} onChange={this.onChange}/>
               <br/>
               <label>Rating</label>
               <br/>
-              <select id="rating" name="rating">
+              <select id="rating" name="rating" value={this.state.rating} onChange={this.onChange}>
                     <option value=".5">.5 Stars</option>
                     <option value="1">1 Stars</option>
                     <option value="1.5">1.5 Stars</option>
@@ -34,9 +61,9 @@ class CreateReview extends Component {
               <br/>
               <label>Description</label>
               <br/>
-              <input type="text"/>
+              <input type="text" name="description" value={this.state.description} onChange={this.onChange}/>
+              <button type="submit">Submit </button>
         </form>
-        <button>Create Review</button>
       </div>
     );
   }

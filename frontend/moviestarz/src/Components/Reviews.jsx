@@ -2,59 +2,110 @@ import React, { Component } from "react";
 import ReviewCard from "./ReviewCard";
 import axios from "axios";
 import CreateReview from "./CreateReview";
+import EditReview from "./EditReview";
 
 class Reviews extends Component {
 
     state = {
         reviews: [],
+        edit: null,
+        editIsPublic: null,
+        editMovie: null,
+        editRating: null,
+        editDescription: null
       };
 
       editReview(review){
-        console.log(review.id);
+        console.log(review.public);
+        this.setState({edit: true,
+          editId: review.reviewId,
+          editIsPublic: review.public,
+          editMovie: review.movie,
+          editRating: review.rating,
+          editDescription: review.description
+        });
       }
 
-      componentDidMount = () => {    
-        // axios
-        //   .get("https://api.themoviedb.org/3/discover/movie?api_key=af69558f05513147c6444f75dd27b6a1&language=en-US&sort_by=popularity.desc"
-        //   )
-        //   .then((response) => {
-        //     console.log(response.data);
-        //     this.setState({ movies: response.data.results });
-        //   })
-        //   .catch(function (error) {
-        //     console.log("errorFetching");
-        //   });
 
-        var reviewList = [
-            {"id": "1",
-            "ownerUsername": "19kayla",
-            "isPublic": "true",
-            "title": "idk",
-            "rating": "4.3",
-            "description": "this is a description"
-        }, 
-        {"id": "10",
-        "ownerUsername": "19kayla",
-            "isPublic": "false",
-            "title": "hehe",
-            "rating": "2",
-            "description": "blahh"
-        }
-        ]
-        this.setState({ reviews: reviewList})
+
+      componentWillMount = () => {    
+        axios
+          .get("http://localhost:8089/review-service"
+          )
+          .then((response) => {
+            console.log(response.data);
+            console.log(response.data[0].public)
+            this.setState({ reviews: response.data });
+          })
+          .catch(function (error) {
+            console.log("errorFetching");
+          });
+
+        // var reviewList = [
+        //     {"id": "1",
+        //     "ownerUsername": "19kayla",
+        //     "isPublic": "true",
+        //     "title": "idk",
+        //     "rating": "4",
+        //     "description": "this is a description"
+        // }, 
+        // {"id": "10",
+        // "ownerUsername": "19kayla",
+        //     "isPublic": "false",
+        //     "title": "hehe",
+        //     "rating": "2",
+        //     "description": "blahh"
+        // }
+        //]
+        //this.setState({ reviews: reviewList})
       };
 
+      updateReview = (e) => {
+        e.preventDefault();
+        var array = this.state.reviews;
+        array.forEach(element => {
+          if(element.id == e.target.id.value){
+            console.log(e.target.isPublic.value);
+            element.isPublic = e.target.isPublic.value;
+            element.title = e.target.title.value;
+            element.rating = e.target.rating.value;
+            element.description = e.target.description.value;
+          }
+        });
+        this.setState({
+          reviews: array,
+          edit: null
+        })
+      }
 
+      createReview(form){
+        console.log("fs");
+        form.preventDefault();
+        var review = {
+          "id": "88",
+          "ownerUsername": "19kayla",
+          "title": form.target.title.value,
+          "rating": form.target.rating.value,
+          "description": form.target.description.value
+        }
+        console.log(this.state.reviews)
+        var list = this.state.reviews;
+        list.push(review);
+        this.setState({
+          reviews: list
+        })
+      }
+      
   render() {
     return (
       <div>
           {this.state.reviews.map((review) => (
-              <React.Fragment key={review.id}>
+            <React.Fragment key={review.reviewId}>
             <ReviewCard 
-            id={review.id}
+            reviewId={review.reviewId}
             ownerUsername={review.ownerUsername}
-            isPublic={review.isPublic}
-            title={review.title}
+            isPublic={review.public.toString()}
+            movie={review.movie}
             rating={review.rating}
             description={review.description}
             >
@@ -63,6 +114,24 @@ class Reviews extends Component {
             <br/><br/>
             </React.Fragment>
           ))}
+          {this.state.edit ?
+          <div>
+           <EditReview updateReview={this.updateReview.bind()}
+              reviewId={this.state.editId}
+              isPublic={this.state.editIsPublic}
+              movie={this.state.editMovie}
+              rating={this.state.editRating}
+              description={this.state.editDescription}
+           />
+           <button type="button" onClick={()=> this.setState({edit: null})}>Close </button>
+           </div>
+           :
+           null
+        }
+        <CreateReview 
+        createReview={this.createReview.bind()}
+        ></CreateReview>
+
       </div>
     );
   }

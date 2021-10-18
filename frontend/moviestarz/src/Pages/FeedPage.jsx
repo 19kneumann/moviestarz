@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Reviews from "../Components/Reviews";
 import CreateReview from "../Components/CreateReview";
-
+import EditReview from "../Components/EditReview"
 class FeedPage extends Component {
 
   render() {
@@ -10,7 +10,6 @@ class FeedPage extends Component {
 		<div>
       <p>Feed Page</p>
       <Reviews></Reviews>
-      <CreateReview></CreateReview>
     </div>
     );
   }

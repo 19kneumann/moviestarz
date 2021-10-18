@@ -19,7 +19,7 @@ class CreateReview extends Component {
     return (
       <div>
         <h1> CREATE REVIEW </h1>
-        <form>
+        <form onSubmit={this.props.createReview}>
               <label>Visibility</label>
               <br/>
               <select id="isPublic" name="isPublic" onChange={this.onChange} >
@@ -49,8 +49,8 @@ class CreateReview extends Component {
               <label>Description</label>
               <br/>
               <input type="text" name="description" onChange={this.onChange}/>
+        <button type="submit">Submit </button>
         </form>
-        <button>Create Review</button>
       </div>
     );
   }

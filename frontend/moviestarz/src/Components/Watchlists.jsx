@@ -1,11 +1,23 @@
 import React, { Component } from "react";
 import WatchlistCard from "./WatchlistCard";
 import axios from "axios";
+import WatchlistAddUser from "./WatchlistAddUser";
+import WatchlistManager from "./WatchlistManager"
+import WatchlistCreate from "./WatchlistCreate";
 
 class Watchlists extends Component {
 
     state = {
         watchlists: [],
+        addUser: false,
+        editWatchlist: false,
+        id: null,
+        ownerUsername: null,
+        movies: null,
+        isPublic: null,
+        title: null,
+        adminUsers: null,
+        viewerUsers:null
       };
     
       componentDidMount = () => {    
@@ -25,7 +37,7 @@ class Watchlists extends Component {
             "title": "idk",
             "movies": [{"title": "the dungeon"},{"title": "idk"}],
             "adminUsers": [{"username": "xytix"}],
-            "viewerUsers": [],
+            "viewerUsers": [{"username": "monkeyman3773"}],
             "ownerUsername": "19kayla",
             "isPublic": "false"
         }
@@ -33,16 +45,41 @@ class Watchlists extends Component {
         this.setState({ watchlists: watchlist})
       };
 
-      editWatchlist(){
-          
+      addUser(watchlist){
+        console.log(watchlist.id)
+        this.setState({
+          addUser: true,
+          id: watchlist.id,
+          ownerUsername: watchlist.ownerUsername,
+          movies: watchlist.movies,
+          isPublic: watchlist.isPublic,
+          title: watchlist.title,
+          adminUsers: watchlist.adminUsers,
+          viewerUsers: watchlist.viewerUsers
+        })
+      }
+      editWatchlist(watchlist){
+        console.log(watchlist.id)
+        this.setState({
+          editWatchlist: true,
+          id: watchlist.id,
+          ownerUsername: watchlist.ownerUsername,
+          movies: watchlist.movies,
+          isPublic: watchlist.isPublic,
+          title: watchlist.title,
+          adminUsers: watchlist.adminUsers,
+          viewerUsers: watchlist.viewerUsers
+        })
       }
 
+      update(e){
+
+      }
   render() {
     return (
       <div>
           {this.state.watchlists.map((watchlist) => (
             <React.Fragment key={watchlist.id}>
-
             <WatchlistCard 
             id={watchlist.id}
             ownerUsername={watchlist.ownerUsername}
@@ -52,10 +89,43 @@ class Watchlists extends Component {
             adminUsers={watchlist.adminUsers}
             viewerUsers={watchlist.viewerUsers}
             ></WatchlistCard>
-            <button onClick={() => this.editReview(watchlist)}>Edit</button>
-
+            <button type="button" onClick={() => this.editWatchlist(watchlist)}>Edit Watchlist</button>
+            <button type="button" onClick={() => this.addUser(watchlist)}>Add User</button>
             </React.Fragment>
           ))}
+          {this.state.addUser ?
+          <div>
+           <WatchlistAddUser update={this.update.bind()}
+               id={this.state.id}
+               ownerUsername={this.state.ownerUsername}
+               movies={this.state.movies}
+               isPublic={this.state.IsPublic}
+               title={this.state.title}
+               adminUsers={this.state.adminUsers}
+               viewerUsers={this.state.viewerUsers}
+           />
+           <button type="button" onClick={()=> this.setState({addUser: null})}>Close </button>
+           </div>
+           :
+           null
+        }
+        {this.state.editWatchlist ?
+          <div>
+           <WatchlistManager update={this.update.bind()}
+               id={this.state.id}
+               ownerUsername={this.state.ownerUsername}
+               movies={this.state.movies}
+               isPublic={this.state.IsPublic}
+               title={this.state.title}
+               adminUsers={this.state.adminUsers}
+               viewerUsers={this.state.viewerUsers}
+           />
+           <button type="button" onClick={()=> this.setState({addUser: null})}>Close </button>
+           </div>
+           :
+           null
+        }
+        <WatchlistCreate/>
       </div>
     );
   }

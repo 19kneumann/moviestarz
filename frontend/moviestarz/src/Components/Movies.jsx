@@ -8,7 +8,7 @@ class Movies extends Component {
         movies: [],
       };
     
-      componentDidMount = () => {    
+      componentWillMount = () => {    
         axios
           .get("https://api.themoviedb.org/3/discover/movie?api_key=af69558f05513147c6444f75dd27b6a1&language=en-US&sort_by=popularity.desc"
           )
