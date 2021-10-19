@@ -4,6 +4,7 @@ class CreateReview extends Component {
 
     state = {
       reviewId: null,
+      ownerUsername: null,
         isPublic: null,
         movie: null,
         rating: null,
@@ -13,6 +14,7 @@ class CreateReview extends Component {
       componentWillMount = () => {
           this.setState({
               reviewId: this.props.reviewId,
+              ownerUsername: this.props.ownerUsername,
               isPublic: this.props.isPublic,
               movie: this.props.movie,
               rating: this.props.rating,
@@ -31,7 +33,13 @@ class CreateReview extends Component {
       <div>
         <h1> EDIT REVIEW </h1>
         <form onSubmit={this.props.updateReview}>
-            <input type="text" name="id" value={this.state.reviewId} readOnly/>
+            Id
+            <br/>
+            <input type="text" name="reviewId" value={this.state.reviewId} readOnly/>
+            <br/>
+            Owner Username:
+            <br/>
+            <input type="text" name="ownerUsername" value={this.state.ownerUsername} readOnly/>
             <br/>
               <label>Visibility</label>
               <br/>
@@ -42,7 +50,7 @@ class CreateReview extends Component {
               <br/>
               <label>Movie Title</label>
               <br/>
-              <input type="text" name ="title" value={this.state.movie} onChange={this.onChange}/>
+              <input type="text" name ="movie" value={this.state.movie} onChange={this.onChange}/>
               <br/>
               <label>Rating</label>
               <br/>

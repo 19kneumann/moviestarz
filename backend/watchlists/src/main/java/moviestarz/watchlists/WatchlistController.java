@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin()
 public class WatchlistController {
 
     @Autowired
@@ -18,6 +19,7 @@ public class WatchlistController {
     @PostMapping
     public ResponseEntity<Object> createWatchlist(@RequestBody Map<String, String> payload){
         Watchlist watchlist = new Watchlist();
+        watchlist.setWatchlistTitle(payload.get(("idPublic")));
         watchlist.setPublic(Boolean.parseBoolean(payload.get("isPublic").toString()));
         watchlist.setOwnerUsername(payload.get("ownerUsername"));
         repo.save(watchlist);

@@ -1,24 +1,22 @@
 import React, { Component } from "react";
-class Login extends Component {
+import axios from "axios";
 
-    onLoginClick = (event) => {
-      console.log("ahh");
-  };
+class Login extends Component {
 
   render() {
     return (
       <div>
         <h1> LOG IN </h1>
-        <form>
-              <label>Username or Email</label>
+        <form onSubmit={this.props.logIn}>
+              <label>Username</label>
               <br/>
-              <input type="text"/>
+              <input type="text" name="username"/>
               <br/>
               <label>Password</label>
               <br/>
-              <input type="password"/>
+              <input type="password" name="password"/>
+              <button type="submit"> Log In</button>
         </form>
-        <button onClick={this.onLoginClick}> Log In </button> 
       </div>
     );
   }

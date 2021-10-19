@@ -1,7 +1,7 @@
 FROM tomcat:8-jdk8-openjdk
 
 ENV SERVER_PORT=8080
-ENV REGISTRY_HOST=svc-registry
+ENV REGISTRY_HOST=eureka-registry
 ENV MONGO_HOST=mongo
 ENV MONGO_PORT=27017
 

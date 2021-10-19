@@ -11,6 +11,7 @@ public class Watchlist {
 
     @Id
     private String watchlistId;
+    private String watchlistTitle;
     private List<String> movies = new ArrayList<>();
     private String ownerUsername ;
     private List<String> adminUsers = new ArrayList<>();
@@ -23,6 +24,14 @@ public class Watchlist {
 
     public void setWatchlistId(String watchlistId) {
         this.watchlistId = watchlistId;
+    }
+
+    public String getWatchlistTitle() {
+        return watchlistTitle;
+    }
+
+    public void setWatchlistTitle(String watchlistTitle) {
+        this.watchlistTitle = watchlistTitle;
     }
 
     public List<String> getMovies() {

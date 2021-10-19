@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin()
 public class UserController {
 
     @Autowired
@@ -36,5 +37,19 @@ public class UserController {
     @GetMapping("")
     public List<User> getAllUsers(){
         return repo.findAll();
+    }
+
+    @PatchMapping("/signIn")
+    public ResponseEntity<Object> signIn(@RequestBody Map<String, Object> payload){
+        User sentOverUser = new User();
+        sentOverUser.setUsername(payload.get("username").toString());
+        sentOverUser.setPassword(payload.get("password").toString());
+        User dbUser = repo.findById(sentOverUser.getUsername()).orElse(null);
+        if(dbUser != null && dbUser.getPassword().equals(sentOverUser.getPassword())){
+            return new ResponseEntity<>(dbUser.getUsername(), HttpStatus.OK);
+        } else{
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

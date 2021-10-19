@@ -1,18 +1,21 @@
 import React, { Component } from "react";
+
 class SignUp extends Component {
+
+
 
   render() {
     return (
       <div>
         <h1> SIGN UP </h1>
-        <form>
+        <form onSubmit={this.props.SignUp}>
               <label>Username</label>
               <br/>
-              <input type="text"/>
+              <input type="text" name="username"/>
               <br/>
               <label>Password</label>
               <br/>
-              <input type="password"/>
+              <input type="password" name="password"/>
               <br/>
               <label>Confirm Password</label>
               <br/>
@@ -20,9 +23,9 @@ class SignUp extends Component {
               <br/>
               <label>Email</label>
               <br/>
-              <input type="text"/>
+              <input type="text" name="email"/>
+              <button type="Submit">Create an Account</button>
         </form>
-        <button>Sign Up</button>
       </div>
     );
   }
