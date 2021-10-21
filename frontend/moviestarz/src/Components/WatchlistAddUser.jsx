@@ -3,9 +3,11 @@ class WatchlistAddUser extends Component {
 
     state = {
       isPublic: null,
+      id: null,
       title: null,
       rating: null,
-      description: null
+      description: null,
+      isAdmin: null
     };
   
     onChange = (evt) => {
@@ -20,6 +22,8 @@ class WatchlistAddUser extends Component {
         <div>
           <h1> ADD USER </h1>
           <form onSubmit={this.props.addUser}>
+            <input type="text" name="id" value={this.props.id} readOnly/>
+            <br/>
                 <label>Permissions</label>
                 <br/>
                 <select id="isAdmin" name="isAdmin" onChange={this.onChange} >

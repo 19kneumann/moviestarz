@@ -18,7 +18,7 @@ class WatchlistCard extends Component {
         movies:
         {this.props.movies.map(movie => <div>{movie.title}</div> )}
         <br/>
-        Admin Users: {this.props.adminUsers.map(user => user.username)}
+        Admin Users: {this.props.adminUsers.map(user => <div>{user} <br/></div>)}
         <br/>
         Viewer Users: {this.props.viewerUsers.map(user => user.username)}
         <br/>
