@@ -29,7 +29,7 @@ class CreateReview extends Component {
               <br/>
               <label>Movie Title</label>
               <br/>
-              <input type="text" name="movie" onChange={this.onChange}/>
+              <input type="text" name="movie" value={this.props.movie} readOnly/>
               <br/>
               <label>Rating</label>
               <br/>

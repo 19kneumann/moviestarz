@@ -54,4 +54,14 @@ public class WatchlistController {
         repo.save(watchlist);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @PatchMapping("/{watchlistId}/{movieId}")
+    public ResponseEntity<Object> addMovie(@RequestBody Map<String, String> payload, @PathVariable String watchlistId, @PathVariable String movieId) {
+        Watchlist watchlist = repo.findById(watchlistId).orElse(null);
+        if(watchlist == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        List<String> movies = watchlist.getMovies();
+        movies.add(movieId);
+        watchlist.setMovies(movies);
+        repo.save(watchlist);
+        return new ResponseEntity<>(watchlist, HttpStatus.OK);
+    }
 }

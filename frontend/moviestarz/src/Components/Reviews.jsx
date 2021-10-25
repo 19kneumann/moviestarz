@@ -1,17 +1,9 @@
 import React, { Component } from "react";
 import ReviewCard from "./ReviewCard";
 import axios from "axios";
-import CreateReview from "./CreateReview";
 import EditReview from "./EditReview";
 
 class Reviews extends Component {
-
-
-    constructor(){
-      super();
-      this.createReview = this.createReview.bind(this)
-    }
-
     state = {
         reviews: [],
         edit: null,
@@ -117,24 +109,24 @@ class Reviews extends Component {
             console.log(error);
           });
       }
-      createReview(form){
-        form.preventDefault();
-        axios
-          .post("http://localhost:8089/review-service", {
-            ownerUsername: "19kayla",
-            isPublic: `${form.target.isPublic.value}`,
-            movie: `${form.target.movie.value}`,
-            rating: `${form.target.rating.value}`,
-            description: `${form.target.description.value}`
-          })
-          .then((response) => {
-            this.getReviews();
-            console.log(response.data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }
+      // createReview(form){
+      //   form.preventDefault();
+      //   axios
+      //     .post("http://localhost:8089/review-service", {
+      //       ownerUsername: "19kayla",
+      //       isPublic: `${form.target.isPublic.value}`,
+      //       movie: `${form.target.movie.value}`,
+      //       rating: `${form.target.rating.value}`,
+      //       description: `${form.target.description.value}`
+      //     })
+      //     .then((response) => {
+      //       this.getReviews();
+      //       console.log(response.data);
+      //     })
+      //     .catch(function (error) {
+      //       console.log(error);
+      //     });
+      // }
       
   render() {
     return (
@@ -170,9 +162,9 @@ class Reviews extends Component {
            :
            null
         }
-        <CreateReview 
+        {/* <CreateReview 
         createReview={this.createReview.bind()}
-        ></CreateReview>
+        ></CreateReview> */}
 
       </div>
     );

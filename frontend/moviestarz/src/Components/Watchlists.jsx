@@ -25,17 +25,47 @@ class Watchlists extends Component {
         this.addUser = this.addUser.bind(this)
       }
     
-      componentDidMount = () => {    
+      onChange = (evt) => {
+        this.setState({
+          [evt.target.name]: evt.target.value,
+        });
+      };
+
+      noSpaces = () => {
+        this.state.watchlists.forEach(watchlist => {
+        if(watchlist.adminUsers[0] !== undefined && watchlist.adminUsers.length === 1){
+            let adminUsers = watchlist.adminUsers[0].split(",");
+            console.log(adminUsers)
+            watchlist.adminUsers = adminUsers.filter(users => users !== '')
+            console.log(watchlist.adminUsers)
+        }
+        if(watchlist.viewerUsers[0] !== undefined && watchlist.viewerUsers.length === 1){
+          let viewerUsers = watchlist.viewerUsers[0].split(",");
+          watchlist.viewerUsers = viewerUsers.filter(users => users !== '')
+          console.log(watchlist.viewerUsers)
+        }
+        if(watchlist.movies[0] !== undefined && watchlist.movies.length === 1){
+          let moviesUpdated = watchlist.movies[0].split(",");
+          watchlist.movies = moviesUpdated.filter(users => users !== '')
+          console.log(watchlist.movies)
+        }
+        });
+      }
+      callWatchlists =() => {
         axios
           .get("http://localhost:8089/watchlist-service"
           )
           .then((response) => {
             console.log(response.data);
             this.setState({ watchlists: response.data });
+            this.noSpaces();
           })
           .catch(function (error) {
             console.log("errorFetching");
           });
+      }
+      componentWillMount = () => {    
+        this.callWatchlists();
 
 
         // var watchlist = [
@@ -88,7 +118,6 @@ class Watchlists extends Component {
             title: `${e.target.title.value}`
           })
           .then((response) => {
-            this.getReviews();
             console.log(response.data);
           })
           .catch(function (error) {
@@ -97,10 +126,8 @@ class Watchlists extends Component {
       }
 
       sendEditRequest(){
-        let id = this.state.id;
-        console.log(id)
         axios
-          .patch("http://localhost:8089/watchlist-service/" + {id}, {
+          .patch("http://localhost:8089/watchlist-service/" + this.state.id, {
             ownerUsername: "19kayla",
             isPublic: `${this.state.isPublic}`,
             title: `${this.state.title}`,
@@ -114,52 +141,80 @@ class Watchlists extends Component {
           .catch(function (error) {
             console.log(error);
           });
+
+          this.setState({
+            editWatchlist: false,
+            addUser: false
+          })
+          this.callWatchlists();
       }
 
-      addUser(e){
-        let adminArray = this.state.adminUsers
-        if(e.target.isAdmin.value === "true"){
-          console.log("admin")
-         adminArray.push(e.target.user.value)
-          
-        }
-        axios
-          .patch("http://localhost:8089/watchlist-service/" + this.state.id, {
-            ownerUsername: "19kayla",
-            isPublic: `${this.state.isPublic}`,
-            title: `${this.state.title}`,
-            movies: `${this.state.movies}`,
-            adminUsers: `${adminArray}`,
-            viewerUsers: `${this.state.viewerUsers}`
-          })
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-          console.log(adminArray);
-      }
 
       removeUser = (user) => {
-        let filterAdmin = this.state.adminUsers.filter(users => users != user)
+        let filterAdmin = this.state.adminUsers.filter(users => users !== user)
         this.setState({
             adminUsers: filterAdmin,
-            viewerUsers: this.state.viewerUsers.filter(users => users != user)
+            viewerUsers: this.state.viewerUsers.filter(users => users !== user)
           });
           //this.state.adminUsers = filterAdmin;
           console.log(filterAdmin)
         }
 
-  render() {
-    this.state.watchlists.map((watchlist) =>{
-      if(watchlist.adminUsers[0] != undefined && watchlist.adminUsers.length == 1){
-        watchlist.adminUsers = watchlist.adminUsers[0].split(",");
-        console.log(watchlist.adminUsers)
-      }
-    }
+      removeMovie = (movie) => {
+          let movies = this.state.movies.filter(movies => movies !== movie)
+          this.setState({
+              movies: movies,
+            });
+            //this.state.adminUsers = filterAdmin;
+            }
+      addUser(e){
+        let adminArray = this.state.adminUsers
+        if(e.target.isAdmin.value === "true"){
+          console.log("admin")
+         adminArray.push(e.target.user.value)
+         this.setState({
+           adminUsers: adminArray
+         })
+         this.sendEditRequest();
+        }
 
-    )
+        // axios
+        //   .patch("http://localhost:8089/watchlist-service/" + this.state.id, {
+        //     ownerUsername: "19kayla",
+        //     isPublic: `${this.state.isPublic}`,
+        //     title: `${this.state.title}`,
+        //     movies: `${this.state.movies}`,
+        //     adminUsers: `${adminArray}`,
+        //     viewerUsers: `${this.state.viewerUsers}`
+        //   })
+        //   .then((response) => {
+        //     console.log(response.data);
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });
+        //   console.log(adminArray);
+      }
+
+  render() {
+
+      // this.state.watchlists.forEach(watchlist => {
+      //   if(watchlist.adminUsers[0] !== undefined && watchlist.adminUsers.length === 1){
+      //     let adminUsers = watchlist.adminUsers[0].split(",");
+      //     watchlist.adminUsers = adminUsers.filter(users => users !== '')
+      //     console.log(watchlist.adminUsers)
+      // }
+      // if(watchlist.viewerUsers[0] !== undefined && watchlist.viewerUsers.length === 1){
+      //   let viewerUsers = watchlist.viewerUsers[0].split(",");
+      //   watchlist.viewerUsers = viewerUsers.filter(users => users !== '')
+      //   console.log(watchlist.viewerUsers)
+      // }
+      //   // if(watchlist.movies[0] != undefined && watchlist.movies.length == 1){
+      //   //   watchlist.movies = watchlist.movies[0].split(",");
+      //   //   console.log(watchlist.movies)
+      //   // }
+      // });
+    this.noSpaces()
     return (
 
       <div>
@@ -198,7 +253,7 @@ class Watchlists extends Component {
         {this.state.editWatchlist ?
           <div>
            <WatchlistManager 
-          //  update={this.update.bind()}
+               editWatchlist={this.sendEditRequest.bind()}
                id={this.state.id}
                ownerUsername={this.state.ownerUsername}
                movies={this.state.movies}
@@ -206,8 +261,11 @@ class Watchlists extends Component {
                title={this.state.title}
                adminUsers={this.state.adminUsers}
                viewerUsers={this.state.viewerUsers}
+               onChange={this.onChange.bind()}
                removeUser={this.removeUser.bind()}
-           />
+               removeMovie={this.removeMovie.bind()}
+
+            />
            <button type="button" onClick={()=> this.setState({editWatchlist: null})}>Close </button>
            </div>
            :

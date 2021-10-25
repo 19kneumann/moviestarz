@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import WatchlistAddUser from "./WatchlistAddUser";
 
 class WatchlistManager extends Component {
 
@@ -14,12 +13,24 @@ class WatchlistManager extends Component {
         update: false
     };
 
+
     onChange = (evt) => {
       this.setState({
         [evt.target.name]: evt.target.value,
       });
+      this.props.onChange(evt);
     };
-  
+
+    removeUser = (user) => {
+      let filterAdmin = this.state.adminUsers.filter(users => users !== user)
+      this.setState({
+          adminUsers: filterAdmin,
+          viewerUsers: this.state.viewerUsers.filter(users => users !== user)
+        });
+        //this.state.adminUsers = filterAdmin;
+        console.log(filterAdmin)
+      }
+
     componentWillMount = () => {
         this.setState({
             id: this.props.id,
@@ -31,22 +42,6 @@ class WatchlistManager extends Component {
             viewerUsers: this.props.viewerUsers
         })
     }
-    removeMovie = (event) => {
-        this.setState({
-            movies: this.state.movies.filter(e => !event.title)
-          });
-          console.log(this.state.movies)
-        }
-
-        removeUser = (user) => {
-          let filterAdmin = this.state.adminUsers.filter(users => users != user)
-          // this.setState({
-          //     adminUsers: filterAdmin,
-          //     viewerUsers: this.state.viewerUsers.filter(users => users != user)
-          //   });
-            this.state.adminUsers = filterAdmin;
-            console.log(filterAdmin)
-          }
 
     render() {
       let movies;
@@ -57,19 +52,19 @@ class WatchlistManager extends Component {
       console.log(this.state.adminUsers, this.state.adminUsers.length)
       console.log(this.state.viewerUsers, this.state.viewerUsers.length)
 
-      if(this.state.movies != ''){
+      if(this.state.movies !== [] && this.state.movies.length > 0 ){
         movies = (<div>
         Movie:
         {this.props.movies.map(movie => <div> 
-            {movie.title} 
-            <button type="button" onClick={() => this.removeMovie(movie)}> Remove</button>
+            {movie} 
+            <button type="button" onClick={() => this.props.removeMovie(movie)}> Remove</button>
             </div>)}
           </div>)
       }else{
         movies = <div> No movies added </div>
       }
 
-      if(this.state.adminUsers != ''){
+      if(this.state.adminUsers !== [] && this.state.adminUsers.length > 0){
         adminUsers = (
           <div>
           Admin Users:
@@ -87,7 +82,7 @@ class WatchlistManager extends Component {
         adminUsers = <div> No Admin users available </div>
       }
 
-      if(this.state.viewerUsers != ''){
+      if(this.state.viewerUsers !== [] && this.state.viewerUsers.length > 0){
         viewerUsers = (
           <div>
                         Viewer Users:
@@ -98,7 +93,7 @@ class WatchlistManager extends Component {
                       <option value="false">Viewer</option>
                       <option value="true">Admin</option>
                 </select>
-                <button type="button" onClick={this.removeUser(user)}> Remove</button></div>)}
+                <button type="button" onClick={() => this.props.removeUser(user)}> Remove</button></div>)}
           </div>
           )
       }else{
@@ -109,7 +104,7 @@ class WatchlistManager extends Component {
       return (
         <div>
           <h1> EDIT FORM </h1>
-          <form onSubmit={this.props.createWatchlist}>
+          <form onSubmit={this.createWatchlist}>
             <label>Id:</label> <b/>
             <input type="text" name="id" value={this.state.id} readOnly/>
             <br/>
@@ -128,6 +123,7 @@ class WatchlistManager extends Component {
           {movies}
           {adminUsers}
           {viewerUsers}
+          <button type="button" onClick={()=>this.props.editWatchlist}>Save Changes</button>
         </div>
       );
     }

@@ -16,11 +16,11 @@ class WatchlistCard extends Component {
         Title: {this.props.title}
         <br/>
         movies:
-        {this.props.movies.map(movie => <div>{movie.title}</div> )}
+        {this.props.movies.map(movie => <React.Fragment key={movie}>{movie} <br/></React.Fragment> )}
         <br/>
-        Admin Users: {this.props.adminUsers.map(user => <div>{user} <br/></div>)}
+        Admin Users: {this.props.adminUsers.map(user => <React.Fragment key={user}>{user} <br/></React.Fragment>)}
         <br/>
-        Viewer Users: {this.props.viewerUsers.map(user => user.username)}
+        Viewer Users: {this.props.viewerUsers.map(user => <React.Fragment key={user}>{user} <br/></React.Fragment>)}
         <br/>
         {/* <button onClick="editReview(${review.id})">Edit</button> */}
         <br/><br/>
