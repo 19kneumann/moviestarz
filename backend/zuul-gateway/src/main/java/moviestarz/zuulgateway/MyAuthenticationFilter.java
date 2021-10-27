@@ -21,6 +21,7 @@ public class MyAuthenticationFilter extends ZuulFilter {
 	public boolean shouldFilter() {
 		return true;
 	}
+
 	@Override
 	public Object run() throws ZuulException {
 		Timestamp timestamp = new Timestamp(System.currentTimeMillis());
