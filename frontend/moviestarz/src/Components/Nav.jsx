@@ -7,7 +7,7 @@ class Login extends Component {
     return (
         <Nav>
           {/* <Nav.Link href="/"> Home </Nav.Link> */}
-          <Nav.Link href="/"> Start </Nav.Link>
+          {/* <Nav.Link href="/"> Start </Nav.Link> */}
           <Nav.Link href="/home"> Home </Nav.Link>
           <Nav.Link href="/feed"> Feed </Nav.Link>
           <Nav.Link href="/watchlists"> Watchlists </Nav.Link>

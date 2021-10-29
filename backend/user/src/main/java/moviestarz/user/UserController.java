@@ -1,13 +1,15 @@
 package moviestarz.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+//import org.springframework.security.authentication.AuthenticationManager;
+//import org.springframework.security.authentication.BadCredentialsException;
+//import org.springframework.security.authentication.DisabledException;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,24 +23,26 @@ public class UserController {
     @Autowired
     private UserRepo repo;
 
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private TokenUtil jwtTokenUtil;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
+//
+//    @Autowired
+//    private UserDetailsService userDetailsService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @PostMapping
     public void createUser(@RequestBody Map<String, Object> payload){
         UserClass user = new UserClass();
         user.setUsername(payload.get("username").toString());
-        user.setPassword(passwordEncoder.encode(payload.get("password").toString()));
+        //user.setPassword(passwordEncoder.encode(payload.get("password").toString()));
+        user.setPassword(payload.get("password").toString());
         user.setEmail(payload.get("email").toString());
         repo.save(user);
     }
@@ -63,31 +67,21 @@ public class UserController {
         UserClass sentOverUser = new UserClass();
         sentOverUser.setUsername(payload.get("username").toString());
         sentOverUser.setPassword(payload.get("password").toString());
-        authenticate(sentOverUser.getUsername(), sentOverUser.getPassword());
 
-        UserDetails userDetails = userDetailsService
-                .loadUserByUsername(sentOverUser.getUsername());
+        //UserDetails userDetails = userDetailsService.loadUserByUsername(sentOverUser.getUsername());
 
-        String token = jwtTokenUtil.generateToken(userDetails);
+        //return new ResponseEntity<>(userDetails, HttpStatus.OK);
 
-        return new ResponseEntity<>(token, HttpStatus.OK);
-
-//        UserClass dbUser = repo.findById(sentOverUser.getUsername()).orElse(null);
-//        if(dbUser != null && dbUser.getPassword().equals(sentOverUser.getPassword())){
-//            return new ResponseEntity<>(dbUser.getUsername(), HttpStatus.OK);
-//        } else{
-//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-//        }
-
-    }
-
-    void authenticate(String username, String password) throws Exception {
-        try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
+        UserClass dbUser = repo.findById(sentOverUser.getUsername()).orElse(null);
+        if(dbUser != null && dbUser.getPassword().equals(sentOverUser.getPassword())){
+        //if(dbUser != null && dbUser.getPassword().equals(passwordEncoder.encode(sentOverUser.getPassword()))){
+            return new ResponseEntity<>(dbUser.getUsername(), HttpStatus.OK);
+        } else{
+//            System.out.println("db Userpassword" + dbUser.getPassword());
+//            System.out.println("raw password sent over" + sentOverUser.getPassword());
+//            System.out.println("encoded sent over password"+passwordEncoder.encode(sentOverUser.getPassword()));
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
     }
 }

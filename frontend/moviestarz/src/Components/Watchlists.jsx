@@ -52,8 +52,10 @@ class Watchlists extends Component {
         });
       }
       callWatchlists =() => {
+        console.log(this.props)
         axios
-          .get("http://localhost:8089/watchlist-service"
+           .get("http://localhost:8089/watchlist-service/" + this.props.cookies.ownerUsername
+          //.get("http://localhost:8089/watchlist-service/"
           )
           .then((response) => {
             console.log(response.data);

@@ -8,7 +8,7 @@ class FeedPage extends Component {
     return (
 		<div>
       <p>Feed Page</p>
-      <Reviews></Reviews>
+      <Reviews cookies={this.props.cookies}></Reviews>
     </div>
     );
   }

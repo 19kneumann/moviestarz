@@ -22,27 +22,13 @@ class StartPage extends Component {
   } 
 
   
-  logIn = (e) => {
-    e.preventDefault();
-        axios
-          .patch("http://localhost:8089/user-service/signIn", {
-            username: `${e.target.username.value}`,
-            password: `${e.target.password.value}`,
-          })
-          .then((response) => {
-            console.log(response.data);
-            console.log(response.data.username)
-          })
-          .catch(function (error) {
-            console.log("errorFetching");
-          });
-  }
+
 
   render() {
     return (
       <div>
         {/* <button onClick={this.handleLogin}> Login </button>  */}
-        <Login logIn={this.logIn.bind()}></Login>
+        <Login logIn={this.props.logIn}></Login>
         <SignUp SignUp={this.SignUp.bind()}></SignUp>
       </div>
     );

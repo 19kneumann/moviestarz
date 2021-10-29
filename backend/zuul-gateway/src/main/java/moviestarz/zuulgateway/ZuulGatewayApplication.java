@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @EnableZuulProxy
 @EnableDiscoveryClient
 @RibbonClient(name = "zuul-service")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin()
 public class ZuulGatewayApplication {
 
 	public static void main(String[] args) {

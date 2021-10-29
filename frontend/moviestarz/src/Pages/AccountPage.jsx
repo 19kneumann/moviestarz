@@ -5,7 +5,7 @@ class AccountPage extends Component {
   render() {
     return (
 		<div>
-      <p>Account info once hooked up</p>
+      <button onClick={this.props.removeCookies}>Sign out</button>
     </div>
     );
   }

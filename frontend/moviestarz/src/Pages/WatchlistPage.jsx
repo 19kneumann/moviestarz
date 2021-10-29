@@ -6,7 +6,7 @@ class WatchlistPage extends Component {
   render() {
     return (
       <div>
-          <Watchlists></Watchlists>
+          <Watchlists cookies={this.props.cookies}></Watchlists>
       </div>
 
     );

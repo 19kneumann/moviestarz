@@ -8,7 +8,6 @@ import java.util.List;
 
 @Document(collection = "Watchlist")
 public class Watchlist {
-
     @Id
     private String watchlistId;
     private String watchlistTitle;

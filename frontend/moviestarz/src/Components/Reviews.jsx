@@ -29,7 +29,7 @@ class Reviews extends Component {
 
       getReviews = () => {
         axios
-          .get("http://localhost:8089/review-service"
+          .get("http://localhost:8089/review-service/" + this.props.cookies.ownerUsername
           )
           .then((response) => {
             console.log(response.data);
@@ -142,7 +142,11 @@ class Reviews extends Component {
             description={review.description}
             >
             </ReviewCard>
-            <button onClick={() => this.editReview(review)}>Edit</button>
+            {review.ownerUsername === this.props.cookies.ownerUsername ?
+                <button onClick={() => this.editReview(review)}>Edit</button>
+            :
+            null
+            }
             <br/><br/>
             </React.Fragment>
           ))}

@@ -8,7 +8,7 @@ class HomePage extends Component {
     return (
 		<div>
       <p>Home Page</p>
-      <Movies></Movies>
+      <Movies cookies={this.props.cookies}></Movies>
     </div>
     );
   }

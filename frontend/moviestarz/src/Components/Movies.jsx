@@ -8,13 +8,15 @@ class Movies extends Component {
   constructor(){
     super();
     this.createReview = this.createReview.bind(this)
+    this.search = this.search.bind(this);
   }
     state = {
         movies: [],
         addToWatchlist: false,
         watchlists: [],
         movieId: null,
-        watchlistId: null
+        watchlistId: null,
+        search: null
       };
     
       onChange = (evt) => {
@@ -36,7 +38,7 @@ class Movies extends Component {
           });
 
           axios
-          .get("http://localhost:8089/watchlist-service"
+          .get("http://localhost:8089/watchlist-service/" + this.props.cookies.ownerUsername
           )
           .then((response) => {
             console.log(response.data);
@@ -88,7 +90,7 @@ class Movies extends Component {
         console.log("ah")
         axios
           .post("http://localhost:8089/review-service", {
-            ownerUsername: "19kayla",
+            ownerUsername: this.props.cookies.ownerUsername,
             isPublic: `${form.target.isPublic.value}`,
             movie: `${form.target.movie.value}`,
             rating: `${form.target.rating.value}`,
@@ -103,10 +105,39 @@ class Movies extends Component {
           this.setState({movieId:null})
       }
 
+      search(){
+        console.log(this.state.search)
+        if(this.state.search === ""){
+          axios
+          .get("https://api.themoviedb.org/3/discover/movie?api_key=af69558f05513147c6444f75dd27b6a1&language=en-US&sort_by=popularity.desc"
+          )
+          .then((response) => {
+            console.log(response.data);
+            this.setState({ movies: response.data.results });
+          })
+          .catch(function (error) {
+            console.log("errorFetching");
+          });
+
+        } else{
+          axios
+          .get("https://api.themoviedb.org/3/search/movie?api_key=af69558f05513147c6444f75dd27b6a1&language=en-US&query=" + this.state.search
+          )
+          .then((response) => {
+            console.log(response.data);
+            this.setState({ movies: response.data.results });
+          })
+          .catch(function (error) {
+            console.log("errorFetching");
+          });
+        }
+      }
 
   render() {
     return (
       <div>
+        <input type="text" name="search" onChange={this.onChange}/>
+        <button onClick={this.search}> Search </button>
           {this.state.movies.map((movie) => (
               <React.Fragment key={movie.id}>
             <MovieCard 

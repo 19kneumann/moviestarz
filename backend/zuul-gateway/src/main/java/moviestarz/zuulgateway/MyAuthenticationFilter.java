@@ -49,6 +49,7 @@ public class MyAuthenticationFilter extends ZuulFilter {
 					if(!USERNAME.equalsIgnoreCase(username) || !PASSWORD.equals(password)) {
 						throw new RuntimeException("Bad credentials");
 					}
+					ctx.addZuulRequestHeader("Authorization", headerValue);
 				}
 			}
 		}

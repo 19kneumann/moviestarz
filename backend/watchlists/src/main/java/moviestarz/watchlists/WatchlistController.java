@@ -27,12 +27,12 @@ public class WatchlistController {
         return new ResponseEntity<>(watchlist, HttpStatus.OK);
     }
 
-    @GetMapping
-    public List<Watchlist> getAllWatchlists(){
-        return repo.findAll();
+    @GetMapping("/{ownerUsername}")
+    public List<Watchlist> getAllWatchlists(@PathVariable String ownerUsername){
+        return repo.findAllByOwnerUsername(ownerUsername);
     }
 
-    @GetMapping("/{watchListId}")
+    @GetMapping("/watchlist/{watchListId}")
     public ResponseEntity<Object> getSingle(@PathVariable String watchListId){
         Watchlist watchlist = repo.findById(watchListId).orElse(null);
         if(watchlist!= null){

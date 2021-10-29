@@ -27,7 +27,7 @@ public class ReviewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/{reviewId}")
+    @GetMapping("/review/{reviewId}")
     public ResponseEntity<Object> getSingleReview(@PathVariable String reviewId){
         Review review = repo.findById(reviewId).orElse(null);
         if(review != null){
@@ -36,9 +36,9 @@ public class ReviewController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping()
-    public List<Review> getAllReviews(){
-        return repo.findAll();
+    @GetMapping("/{ownerUsername}")
+    public List<Review> getAllReviews(@PathVariable String ownerUsername){
+        return repo.findAllByOwnerUsernameOrPublicIsTrue(ownerUsername);
     }
 
     @PatchMapping("/{reviewId}")
