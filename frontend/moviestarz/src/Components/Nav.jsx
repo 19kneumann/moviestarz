@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import { Nav } from "react-bootstrap";
 
-class Login extends Component {
+class NavBar extends Component {
 
   render() {
     return (
-        <Nav>
-          {/* <Nav.Link href="/"> Home </Nav.Link> */}
-          {/* <Nav.Link href="/"> Start </Nav.Link> */}
-          <Nav.Link href="/home"> Home </Nav.Link>
-          <Nav.Link href="/feed"> Feed </Nav.Link>
-          <Nav.Link href="/watchlists"> Watchlists </Nav.Link>
-          <Nav.Link href="/account"> Account </Nav.Link>
-        </Nav>
+          <div className="navLinkBlock" >
+            <a href="/home" >
+              <img src="favicon.ico" alt="" className="logoIcon" />
+            </a>
+            <Nav>
+              <Nav.Link href="/home" className="navLink"> Home </Nav.Link>  <br/> <br/>
+              <Nav.Link href="/feed" className="navLink"> Feed </Nav.Link> <br/> <br/>
+              <Nav.Link href="/watchlists" className="navLink"> Watchlists </Nav.Link> <br/> <br/>
+              <Nav.Link href="/account" className="navLink"> Account </Nav.Link> <br/> <br/>
+            </Nav>
+          </div>
     );
   }
 }
 
-export default Login;
+export default NavBar;

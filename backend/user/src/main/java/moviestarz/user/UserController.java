@@ -41,8 +41,8 @@ public class UserController {
     public void createUser(@RequestBody Map<String, Object> payload){
         UserClass user = new UserClass();
         user.setUsername(payload.get("username").toString());
-        //user.setPassword(passwordEncoder.encode(payload.get("password").toString()));
-        user.setPassword(payload.get("password").toString());
+        user.setPassword(passwordEncoder.encode(payload.get("password").toString()));
+        //user.setPassword(payload.get("password").toString());
         user.setEmail(payload.get("email").toString());
         repo.save(user);
     }
@@ -73,8 +73,8 @@ public class UserController {
         //return new ResponseEntity<>(userDetails, HttpStatus.OK);
 
         UserClass dbUser = repo.findById(sentOverUser.getUsername()).orElse(null);
-        if(dbUser != null && dbUser.getPassword().equals(sentOverUser.getPassword())){
-        //if(dbUser != null && dbUser.getPassword().equals(passwordEncoder.encode(sentOverUser.getPassword()))){
+        //if(dbUser != null && dbUser.getPassword().equals(sentOverUser.getPassword())){
+        if(dbUser != null && passwordEncoder.matches(sentOverUser.getPassword(), dbUser.getPassword())){
             return new ResponseEntity<>(dbUser.getUsername(), HttpStatus.OK);
         } else{
 //            System.out.println("db Userpassword" + dbUser.getPassword());

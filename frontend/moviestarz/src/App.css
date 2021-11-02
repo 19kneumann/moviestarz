@@ -1,0 +1,84 @@
+body {
+    background-color: #2d2e38;
+    color: #F5FBEF;
+    margin-left: 200px;
+  }
+
+
+/* NAVBAR */
+.navLinkBlock {
+    background-color: #AF125A;
+    height: 100%;
+    width: 190px; 
+    position: fixed; 
+    z-index: 1; 
+    top: 0; 
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+    color: white;
+    text-align: center;
+}
+
+.navLink{
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    color: #F5FBEF;
+    /* margin-left: 20px; */
+    font-size: x-large;
+}
+.navLink a:visited{
+    color: #F5FBEF;
+}
+.navLinkBlock a:hover{
+    color: #F5FBEF;
+}
+
+.logoIcon {
+    box-sizing: content-box;
+    height: 150px;
+    width: 150px;
+    /* padding-left: 20px; */
+    padding-bottom: 100px;
+}
+/* END NAVBAR */
+
+/* HOME PAGE */
+
+.movieContainer{
+    display: flex;
+    flex-wrap: wrap;
+}
+.movieCard{
+    background-color: #515152;
+    text-decoration: none;
+    /* background-color: #5BC0BE; */
+    color: #F5FBEF;
+    width: 45%;
+    height: 200px;
+    margin: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding: auto;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.movieContainer a:hover{
+    color: #F5FBEF;
+}
+
+.ModalContainer{
+    /* background-color: #515152; */
+    color: #5BC0BE;
+}
+.ModalContent{
+    background-color: #2d2e38;
+    color: #F5FBEF;
+}
+
+
+.title{
+    color: #AF125A;
+}

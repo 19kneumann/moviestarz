@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import MovieCard from "./MovieCard";
 import axios from "axios";
 import CreateReview from "./CreateReview";
-
+import { Modal, ModalBody } from "react-bootstrap";
+import '../App.css'
 class Movies extends Component {
 
   constructor(){
@@ -11,6 +12,8 @@ class Movies extends Component {
     this.search = this.search.bind(this);
   }
     state = {
+        modalId: null,
+        modalIndex: null,
         movies: [],
         addToWatchlist: false,
         watchlists: [],
@@ -104,7 +107,21 @@ class Movies extends Component {
           });
           this.setState({movieId:null})
       }
-
+       openModal = (id, index)=> {
+         console.log(id);
+         console.log(this.state.movies[index].id);
+         console.log(index);
+         this.setState({
+           modalId: id,
+           modalIndex: index
+         })
+       }
+       closeModal = () => {
+         this.setState({
+           modalId: null,
+           modalIndex: null
+         })
+       }
       search(){
         console.log(this.state.search)
         if(this.state.search === ""){
@@ -138,16 +155,40 @@ class Movies extends Component {
       <div>
         <input type="text" name="search" onChange={this.onChange}/>
         <button onClick={this.search}> Search </button>
-          {this.state.movies.map((movie) => (
-              <React.Fragment key={movie.id}>
-            <MovieCard 
-              addMovie={this.addMovie.bind()}
-              toggleCreateReview={this.toggleCreateReview.bind()}
-              id={movie.id}
-              title={movie.title}
-              poster={movie.poster_path}
-              rating={movie.vote_average}
-            ></MovieCard>
+        <div className="movieContainer">
+          {this.state.movies.map((movie, index) => (
+            <React.Fragment key={movie.id}>
+                <MovieCard
+                  index={index}
+                  openModal={this.openModal.bind()} 
+                  addMovie={this.addMovie.bind()}
+                  toggleCreateReview={this.toggleCreateReview.bind()}
+                  id={movie.id}
+                  title={movie.title}
+                  poster={movie.poster_path}
+                  rating={movie.vote_average}
+                ></MovieCard>
+                {this.state.modalId === movie.id &&
+                  <Modal show={this.state.modalId == movie.id} backdrop="static" className="ModalContainer" centered animation={false}>
+                    <div className ="ModalContent">
+                      <Modal.Body>
+                        <div className="ModalBody">
+                          <img src={"https://image.tmdb.org/t/p/original" + movie.poster_path} height='150' width='100'  alt=""/>
+                          <p className="title">{this.state.movies[this.state.modalIndex].title} </p> <br/> 
+                          {this.state.movies[this.state.modalIndex].overview}
+                        </div>
+                      
+                      </Modal.Body>
+                      <Modal.Footer>
+                          <button onClick={() => this.closeModal()}>
+                            Close
+                          </button>
+                          <button variant="primary">Understood</button>
+                      </Modal.Footer>
+                    </div>
+                  </Modal>
+                }
+
             {movie.id === this.state.movieId ? 
               <div>
                 {this.state.addToWatchlist ?
@@ -187,7 +228,7 @@ class Movies extends Component {
         } */}
             </React.Fragment>
           ))}
-          
+        </div>
       </div>
     );
   }
