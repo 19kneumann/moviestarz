@@ -12,17 +12,16 @@ function App() {
   // const [pwd, setPwd] = useState('');
   const [cookies, setCookie, removeCookies] = useCookies(['user']);
 
-  const logIn = (e) => {
-    e.preventDefault();
+  const logIn = (username, password) => {
         axios
           .patch("http://localhost:8089/user-service/signIn", {
-            username: `${e.target.username.value}`,
-            password: `${e.target.password.value}`,
+            username: `${username}`,
+            password: `${password}`,
           })
           .then((response) => {
             console.log(response.data);
             console.log(response.data.username)
-            setCookie('ownerUsername', e.target.username.value, { path: '/' });
+            setCookie('ownerUsername', username, { path: '/' });
             window.location.reload(false);
           })
           .catch(function (error) {

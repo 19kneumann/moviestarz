@@ -51,18 +51,23 @@ body {
     flex-wrap: wrap;
 }
 .movieCard{
+    border-radius: 25px;
     background-color: #515152;
+    border: 2px solid #F5FBEF;
     text-decoration: none;
     /* background-color: #5BC0BE; */
     color: #F5FBEF;
-    width: 45%;
-    height: 200px;
+    width: 47%;
+    min-height: 200px;
+    height: 20%;
     margin: auto;
     padding-top: 20px;
     padding-left: 20px;
     padding: auto;
     margin-bottom: 10px;
     cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
 }
 
 .movieContainer a:hover{
@@ -76,6 +81,21 @@ body {
 .ModalContent{
     background-color: #2d2e38;
     color: #F5FBEF;
+}
+
+.addToWatchlistOverall{
+    /* background-color: #AF125A; */
+    /* position: absolute;
+    top: 10px;
+    left: 90%; */
+    /* position: right;
+    justify-self: flex-end;
+    align-self:flex-start; */
+    float: right
+}
+
+.createReviewBtn{
+    height: 31px;
 }
 
 

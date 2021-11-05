@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 class ReviewCard extends Component {
 
-    state = {};
+  state = {};
 
 
 
@@ -10,17 +10,17 @@ class ReviewCard extends Component {
     return (
       <div>
         Id: {this.props.reviewId}
-        <br/>
+        <br />
         OwnerUsername: {this.props.ownerUsername}
-        <br/>
+        <br />
         Is Public: {this.props.isPublic}
-        <br/>
+        <br />
         Movie: {this.props.movie}
-        <br/>
+        <br />
         Rating: {this.props.rating}
-        <br/>
+        <br />
         Description: {this.props.description}
-        <br/>
+        <br />
       </div>
     );
   }

@@ -38,13 +38,16 @@ public class UserController {
     }
 
     @PostMapping
-    public void createUser(@RequestBody Map<String, Object> payload){
+    public ResponseEntity<Object> createUser(@RequestBody Map<String, Object> payload){
         UserClass user = new UserClass();
         user.setUsername(payload.get("username").toString());
+        UserClass checkIfAlreadyExists = repo.findById(user.getUsername()).orElse(null);
+        if(checkIfAlreadyExists != null){ return new ResponseEntity<>(user, HttpStatus.CONFLICT);}
         user.setPassword(passwordEncoder.encode(payload.get("password").toString()));
         //user.setPassword(payload.get("password").toString());
         user.setEmail(payload.get("email").toString());
         repo.save(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("/{username}")

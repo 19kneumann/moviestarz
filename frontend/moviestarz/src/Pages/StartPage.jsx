@@ -2,34 +2,46 @@ import React, { Component } from "react";
 import Login from "../Components/Login";
 import SignUp from "../Components/SignUp";
 import axios from "axios";
+import { Alert } from "react-bootstrap";
 
 class StartPage extends Component {
-  SignUp = (e) =>
-  {
-    console.log(e)
-    axios
-          .post("http://localhost:8089/user-service", {
-            username: `${e.target.username.value}`,
-            password: `${e.target.password.value}`,
-            email: `${e.target.email.value}`,
-          })
-          .then((response) => {
-            console.log(response.data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-  } 
+  state = {
+    logIn: false,
+    signUp: false,
+    usernameTaken: false
+  }
 
-  
+  constructor() {
+    super();
+    this.closeModal = this.closeModal.bind(this);
+    this.logIn = this.logIn.bind(this);
+    // this.SignUp = this.SignUp.bind(this);
+  }
 
+
+  closeModal() {
+    this.setState({
+      logIn: false,
+      signUp: false
+    })
+  }
+  logIn(username, password) {
+    this.props.logIn(username, password)
+  }
 
   render() {
     return (
       <div>
         {/* <button onClick={this.handleLogin}> Login </button>  */}
-        <Login logIn={this.props.logIn}></Login>
-        <SignUp SignUp={this.SignUp.bind()}></SignUp>
+        <button onClick={() => this.setState({ logIn: true })}>Login</button>
+        {this.state.logIn === true &&
+          <Login logIn={this.logIn.bind()} show={this.state.logIn} closeModal={this.closeModal.bind()}></Login>
+        }
+
+        <button onClick={() => this.setState({ signUp: true })}>Create an Account</button>
+        {this.state.signUp === true &&
+          <SignUp show={this.state.signUp} closeModal={this.closeModal.bind()} error={this.state.usernameTaken}></SignUp>
+        }
       </div>
     );
   }

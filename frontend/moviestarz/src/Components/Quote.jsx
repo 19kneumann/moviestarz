@@ -3,11 +3,11 @@ import React, { Component } from "react";
 class Quote extends Component {
 
 
-    state = {quote: ""};
+  state = { quote: "" };
   render() {
     return (
       <div>
-          {this.state.quote}
+        {this.state.quote}
       </div>
     );
   }
