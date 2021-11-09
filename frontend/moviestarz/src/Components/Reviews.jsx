@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReviewCard from "./ReviewCard";
 import axios from "axios";
 import EditReview from "./EditReview";
-
+import { Button } from "react-bootstrap";
 class Reviews extends Component {
   state = {
     reviews: [],
@@ -12,7 +12,8 @@ class Reviews extends Component {
     editIsPublic: null,
     editMovie: null,
     editRating: null,
-    editDescription: null
+    editDescription: null, 
+    showEdit: null
   };
 
   editReview(review) {
@@ -24,7 +25,8 @@ class Reviews extends Component {
       editIsPublic: review.public,
       editMovie: review.movie,
       editRating: review.rating,
-      editDescription: review.description
+      editDescription: review.description,
+      showEdit: true
     });
   }
 
@@ -63,15 +65,14 @@ class Reviews extends Component {
     //this.setState({ reviews: reviewList})
   };
 
-  updateReview = (e) => {
-    e.preventDefault();
+  updateReview = (reviewId, isPublic, movie, rating, description) => {
     axios
-      .patch("http://localhost:8089/review-service/" + e.target.reviewId.value, {
-        ownerUsername: `${e.target.ownerUsername.value}`,
-        isPublic: `${e.target.isPublic.value}`,
-        movie: `${e.target.movie.value}`,
-        rating: `${e.target.rating.value}`,
-        description: `${e.target.description.value}`,
+      .patch("http://localhost:8089/review-service/" + reviewId, {
+        ownerUsername: `${this.props.cookies.ownerUsername}`,
+        isPublic: `${isPublic}`,
+        movie: `${movie}`,
+        rating: `${rating}`,
+        description: `${description}`,
       })
       .then((response) => {
         this.getReviews();
@@ -82,6 +83,12 @@ class Reviews extends Component {
       });
   }
 
+  closeModal = () => {
+    this.setState({
+      showEdit: false,
+      edit: false
+    })
+  }
   componentDidMount = () => {
     this.getReviews();
     // var array = this.state.reviews;
@@ -131,9 +138,11 @@ class Reviews extends Component {
 
   render() {
     return (
-      <div>
+      <div className="reviewContainer">
+        <div/>
         {this.state.reviews.map((review) => (
           <React.Fragment key={review.reviewId}>
+            <div className="reviewCard">
             <ReviewCard
               reviewId={review.reviewId}
               ownerUsername={review.ownerUsername}
@@ -144,11 +153,12 @@ class Reviews extends Component {
             >
             </ReviewCard>
             {review.ownerUsername === this.props.cookies.ownerUsername ?
-              <button onClick={() => this.editReview(review)}>Edit</button>
+              <Button className="actionIcons" variant="dark" onClick={() => this.editReview(review)}>✎</Button>
               :
               null
             }
             <br /><br />
+            </div>
           </React.Fragment>
         ))}
         {this.state.edit ?
@@ -160,9 +170,11 @@ class Reviews extends Component {
               movie={this.state.editMovie}
               rating={this.state.editRating}
               description={this.state.editDescription}
+              show={this.state.showEdit}
+              closeModal={this.closeModal}
+              deleteReview={this.deleteReview.bind()}
             />
-            <button type="button" onClick={() => this.setState({ edit: null })}>Close </button>
-            <button type="button" onClick={() => this.deleteReview(this.state.editId)}>Delete </button>
+            
           </div>
           :
           null

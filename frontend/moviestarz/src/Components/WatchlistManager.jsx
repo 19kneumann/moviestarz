@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Modal } from "react-bootstrap";
 
 class WatchlistManager extends Component {
 
@@ -10,9 +11,14 @@ class WatchlistManager extends Component {
     title: null,
     adminUsers: null,
     viewerUsers: null,
-    update: false
+    update: false,
+    show: true
   };
-
+  
+  closeModal() {
+    this.setState({ show: false });
+    this.props.closeModal();
+  }
 
   onChange = (evt) => {
     this.setState({
@@ -103,27 +109,39 @@ class WatchlistManager extends Component {
 
     return (
       <div>
-        <h1> EDIT FORM </h1>
-        <form onSubmit={this.createWatchlist}>
-          <label>Id:</label> <b />
-          <input type="text" name="id" value={this.state.id} readOnly />
-          <br />
-          <input type="text" name="ownerUsername" value={this.state.ownerUsername} readOnly />
-          <br />
-          <select id="isPublic" name="isPublic" value={this.state.isPublic} onChange={this.onChange} >
-            <option value="true">Public</option>
-            <option value="false">Friends Only</option>
-          </select>
-          <br />
-          <label>Watchlist Title</label>
-          <br />
-          <input type="text" name="title" value={this.state.title} onChange={this.onChange} />
-          <br />
-        </form>
-        {movies}
-        {adminUsers}
-        {viewerUsers}
-        <button type="button" onClick={() => this.props.editWatchlist}>Save Changes</button>
+        <Modal show={this.state.show} backdrop="static" className="ModalContainer" centered animation={false}>
+          <div className="ModalContent">
+            <h1> EDIT REVIEW </h1>
+            <Modal.Body>
+              <h1> EDIT FORM </h1>
+              <form onSubmit={this.createWatchlist}>
+                <label>Id:</label> <b />
+                <input type="text" name="id" value={this.state.id} readOnly />
+                <br />
+                <input type="text" name="ownerUsername" value={this.state.ownerUsername} readOnly />
+                <br />
+                <select id="isPublic" name="isPublic" value={this.state.isPublic} onChange={this.onChange} >
+                  <option value="true">Public</option>
+                  <option value="false">Friends Only</option>
+                </select>
+                <br />
+                <label>Watchlist Title</label>
+                <br />
+                <input type="text" name="title" value={this.state.title} onChange={this.onChange} />
+                <br />
+              </form>
+              {movies}
+              {adminUsers}
+              {viewerUsers}
+            </Modal.Body>
+            <Modal.Footer>
+              <button onClick={() => this.props.saveWatchlist(this.state.id, this.state.ownerUsername, this.state.isPublic, this.state.title, this.state.adminUsers, this.state.viewerUsers)}>Submit </button>
+              {/* <button onClick={() => this.props.deleteReview(this.props.reviewId)}>Delete </button> */}
+              <button onClick={() => this.closeModal()}>Close</button>
+            </Modal.Footer>
+          </div>
+        </Modal>
+
       </div>
     );
   }

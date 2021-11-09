@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.ws.rs.Path;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +87,93 @@ public class UserController {
 //            System.out.println("encoded sent over password"+passwordEncoder.encode(sentOverUser.getPassword()));
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
     }
+
+    @PatchMapping("/addFriend")
+    public ResponseEntity<Object> sendFriendRequest(@RequestBody Map<String, Object> payload){
+        String ownerUsername = payload.get("ownerUsername").toString();
+        String friendUsername = payload.get("friendUsername").toString();
+
+        UserClass owner = repo.findById(ownerUsername).orElse(null);
+        UserClass friend = repo.findById(friendUsername).orElse(null);
+
+        if(owner == null || friend == null){
+            return new ResponseEntity<>("Hmm, there seems to be nobody by that name. Please Try again",HttpStatus.NOT_ACCEPTABLE);
+        }
+        if(friend.getPendingRequests().contains(owner.getUsername())){
+            return new ResponseEntity<>("Woah! Looks like you already sent them a request. Slow down a little",HttpStatus.NOT_ACCEPTABLE);
+        }
+        if(owner.getUsername().equals(friend.getUsername())){
+            return new ResponseEntity<>("You gotta add other people that aren't you!",HttpStatus.NOT_ACCEPTABLE);
+        }
+        if(owner.getFriends().contains(friend.getUsername())){
+            return new ResponseEntity<>("You guys are already friends!!",HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        friend.addToPending(owner.getUsername());
+        repo.save(friend);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/friendResponse")
+    public ResponseEntity<Object> respondToFriendRequest(@RequestBody Map<String, Object> payload){
+        String response = payload.get("response").toString();
+        String ownerUsername = payload.get("ownerUsername").toString();
+        String friendUsername = payload.get("friendUsername").toString();
+
+        UserClass owner = repo.findById(ownerUsername).orElse(null);
+        UserClass friend = repo.findById(friendUsername).orElse(null);
+
+        if(owner == null || friend == null || !friend.getPendingRequests().contains(owner.getUsername())){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if(response.equals("accepted")){
+            owner.addToFriends(friend.getUsername());
+            friend.addToFriends(owner.getUsername());
+        }
+        friend.removeFromPending(owner.getUsername());
+        owner.removeFromPending(friend.getUsername());
+        repo.save(owner);
+        repo.save(friend);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/removeFriend")
+    public ResponseEntity<Object> removeFriend(@RequestBody Map<String, Object> payload){
+        String ownerUsername = payload.get("ownerUsername").toString();
+        String friendUsername = payload.get("friendUsername").toString();
+
+        UserClass owner = repo.findById(ownerUsername).orElse(null);
+        UserClass friend = repo.findById(friendUsername).orElse(null);
+
+        if(owner == null || friend == null || !friend.getFriends().contains(owner.getUsername())){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        owner.removeFromFriends(friend.getUsername());
+        friend.removeFromFriends(owner.getUsername());
+
+        repo.save(owner);
+        repo.save(friend);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/getFriends/{owner}")
+    public List<String> getFriends(@PathVariable String owner){
+        UserClass user = repo.findById(owner).orElse(null);
+        if(user == null){
+            return new ArrayList<>();
+        }
+        return user.getFriends();
+    }
+
+    @GetMapping("/getPending/{owner}")
+    public List<String> getPending(@PathVariable String owner){
+        UserClass user = repo.findById(owner).orElse(null);
+        if(user == null){
+            return new ArrayList<>();
+        }
+        return user.getPendingRequests();
+    }
+
 }

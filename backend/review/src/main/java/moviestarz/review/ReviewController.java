@@ -1,9 +1,13 @@
 package moviestarz.review;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +18,17 @@ public class ReviewController {
 
     @Autowired
     private ReviewRepo repo;
+
+    @Autowired
+    private LoadBalancerClient loadBalancerClient;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 
     @PostMapping
     public ResponseEntity<Object> createReview(@RequestBody Map<String, Object> payload){
@@ -38,7 +53,13 @@ public class ReviewController {
 
     @GetMapping("/{ownerUsername}")
     public List<Review> getAllReviews(@PathVariable String ownerUsername){
-        return repo.findAllByOwnerUsernameOrPublicIsTrue(ownerUsername);
+
+        ServiceInstance serviceInstance = loadBalancerClient.choose("user-service");
+        String url = serviceInstance.getUri() + "/getFriends/" + ownerUsername;
+        List<String> friends = restTemplate.getForObject(url, List.class);
+
+
+        return repo.findAllByOwnerUsernameOrPublicIsTrue(ownerUsername, friends);
     }
 
     @PatchMapping("/{reviewId}")

@@ -6,42 +6,74 @@ import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-d
 import WatchlistPage from "./WatchlistPage"
 import FeedPage from "./FeedPage"
 import HomePage from "./HomePage"
-
+import Login from "../Components/Login";
+import SignUp from "../Components/SignUp";
 class MasterPage extends Component {
 
-    state ={
-        loggedIn: null,
-        ownerUsername: null
+
+  constructor() {
+    super();
+    this.closeModal = this.closeModal.bind(this);
+    this.logIn = this.logIn.bind(this);
+    this.openModal = this.openModal.bind(this);
+    // this.SignUp = this.SignUp.bind(this);
+  }
+
+  state = {
+    logIn: null,
+    ownerUsername: null,
+    signUp: null,
+    usernameTaken: false
+
+  }
+
+  closeModal() {
+    this.setState({
+      logIn: false,
+      signUp: false
+    })
+  }
+
+  logIn(username, password) {
+    this.props.logIn(username, password)
+  }
+
+  openModal(type) {
+    if (type == "Login") {
+      this.setState({ logIn: true })
+    }else{
+      this.setState({ signUp: true })
     }
-    // logIn(){
-    //     console.log("testing")
-    //     this.setState({
-    //         loggedIn: true
-    //     });
-    //     console.log(this.state.loggedIn)
-    // }
-
-
+  }
 
   render() {
-      return (
-        <div> 
-        {this.props.cookies.ownerUsername ? 
-            <Router>
-            <Nav/>
+    return (
+      <div>
+        {this.props.cookies.ownerUsername ?
+          <Router>
+            <Nav cookies={this.props.cookies} />
             <Switch>
               {/* <Route exact path="/" component={<StartPage logIn={this.logIn.bind()}/>} /> */}
-              <Route path="/home" component={() => (<HomePage cookies={this.props.cookies}/>)}/>
+              <Route exact path="/" component={() => (<HomePage cookies={this.props.cookies} />)} />
               {/* component={}  */}
-              <Route path="/feed" component={() => (<FeedPage cookies={this.props.cookies}/>)} />
-              <Route path="/watchlists" component={() => (<WatchlistPage cookies={this.props.cookies}/>)} />
+              <Route path="/feed" component={() => (<FeedPage cookies={this.props.cookies} />)} />
+              <Route path="/watchlists" component={() => (<WatchlistPage cookies={this.props.cookies} />)} />
               <Route path="/account" component={() => (<AccountPage cookies={this.props.cookies} removeCookies={this.props.removeCookies} />)} />
             </Switch>
           </Router>
-        :
-        <StartPage logIn={this.props.logIn}/>}
-        
-  </div>
+          :
+          <div>
+            <Nav cookies={this.props.cookies} openModal={this.openModal.bind()} />
+            {this.state.logIn === true &&
+              <Login logIn={this.logIn.bind()} show={this.state.logIn} closeModal={this.closeModal.bind()}></Login>
+            }
+            {this.state.signUp === true &&
+              <SignUp show={this.state.signUp} closeModal={this.closeModal.bind()} error={this.state.usernameTaken}></SignUp>
+            }
+            <StartPage logIn={this.props.logIn} />
+          </div>
+        }
+      </div>
     );
   }
 }

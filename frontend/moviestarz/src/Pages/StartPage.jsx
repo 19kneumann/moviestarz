@@ -32,16 +32,7 @@ class StartPage extends Component {
   render() {
     return (
       <div>
-        {/* <button onClick={this.handleLogin}> Login </button>  */}
-        <button onClick={() => this.setState({ logIn: true })}>Login</button>
-        {this.state.logIn === true &&
-          <Login logIn={this.logIn.bind()} show={this.state.logIn} closeModal={this.closeModal.bind()}></Login>
-        }
-
-        <button onClick={() => this.setState({ signUp: true })}>Create an Account</button>
-        {this.state.signUp === true &&
-          <SignUp show={this.state.signUp} closeModal={this.closeModal.bind()} error={this.state.usernameTaken}></SignUp>
-        }
+        HEHEHEHEHEHE
       </div>
     );
   }

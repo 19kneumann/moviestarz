@@ -9,7 +9,6 @@ import java.util.Random;
 
 @Document(collection = "Review")
 public class Review {
-
     @Id
     private String reviewId;
     private boolean isPublic;

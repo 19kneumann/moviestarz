@@ -162,8 +162,8 @@ class Movies extends Component {
   render() {
     return (
       <div>
-        <input type="text" name="search" onChange={this.onChange} />
-        <button onClick={this.search}> Search </button>
+        <input type="text" name="search" className="searchBar" placeholder="Search for a movie!!" onChange={this.onChange} />
+        <button onClick={this.search} className="actionIcons">{'\uD83D\uDD0D\uFE0E'}</button>
         <div className="movieContainer">
           {this.state.movies.map((movie, index) => (
             <React.Fragment key={movie.id}>
@@ -203,7 +203,7 @@ class Movies extends Component {
                   closeModal={this.closeModal.bind()}
                   show={this.state.movieId === movie.id}
                 ></CreateReview>
-              }
+              } 
 
             </React.Fragment>
           ))}

@@ -32,9 +32,15 @@ body {
     color: #F5FBEF;
 }
 .navLinkBlock a:hover{
+    text-decoration: underline;
     color: #F5FBEF;
 }
-
+.navLinkBlock a:active{
+    color: #F5FBEF;
+}
+.navLinkBlock a:link{
+    color: #F5FBEF;
+}
 .logoIcon {
     box-sizing: content-box;
     height: 150px;
@@ -98,6 +104,75 @@ body {
     height: 31px;
 }
 
+.actionIcons{
+    width: 32px;
+    height: 33px;
+    padding: 0px;
+}
+
+.reviewContainer{
+    display: flex;
+    flex-wrap: wrap;
+}
+.reviewCard{
+    border-radius: 25px;
+    background-color: #515152;
+    border: 2px solid #F5FBEF;
+    text-decoration: none;
+    /* background-color: #5BC0BE; */
+    color: #F5FBEF;
+    width: 70%;
+    min-height: 200px;
+    height: 20%;
+    margin: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding: auto;
+    margin-bottom: 30px;
+    /* cursor: pointer; */
+    display: flex;
+    flex-wrap: wrap;
+}
+
+
+.watchlistContainer{
+    display: flex;
+    flex-wrap: wrap;
+}
+.watchlistCard{
+    border-radius: 25px;
+    background-color: #515152;
+    border: 2px solid #F5FBEF;
+    text-decoration: none;
+    /* background-color: #5BC0BE; */
+    color: #F5FBEF;
+    width: 70%;
+    min-height: 200px;
+    height: 20%;
+    margin: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding: auto;
+    margin-bottom: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.searchBar{
+    background-color: #F5FBEF;
+    border: 2px solid #F5FBEF;
+    color: #AF125A;
+    margin-left:20%;
+    width: 46%;
+    height: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    align-content: center;
+}
+.searchBar::placeholder{
+    color: #AF125A;
+}
 
 .title{
     color: #AF125A;

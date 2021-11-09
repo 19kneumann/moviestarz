@@ -22,6 +22,7 @@ class Login extends Component {
     this.setState({ show: false });
     this.props.closeModal();
   }
+  
   componentWillMount(){
     this.setState({show: this.props.show})
   }

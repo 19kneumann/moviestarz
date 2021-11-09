@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ReviewRepo extends MongoRepository<Review, String> {
     Optional<Review> findById(String reviewId);
-    @Query("{$or: [{ 'ownerUsername' : ?0 }, {'isPublic' : true}]}")
-    List<Review> findAllByOwnerUsernameOrPublicIsTrue(String username);
+    @Query("{$or: [{ 'ownerUsername' : ?0 }, {'isPublic' : true}, { ownerUsername: { $in: ?1 } } ]}")
+    List<Review> findAllByOwnerUsernameOrPublicIsTrue(String username, List<String> friends);
 }
