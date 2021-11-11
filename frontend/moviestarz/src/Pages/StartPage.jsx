@@ -32,7 +32,7 @@ class StartPage extends Component {
   render() {
     return (
       <div>
-        HEHEHEHEHEHE
+        <h1>WELCOME TO MOVIESTARZ!!</h1>
       </div>
     );
   }

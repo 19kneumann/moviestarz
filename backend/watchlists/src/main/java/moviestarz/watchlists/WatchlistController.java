@@ -6,9 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Path;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @CrossOrigin()
@@ -48,9 +46,20 @@ public class WatchlistController {
         watchlist.setWatchlistTitle(payload.get(("title")));
         watchlist.setPublic(Boolean.parseBoolean(payload.get("isPublic").toString()));
         watchlist.setOwnerUsername(payload.get("ownerUsername"));
-        watchlist.setMovies(Collections.singletonList(payload.get("movies")));
-        watchlist.setAdminUsers(Collections.singletonList(payload.get("adminUsers")));
-        watchlist.setViewerUsers(Collections.singletonList(payload.get("viewerUsers")));
+        watchlist.setMovies(new ArrayList<>());
+        watchlist.setAdminUsers(new ArrayList<>());
+        watchlist.setViewerUsers(new ArrayList<>());
+
+        for(String movie : payload.get("movies").split(",")){
+            watchlist.addMovie(movie);
+        }
+//        watchlist.setAdminUsers(Arrays.asList(payload.get("adminUsers")));
+        for(String admin : payload.get("adminUsers").split(",")){
+            watchlist.addAdmin(admin);
+        }
+        for(String viewers : payload.get("viewerUsers").split(",")){
+            watchlist.addUser(viewers);
+        }
         repo.save(watchlist);
         return new ResponseEntity<>(HttpStatus.OK);
     }

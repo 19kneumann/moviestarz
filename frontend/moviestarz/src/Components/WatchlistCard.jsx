@@ -7,23 +7,30 @@ class WatchlistCard extends Component {
   render() {
     return (
       <div>
-        Id: {this.props.id}
+        '{this.props.title}'
+        {this.props.isPublic == "true" ?
+          '\uD83D\uDD13'
+          :
+          // Closed Lock '\uD83D\uDD12'
+          '👥'
+        }
         <br />
-        OwnerUsername: {this.props.ownerUsername}
+        By: {this.props.ownerUsername}
         <br />
-        Is Public: {this.props.isPublic}
+        Movie Count: {this.props.movies.length}
         <br />
-        Title: {this.props.title}
-        <br />
-        movies:
+        Total User Count: {this.props.adminUsers.length + this.props.viewerUsers.length}
+        {/* Id: {this.props.id}
+        <br /> */}
+        {/* movies:
         {this.props.movies.map(movie => <React.Fragment key={movie}>{movie} <br /></React.Fragment>)}
         <br />
         Admin Users: {this.props.adminUsers.map(user => <React.Fragment key={user}>{user} <br /></React.Fragment>)}
         <br />
         Viewer Users: {this.props.viewerUsers.map(user => <React.Fragment key={user}>{user} <br /></React.Fragment>)}
-        <br />
+        <br /> */}
         {/* <button onClick="editReview(${review.id})">Edit</button> */}
-        <br /><br />
+        {/* <br /><br /> */}
       </div>
     );
   }

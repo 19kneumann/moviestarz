@@ -142,7 +142,7 @@ class Reviews extends Component {
         <div/>
         {this.state.reviews.map((review) => (
           <React.Fragment key={review.reviewId}>
-            <div className="reviewCard">
+            <a className="reviewCard" onClick={()=> console.log("ahh")}>
             <ReviewCard
               reviewId={review.reviewId}
               ownerUsername={review.ownerUsername}
@@ -158,7 +158,7 @@ class Reviews extends Component {
               null
             }
             <br /><br />
-            </div>
+            </a>
           </React.Fragment>
         ))}
         {this.state.edit ?

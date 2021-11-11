@@ -135,7 +135,7 @@ class WatchlistManager extends Component {
               {viewerUsers}
             </Modal.Body>
             <Modal.Footer>
-              <button onClick={() => this.props.saveWatchlist(this.state.id, this.state.ownerUsername, this.state.isPublic, this.state.title, this.state.adminUsers, this.state.viewerUsers)}>Submit </button>
+              <button onClick={() => this.props.saveWatchlist(this.state.id, this.state.ownerUsername, this.state.movies, this.state.isPublic, this.state.title, this.state.adminUsers, this.state.viewerUsers)}>Submit </button>
               {/* <button onClick={() => this.props.deleteReview(this.props.reviewId)}>Delete </button> */}
               <button onClick={() => this.closeModal()}>Close</button>
             </Modal.Footer>

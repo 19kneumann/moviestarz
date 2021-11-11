@@ -58,7 +58,6 @@ public class ReviewController {
         String url = serviceInstance.getUri() + "/getFriends/" + ownerUsername;
         List<String> friends = restTemplate.getForObject(url, List.class);
 
-
         return repo.findAllByOwnerUsernameOrPublicIsTrue(ownerUsername, friends);
     }
 

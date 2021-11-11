@@ -73,4 +73,19 @@ public class Watchlist {
         isPublic = aPublic;
     }
 
+    public void addAdmin(String user){
+        if(!user.equals("") && !adminUsers.contains(user)){
+            this.adminUsers.add(user);
+        }
+    }
+    public void addMovie(String movie){
+        if(!movie.equals("") && !movies.contains(movie)){
+            this.movies.add(movie);
+        }
+    }
+    public void addUser(String user){
+        if(!user.equals("") && !viewerUsers.contains(user)){
+            this.viewerUsers.add(user);
+        }
+    }
 }

@@ -4,6 +4,10 @@ body {
     margin-left: 200px;
   }
 
+a:hover   {
+    color: #F5FBEF;
+    cursor: pointer;
+  }
 
 /* NAVBAR */
 .navLinkBlock {
@@ -147,7 +151,7 @@ body {
     /* background-color: #5BC0BE; */
     color: #F5FBEF;
     width: 70%;
-    min-height: 200px;
+    min-height: 150px;
     height: 20%;
     margin: auto;
     padding-top: 20px;

@@ -6,23 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="c60823ef-c1e7-4520-b970-4114940f3ab6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/moviestarz/review/Review.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/moviestarz/review/Review.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/moviestarz/review/ReviewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/moviestarz/review/ReviewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/moviestarz/review/ReviewRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/moviestarz/review/ReviewRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user/src/main/java/moviestarz/user/UserApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../user/src/main/java/moviestarz/user/UserApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user/src/main/java/moviestarz/user/UserClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../user/src/main/java/moviestarz/user/UserClass.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../user/src/main/java/moviestarz/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../user/src/main/java/moviestarz/user/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/EditReview.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/EditReview.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Movies.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Movies.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Nav.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Nav.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Reviews.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Reviews.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/Watchlist.java" beforeDir="false" afterPath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/Watchlist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/WatchlistController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/WatchlistController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/WatchlistRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../watchlists/src/main/java/moviestarz/watchlists/WatchlistRepo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/WatchlistAddUser.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/WatchlistAddUser.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/WatchlistManager.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/WatchlistManager.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Watchlists.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Components/Watchlists.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Pages/FeedPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Pages/FeedPage.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Pages/MasterPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Pages/MasterPage.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/Pages/StartPage.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/Pages/StartPage.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -121,6 +111,10 @@
       <workItem from="1635958830221" duration="586000" />
       <workItem from="1636140858931" duration="345000" />
       <workItem from="1636419898869" duration="1159000" />
+      <workItem from="1636475924357" duration="592000" />
+      <workItem from="1636516585521" duration="592000" />
+      <workItem from="1636524228006" duration="1349000" />
+      <workItem from="1636562087050" duration="584000" />
     </task>
     <servers />
   </component>
