@@ -6,13 +6,13 @@ class NavBar extends Component {
   render() {
     return (
       <div className="navLinkBlock" >
-        <a href="/home" >
+        <a href="/" >
           <img src="favicon.ico" alt="" className="logoIcon" />
         </a>
         {this.props.cookies.ownerUsername ?
           <Nav>
             <Nav.Link href="/" className="navLink"> Home </Nav.Link>  <br /> <br />
-            <Nav.Link href="/feed" className="navLink"> Feed </Nav.Link> <br /> <br />
+            <Nav.Link href="/feed" className="navLink"> Reviews </Nav.Link> <br /> <br />
             <Nav.Link href="/watchlists" className="navLink"> Watchlists </Nav.Link> <br /> <br />
             <Nav.Link href="/account" className="navLink"> Account </Nav.Link> <br /> <br />
           </Nav>

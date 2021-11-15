@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Modal, ModalBody } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 class CreateReview extends Component {
 
   state = {
-    isPublic: null,
+    isPublic: true,
     title: null,
-    rating: null,
-    description: null,
+    rating: ".5",
+    description: "",
     show: true
   };
 
@@ -37,7 +37,7 @@ class CreateReview extends Component {
                 <br />
                 <label>Movie Title</label>
                 <br />
-                <input type="text" name="movie" value={this.props.movie} readOnly />
+                <input type="text" name="movie" value={this.props.movie.title} readOnly />
                 <br />
                 <label>Rating</label>
                 <br />
@@ -60,7 +60,7 @@ class CreateReview extends Component {
               </form>
             </Modal.Body>
             <Modal.Footer>
-              <button onClick={() => this.props.createReview(this.state.isPublic, this.props.movie, this.state.rating, this.state.description,)}>Submit </button>
+              <button onClick={() => this.props.createReview(this.state.isPublic, this.props.movie.title, this.state.rating, this.state.description, "https://image.tmdb.org/t/p/original" + this.props.movie.poster_path)}>Submit </button>
               <button onClick={() => this.closeModal()}>Close</button>
             </Modal.Footer>
           </div>

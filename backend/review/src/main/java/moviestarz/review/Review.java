@@ -13,6 +13,7 @@ public class Review {
     private String reviewId;
     private boolean isPublic;
     private String movie;
+    private String image;
     private String rating;
     private String ownerUsername;
     private String description;
@@ -84,5 +85,17 @@ public class Review {
 
     public void setPublic(boolean aPublic) {
         isPublic = aPublic;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void addComment(Comment comment){
+        comments.add(comment);
     }
 }

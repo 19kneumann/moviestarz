@@ -1,8 +1,4 @@
 import React, { Component } from "react";
-import Login from "../Components/Login";
-import SignUp from "../Components/SignUp";
-import axios from "axios";
-import { Alert } from "react-bootstrap";
 
 class StartPage extends Component {
   state = {
@@ -15,7 +11,6 @@ class StartPage extends Component {
     super();
     this.closeModal = this.closeModal.bind(this);
     this.logIn = this.logIn.bind(this);
-    // this.SignUp = this.SignUp.bind(this);
   }
 
 

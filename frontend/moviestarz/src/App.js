@@ -2,7 +2,6 @@ import './App.css';
 import React from "react"
 import { useCookies } from 'react-cookie';
 import axios from "axios";
-import { BrowserRouter as Router, Route, Switch, Redirect, useHistory } from "react-router-dom";
 import MasterPage from './Pages/MasterPage';
 
 

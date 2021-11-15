@@ -9,8 +9,6 @@ class ReviewCard extends Component {
   render() {
     return (
         <div>
-          Id: {this.props.reviewId}
-          <br />
           OwnerUsername: {this.props.ownerUsername}
           <br />
           Is Public: {this.props.isPublic}
@@ -21,6 +19,7 @@ class ReviewCard extends Component {
           <br />
           Description: {this.props.description}
           <br />
+          <img src={this.props.image} height='150' width='100' alt="" />
         </div>
     );
   }

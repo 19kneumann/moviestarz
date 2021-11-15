@@ -87,6 +87,7 @@ a:hover   {
 .ModalContainer{
     /* background-color: #515152; */
     color: #5BC0BE;
+
 }
 .ModalContent{
     background-color: #2d2e38;
@@ -133,7 +134,7 @@ a:hover   {
     padding-left: 20px;
     padding: auto;
     margin-bottom: 30px;
-    /* cursor: pointer; */
+    cursor: pointer;
     display: flex;
     flex-wrap: wrap;
 }
@@ -178,6 +179,14 @@ a:hover   {
     color: #AF125A;
 }
 
+.Comment{
+    background-color: #F5FBEF;
+    padding: 10px;
+    color: #2d2e38;
+    margin: auto;
+    width: 80%;
+    margin-bottom: 20px;
+}
 .title{
     color: #AF125A;
 }

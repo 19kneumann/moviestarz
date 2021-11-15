@@ -36,6 +36,7 @@ public class ReviewController {
         review.setOwnerUsername(payload.get("ownerUsername").toString());
         review.setPublic(Boolean.parseBoolean(payload.get("isPublic").toString()));
         review.setMovie(payload.get("movie").toString());
+        review.setImage(payload.get("image").toString());
         review.setRating(payload.get("rating").toString());
         review.setDescription(payload.get("description").toString());
         repo.save(review);
@@ -67,7 +68,7 @@ public class ReviewController {
         if(review == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         review.setOwnerUsername(payload.get("ownerUsername").toString());
         review.setPublic(Boolean.parseBoolean(payload.get("isPublic").toString()));
-        review.setMovie(payload.get("movie").toString());
+//        review.setMovie(payload.get("movie").toString());
         review.setRating(payload.get("rating").toString());
         review.setDescription(payload.get("description").toString());
         repo.save(review);
@@ -81,6 +82,20 @@ public class ReviewController {
             ResponseEntity result = new ResponseEntity<>(review, HttpStatus.OK);
             repo.delete(review);
             return result;
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @PatchMapping("/addComment")
+    public ResponseEntity<Object> addComment(@RequestBody Map<String, Object> payload){
+        Review review = repo.findById(payload.get("reviewId").toString()).orElse(null);
+        if(review != null) {
+           Comment comment = new Comment();
+           comment.setOwnerUsername(payload.get("ownerUsername").toString());
+           comment.setComment(payload.get("comment").toString());
+           review.addComment(comment);
+           repo.save(review);
+            return new ResponseEntity<>(comment, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

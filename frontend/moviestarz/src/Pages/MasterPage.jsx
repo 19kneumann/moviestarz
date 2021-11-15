@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import StartPage from "./StartPage"
 import AccountPage from "./AccountPage"
 import Nav from "../Components/Nav"
-import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import WatchlistPage from "./WatchlistPage"
 import FeedPage from "./FeedPage"
 import HomePage from "./HomePage"
@@ -39,7 +39,7 @@ class MasterPage extends Component {
   }
 
   openModal(type) {
-    if (type == "Login") {
+    if (type === "Login") {
       this.setState({ logIn: true })
     }else{
       this.setState({ signUp: true })

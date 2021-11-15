@@ -2,9 +2,7 @@ import React, { Component } from "react";
 import MovieCard from "./MovieCard";
 import axios from "axios";
 import CreateReview from "./CreateReview";
-import { Modal, ModalBody } from "react-bootstrap";
-import { Form } from 'react-bootstrap';
-import { DropdownButton, Dropdown } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 
 import '../App.css'
 class Movies extends Component {
@@ -60,7 +58,8 @@ class Movies extends Component {
     e.stopPropagation();
     this.setState({
       watchlistId: watchlistId,
-      movieId: id
+      movieId: id,
+
     })
     this.addToWatchlist(id, watchlistId);
   }
@@ -94,7 +93,7 @@ class Movies extends Component {
       });
   }
 
-  createReview(isPublic, movie, rating, description) {
+  createReview(isPublic, movie, rating, description, image) {
     //form.preventDefault();
     console.log("ah")
     axios
@@ -103,7 +102,8 @@ class Movies extends Component {
         isPublic: `${isPublic}`,
         movie: `${movie}`,
         rating: `${rating}`,
-        description: `${description}`
+        description: `${description}`,
+        image: `${image}`
       })
       .then((response) => {
         console.log(response.data);
@@ -176,11 +176,11 @@ class Movies extends Component {
                 title={movie.title}
                 poster={movie.poster_path}
                 rating={movie.vote_average}
-                watchlists={this.state.watchlists}
+                watchlists={this.state.watchlists.filter(watchlist => !watchlist.movies.includes(movie.title))}
               ></MovieCard>
 
               {this.state.modalId === movie.id &&
-                <Modal show={this.state.modalId == movie.id} backdrop="static" className="ModalContainer" centered animation={false}>
+                <Modal show={this.state.modalId === movie.id} backdrop="static" className="ModalContainer" centered animation={false}>
                   <div className="ModalContent">
                     <Modal.Body>
                       <div className="ModalBody">
@@ -199,7 +199,7 @@ class Movies extends Component {
               {movie.id === this.state.movieId &&
                 <CreateReview
                   createReview={this.createReview.bind()}
-                  movie={this.state.movieId}
+                  movie={movie}
                   closeModal={this.closeModal.bind()}
                   show={this.state.movieId === movie.id}
                 ></CreateReview>

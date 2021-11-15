@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
 import axios from "axios";
 
@@ -54,8 +54,6 @@ class SignUp extends Component {
     return (
       <div>
         <Modal show={this.state.show} backdrop="static" className="ModalContainer" centered animation={false}>
-
-
           <div className="ModalContent">
             <ModalHeader>
               <h1> SIGN UP </h1>

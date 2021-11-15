@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Comment {
-
     private String ownerUsername;
     private String comment;
     private List<String> childrenComments = new ArrayList<>();

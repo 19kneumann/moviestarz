@@ -30,6 +30,8 @@ class Watchlists extends Component {
     this.createWatchlist = this.createWatchlist.bind(this)
     this.saveWatchlist = this.saveWatchlist.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.getFriends = this.getFriends.bind(this);
+    this.callWatchlists = this.callWatchlists.bind(this);
   }
 
   onChange = (evt) => {
@@ -45,7 +47,7 @@ class Watchlists extends Component {
       .then((response) => {
         console.log(response.data);
         var filteredFriends = response.data.filter(user => !this.state.adminUsers.includes(user));
-        var filteredFriends = filteredFriends.filter(user => !this.state.viewerUsers.includes(user));
+        filteredFriends = filteredFriends.filter(user => !this.state.viewerUsers.includes(user));
         this.setState({
           friends: filteredFriends
         })
@@ -58,31 +60,7 @@ class Watchlists extends Component {
       });
   }
 
-  noSpaces = () => {
-    this.state.watchlists.forEach(watchlist => {
-      console.log(watchlist.watchlistTitle)
-      console.log(watchlist.adminUsers.filter(user => user === this.props.cookies.ownerUsername) === [this.props.cookies.ownerUsername])
-      console.log(watchlist.adminUsers.filter(user => user === this.props.cookies.ownerUsername).length !== 0)
-      console.log(watchlist.adminUsers.filter(user => user === this.props.cookies.ownerUsername))
-      console.log([this.props.cookies.ownerUsername])
-      if (watchlist.adminUsers[0] !== undefined && watchlist.adminUsers.length === 1) {
-        let adminUsers = watchlist.adminUsers[0].split(",");
-        // console.log(adminUsers)
-        watchlist.adminUsers = adminUsers.filter(users => users !== '')
-        // console.log(watchlist.adminUsers)
-      }
-      if (watchlist.viewerUsers[0] !== undefined && watchlist.viewerUsers.length === 1) {
-        let viewerUsers = watchlist.viewerUsers[0].split(",");
-        watchlist.viewerUsers = viewerUsers.filter(users => users !== '')
-        // console.log(watchlist.viewerUsers)
-      }
-      if (watchlist.movies[0] !== undefined && watchlist.movies.length === 1) {
-        let moviesUpdated = watchlist.movies[0].split(",");
-        watchlist.movies = moviesUpdated.filter(users => users !== '')
-        // console.log(watchlist.movies)
-      }
-    });
-  }
+
 
   callWatchlists = () => {
     console.log(this.props)
@@ -93,14 +71,24 @@ class Watchlists extends Component {
       .then((response) => {
         console.log(response.data);
         this.setState({ watchlists: response.data });
-        this.noSpaces();
       })
       .catch(function (error) {
         console.log("errorFetching");
       });
   }
+
+  seperateLists(){
+    this.state.watchlists.forEach(watchlist => {
+      if(this.state.friends.includes(watchlist.ownerUsername)){
+        console.log("friend");
+      }
+    });
+  }
+
   componentWillMount = () => {
+    // this.getFriends();
     this.callWatchlists();
+    this.seperateLists();
     this.setState({
       ownerUsername: this.props.cookies.ownerUsername
     })
@@ -118,7 +106,8 @@ class Watchlists extends Component {
     // this.setState({ watchlists: watchlist})
   };
 
-  toggleAddUser(watchlist) {
+  toggleAddUser(e, watchlist) {
+    e.stopPropagation();
     console.log(watchlist.id)
     this.setState({
       addUser: true,
@@ -133,7 +122,8 @@ class Watchlists extends Component {
     this.getFriends();
   }
 
-  editWatchlist(watchlist) {
+  editWatchlist(e, watchlist) {
+    e.stopPropagation();
     console.log(watchlist)
     console.log(watchlist.watchlistId)
     this.setState({
@@ -164,13 +154,13 @@ class Watchlists extends Component {
     this.sendEditRequest();
   }
 
-  createWatchlist(e) {
+  createWatchlist(isPublic, title) {
     //e.preventDefault();
     axios
       .post("http://localhost:8089/watchlist-service", {
         ownerUsername: this.state.ownerUsername,
-        isPublic: `${e.target.isPublic.value}`,
-        title: `${e.target.title.value}`
+        isPublic: `${isPublic}`,
+        title: `${title}`
       })
       .then((response) => {
         console.log(response.data);
@@ -184,7 +174,8 @@ class Watchlists extends Component {
       show: false,
       editWatchlist: false,
       addUser: false,
-      openWatchlist: false
+      openWatchlist: false,
+      createWatchlist: false
     });
   }
 
@@ -259,108 +250,126 @@ class Watchlists extends Component {
   }
 
   render() {
-    this.noSpaces()
     return (
+      <React.Fragment>
+        <h1>Watchlists</h1>
+        <Button onClick={() => this.setState({ createWatchlist: true })} variant="dark" className="actionIcons"> +</Button>
+        <div className="watchlistContainer">
+          {this.state.createWatchlist &&
+            <WatchlistCreate
+              createWatchlist={this.createWatchlist.bind()}
+              show={this.state.createWatchlist}
+              closeModal={this.closeModal.bind()}
+            />
+          }
+          {this.state.watchlists.map((watchlist) => (
+            <React.Fragment key={watchlist.watchlistId}>
+              <div className="watchlistCard" onClick={() => this.openWatchlistInfo(watchlist)}>
+                <WatchlistCard
+                  id={watchlist.watchlistId}
+                  ownerUsername={watchlist.ownerUsername}
+                  movies={watchlist.movies}
+                  isPublic={watchlist.public.toString()}
+                  title={watchlist.watchlistTitle}
+                  adminUsers={watchlist.adminUsers}
+                  viewerUsers={watchlist.viewerUsers}
+                  sendEditRequest={this.sendEditRequest.bind()}
+                ></WatchlistCard>
+                {(watchlist.ownerUsername === this.props.cookies.ownerUsername || watchlist.adminUsers.filter(user => user === this.props.cookies.ownerUsername).length !== 0) ?
+                  <div>
+                    <Button type="button" className="actionIcons" variant="dark" onClick={(e) => this.editWatchlist(e, watchlist)}>✎</Button>
+                    <Button type="button" className="actionIcons" variant="dark" onClick={(e) => this.toggleAddUser(e, watchlist)}>👤+</Button>
+                  </div>
+                  :
+                  null
+                }
 
-      <div className="watchlistContainer">
-        <WatchlistCreate
-          createWatchlist={this.createWatchlist.bind()}
-        />
-        {this.state.watchlists.map((watchlist) => (
-          <React.Fragment key={watchlist.watchlistId}>
-            <a className="watchlistCard" onClick={() => this.openWatchlistInfo(watchlist)}>
-              <WatchlistCard
-                id={watchlist.watchlistId}
-                ownerUsername={watchlist.ownerUsername}
-                movies={watchlist.movies}
-                isPublic={watchlist.public.toString()}
-                title={watchlist.watchlistTitle}
-                adminUsers={watchlist.adminUsers}
-                viewerUsers={watchlist.viewerUsers}
-                sendEditRequest={this.sendEditRequest.bind()}
-              ></WatchlistCard>
-              {(watchlist.ownerUsername === this.props.cookies.ownerUsername || watchlist.adminUsers.filter(user => user === this.props.cookies.ownerUsername).length !== 0) ?
-                <div>
-                  <Button type="button" className="actionIcons" variant="dark" onClick={() => this.editWatchlist(watchlist)}>✎</Button>
-                  <Button type="button" className="actionIcons" variant="dark" onClick={() => this.toggleAddUser(watchlist)}>👤+</Button>
-                </div>
-                :
-                null
-              }
-
-            </a>
-          </React.Fragment>
-        ))}
-        {this.state.openWatchlist &&
-          <Modal show={this.state.openWatchlist} backdrop="static" className="ModalContainer" centered animation={false}>
-            <div className="ModalContent">
-            <h1>Watchlist Information!</h1>
-            <button onClick={() => this.closeModal()}>Close</button>
-            <ModalBody>
-              Id: {this.state.id}
-              <br />
-              OwnerUsername: {this.state.ownerUsername}
-              <br />
-              Is Public: {this.state.isPublic}
-              <br />
-              Title: {this.state.title}
-              <br />
-              movies:
-              {this.state.movies.map(movie => <React.Fragment key={movie}>{movie} <br /></React.Fragment>)}
-              <br />
-              Admin Users: {this.state.adminUsers.map(user => <React.Fragment key={user}>{user} <br /></React.Fragment>)}
-              <br />
-              Viewer Users: {this.state.viewerUsers.map(user => <React.Fragment key={user}>{user} <br /></React.Fragment>)}
-              <br />
-              {/* <button onClick="editReview(${review.id})">Edit</button> */}
-              {/* <br /><br /> */}
-            </ModalBody>
+              </div>
+            </React.Fragment>
+          ))}
+          {this.state.openWatchlist &&
+            <Modal show={this.state.openWatchlist} backdrop="static" className="ModalContainer" centered animation={false}>
+              <div className="ModalContent">
+                <button onClick={() => this.closeModal()}>Close</button>
+                <h1>{this.state.title}</h1>
+                <ModalBody>
+                  Created By: {this.state.ownerUsername}
+                  <br />
+                  Is Public: {this.state.isPublic}
+                  <br />
+                  {this.state.movies.length === 0 ?
+                    <p>No movies added yet</p>
+                    :
+                    <React.Fragment>
+                      Movies:
+                      <br />
+                      {this.state.movies.map(movie => <React.Fragment key={movie}> <pre>     {'\u2022'} {movie} </pre> <br /></React.Fragment>)}
+                    </React.Fragment>
+                  }
+                  <br />
+                  {this.state.adminUsers.length === 0 ?
+                    <p>No admins</p>
+                    :
+                    <React.Fragment>
+                      Admins:
+                      <br />
+                      {'\t'}{this.state.adminUsers.map(user => <React.Fragment key={user}>{user}, </React.Fragment>)}
+                    </React.Fragment>
+                  }
+                  {/* Admin Users: {this.state.adminUsers.map(user => <React.Fragment key={user}>{user} </React.Fragment>)} */}
+                  <br />
+                  Viewer Users: {this.state.viewerUsers.map(user => <React.Fragment key={user}>{user} <br /></React.Fragment>)}
+                  <br />
+                  {/* <button onClick="editReview(${review.id})">Edit</button> */}
+                  {/* <br /><br /> */}
+                </ModalBody>
+              </div>
+            </Modal>
+          }
+          {this.state.addUser ?
+            <div>
+              <WatchlistAddUser
+                addUser={this.addUser.bind()}
+                id={this.state.id}
+                ownerUsername={this.state.ownerUsername}
+                movies={this.state.movies}
+                isPublic={this.state.isPublic}
+                title={this.state.title}
+                adminUsers={this.state.adminUsers}
+                viewerUsers={this.state.viewerUsers}
+                closeModal={this.closeModal.bind()}
+                friends={this.state.friends}
+              />
             </div>
-          </Modal>
-        }
-        {this.state.addUser ?
-          <div>
-            <WatchlistAddUser
-              addUser={this.addUser.bind()}
-              id={this.state.id}
-              ownerUsername={this.state.ownerUsername}
-              movies={this.state.movies}
-              isPublic={this.state.isPublic}
-              title={this.state.title}
-              adminUsers={this.state.adminUsers}
-              viewerUsers={this.state.viewerUsers}
-              closeModal={this.closeModal.bind()}
-              friends={this.state.friends}
-            />
-          </div>
-          :
-          null
-        }
-        {this.state.editWatchlist ?
-          <div>
-            <WatchlistManager
-              editWatchlist={this.sendEditRequest.bind()}
-              id={this.state.id}
-              ownerUsername={this.state.ownerUsername}
-              movies={this.state.movies}
-              isPublic={this.state.isPublic}
-              title={this.state.title}
-              adminUsers={this.state.adminUsers}
-              viewerUsers={this.state.viewerUsers}
-              onChange={this.onChange.bind()}
-              removeUser={this.removeUser.bind()}
-              removeMovie={this.removeMovie.bind()}
-              show={this.state.show}
-              saveWatchlist={this.saveWatchlist.bind()}
-              closeModal={this.closeModal.bind()}
+            :
+            null
+          }
+          {this.state.editWatchlist ?
+            <div>
+              <WatchlistManager
+                editWatchlist={this.sendEditRequest.bind()}
+                id={this.state.id}
+                ownerUsername={this.state.ownerUsername}
+                movies={this.state.movies}
+                isPublic={this.state.isPublic}
+                title={this.state.title}
+                adminUsers={this.state.adminUsers}
+                viewerUsers={this.state.viewerUsers}
+                onChange={this.onChange.bind()}
+                removeUser={this.removeUser.bind()}
+                removeMovie={this.removeMovie.bind()}
+                show={this.state.show}
+                saveWatchlist={this.saveWatchlist.bind()}
+                closeModal={this.closeModal.bind()}
 
-            />
-          </div>
-          :
-          null
-        }
+              />
+            </div>
+            :
+            null
+          }
 
-      </div>
+        </div>
+      </React.Fragment>
     );
   }
 }

@@ -27,7 +27,9 @@ public class WatchlistController {
 
     @GetMapping("/{ownerUsername}")
     public List<Watchlist> getAllWatchlists(@PathVariable String ownerUsername){
-        return repo.findAllByOwnerUsername(ownerUsername);
+        List<Watchlist> watchlists = repo.findAllByOwnerUsername(ownerUsername);
+        Collections.reverse(watchlists);
+        return  watchlists;
     }
 
     @GetMapping("/watchlist/{watchListId}")
