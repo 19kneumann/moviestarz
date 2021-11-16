@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+!user-0.0.1-SNAPSHOT.war

@@ -291,7 +291,7 @@ class Watchlists extends Component {
             <Modal show={this.state.openWatchlist} backdrop="static" className="ModalContainer" centered animation={false}>
               <div className="ModalContent">
                 <button onClick={() => this.closeModal()}>Close</button>
-                <h1>{this.state.title}</h1>
+                <h1 className="title">'{this.state.title}'</h1>
                 <ModalBody>
                   Created By: {this.state.ownerUsername}
                   <br />

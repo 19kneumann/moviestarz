@@ -192,8 +192,8 @@ class Reviews extends Component {
                 {/* <br /><br /> */}
               </Modal.Body>
               <h1>Comments</h1>
-              <input type="text" name="comment" className="searchBar" onChange={this.onChange} />
-              <button onClick={()=> this.addComment()} className="actionIcons">{'\uD83D\uDD0D\uFE0E'}</button>
+              <input type="text" name="comment" className="commentBar" placeholder="" onChange={this.onChange} />
+              <button onClick={()=> this.addComment()} className="actionIcons">💬</button>
               {this.state.comments.map(comment => <ReviewComment ownerUsername={comment.ownerUsername} content={comment.comment}> </ReviewComment>)}
               <Modal.Footer>
               </Modal.Footer>
