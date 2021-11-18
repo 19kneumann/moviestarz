@@ -11,8 +11,8 @@ services:
       - .\docker\mongodb\Data:/data/db
     ports:
       - "27018:27017"
-    networks:
-      - movieStarz
+#    networks:
+#      - movieStarz
 
   eureka-registry:
     container_name: eureka-registry
@@ -21,8 +21,8 @@ services:
     ports:
       - 8888:8080
       #- 8080
-    networks:
-      - movieStarz
+#    networks:
+#      - movieStarz
 
   user-app:
     container_name: user-app
@@ -33,8 +33,8 @@ services:
       - mongo
     ports:
       - "8082:8080"
-    networks:
-      - movieStarz
+#    networks:
+#      - movieStarz
 
   review-app:
     container_name: review-app
@@ -45,8 +45,8 @@ services:
       - mongo
     ports:
       - "8083:8080"
-    networks:
-      - movieStarz
+#    networks:
+#      - movieStarz
 
   watchlist-app:
     container_name: watchlist-app
@@ -57,8 +57,8 @@ services:
       - mongo
     ports:
       - "8084:8080"
-    networks:
-      - movieStarz
+#    networks:
+#      - movieStarz
 
   zuul-gateway:
     container_name: zuul-gateway
@@ -69,10 +69,10 @@ services:
       #- eureka-registry
     ports:
       - "8089:8080"
-    networks:
-      - movieStarz
+#    networks:
+#      - movieStarz
 
 
-networks:
-  movieStarz:
-    name: movieStarz
+#networks:
+#  movieStarz:
+#    name: movieStarz
