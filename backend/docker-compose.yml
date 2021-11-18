@@ -1,18 +1,18 @@
 version: '3.3'
 
 services:
-  mongo:
-    image : mongo
-    container_name: mongo
-    environment:
-      - PUID=1000
-      - PGID=1000
-    volumes:
-      - .\docker\mongodb\Data:/data/db
-    ports:
-      - "27018:27017"
-#    networks:
-#      - movieStarz
+#  mongo:
+#    image : mongo
+#    container_name: mongo
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#    volumes:
+#      - .\docker\mongodb\Data:/data/db
+#    ports:
+#      - "27018:27017"
+##    networks:
+##      - movieStarz
 
   eureka-registry:
     container_name: eureka-registry
@@ -29,8 +29,8 @@ services:
     build:
       context: ./user
     restart: always
-    depends_on:
-      - mongo
+#    depends_on:
+#      - mongo
     ports:
       - "8082:8080"
 #    networks:
@@ -41,8 +41,8 @@ services:
     build:
       context: ./review
     restart: always
-    depends_on:
-      - mongo
+#    depends_on:
+#      - mongo
     ports:
       - "8083:8080"
 #    networks:
@@ -53,8 +53,8 @@ services:
     build:
       context: ./watchlists
     restart: always
-    depends_on:
-      - mongo
+#    depends_on:
+#      - mongo
     ports:
       - "8084:8080"
 #    networks:
