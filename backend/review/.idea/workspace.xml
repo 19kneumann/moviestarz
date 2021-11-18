@@ -6,6 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="c60823ef-c1e7-4520-b970-4114940f3ab6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../user/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../user/target/user-0.0.1-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/../user/target/user-0.0.1-SNAPSHOT.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zuul-gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../zuul-gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../zuul-gateway/target/zuul-gateway-0.0.1-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/../zuul-gateway/target/zuul-gateway-0.0.1-SNAPSHOT.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../frontend/moviestarz/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../frontend/moviestarz/src/App.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,6 +115,7 @@
       <workItem from="1636648349764" duration="4367000" />
       <workItem from="1636751020221" duration="1773000" />
       <workItem from="1637123186644" duration="629000" />
+      <workItem from="1637172253963" duration="283000" />
     </task>
     <servers />
   </component>
