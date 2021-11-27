@@ -11,7 +11,7 @@ class MovieCard extends Component {
     return (
       <div className="movieCard" onClick={() => this.props.openModal(this.props.id, this.props.index)}>
         <img src={"https://image.tmdb.org/t/p/original" + this.props.poster} height='150' width='100' alt="" />
-        {this.props.title} <br/>
+        <p className="title">{this.props.title}</p> <br/>
         Rating: {string}%
         {/* <button onClick= {(e) =>{this.props.addMovie(e, this.props.id)}}> Add to Watchlist </button> */}
         {this.props.watchlists.length === 0 ?

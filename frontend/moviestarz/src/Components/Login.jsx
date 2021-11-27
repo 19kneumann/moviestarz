@@ -28,6 +28,7 @@ class Login extends Component {
   }
 
   render() {
+    console.log(this.props.errorMessage)
     return (
       <div>
         <Modal show={this.state.show} backdrop="static" className="ModalContainer" centered animation={false}>
@@ -47,6 +48,12 @@ class Login extends Component {
               </form>
             </Modal.Body>
             <Modal.Footer>
+            <p>{this.props.errorMessage}</p>
+
+            {this.props.errorMessage !=="" &&
+              <React.Fragment>
+              </React.Fragment>
+              }
               <button onClick={() => this.props.logIn(this.state.username, this.state.password)}>Log In </button>
               <button onClick={() => this.closeModal()}>Close</button>
             </Modal.Footer>

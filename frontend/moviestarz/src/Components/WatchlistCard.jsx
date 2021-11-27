@@ -12,7 +12,7 @@ class WatchlistCard extends Component {
           '  \uD83D\uDD13'
           :
           // Closed Lock '\uD83D\uDD12'
-          '  👥'
+          ' 👥'
         }
         <br />
         By: {this.props.ownerUsername}

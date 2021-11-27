@@ -13,13 +13,12 @@ services:
 #      - "27018:27017"
 ##    networks:
 ##      - movieStarz
-
   eureka-registry:
     container_name: eureka-registry
     build:
       context: ./EurekaRegistry
-    ports:
-      - 8888:8080
+#    ports:
+#      - 8888:8080
       #- 8080
 #    networks:
 #      - movieStarz
@@ -31,8 +30,8 @@ services:
     restart: always
 #    depends_on:
 #      - mongo
-    ports:
-      - "8082:8080"
+#    ports:
+#      - "8082:8080"
 #    networks:
 #      - movieStarz
 
@@ -43,8 +42,8 @@ services:
     restart: always
 #    depends_on:
 #      - mongo
-    ports:
-      - "8083:8080"
+#    ports:
+#      - "8083:8080"
 #    networks:
 #      - movieStarz
 
@@ -55,8 +54,8 @@ services:
     restart: always
 #    depends_on:
 #      - mongo
-    ports:
-      - "8084:8080"
+#    ports:
+#      - "8084:8080"
 #    networks:
 #      - movieStarz
 

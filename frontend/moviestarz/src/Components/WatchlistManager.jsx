@@ -12,12 +12,31 @@ class WatchlistManager extends Component {
     adminUsers: null,
     viewerUsers: null,
     update: false,
-    show: true
+    show: true,
+    mergedArray: []
   };
   
   closeModal() {
     this.setState({ show: false });
     this.props.closeModal();
+  }
+
+  updateUser = (e) => {
+    let user = e.target.name;
+    let filteredAdmin = this.state.adminUsers.filter(users => users !== user)
+    let filteredViewer = this.state.viewerUsers.filter(users => users !== user)
+    console.log(e.target.value.toString())
+    if(e.target.value.toString() === "true"){
+      console.log("Admin")
+      filteredAdmin.push(user)
+    }else{
+      console.log("Viewer")
+      filteredViewer.push(user)
+    }
+    this.setState({
+      adminUsers : filteredAdmin,
+      viewerUsers: filteredViewer
+    })
   }
 
   onChange = (evt) => {
@@ -29,9 +48,11 @@ class WatchlistManager extends Component {
 
   removeUser = (user) => {
     let filterAdmin = this.state.adminUsers.filter(users => users !== user)
+    let filterUser = this.state.viewerUsers.filter(users => users !== user)
     this.setState({
       adminUsers: filterAdmin,
-      viewerUsers: this.state.viewerUsers.filter(users => users !== user)
+      viewerUsers:  filterUser,
+      mergedArray: filterAdmin.concat(filterUser)
     });
     //this.state.adminUsers = filterAdmin;
     console.log(filterAdmin)
@@ -45,7 +66,8 @@ class WatchlistManager extends Component {
       isPublic: this.props.isPublic,
       title: this.props.title,
       adminUsers: this.props.adminUsers,
-      viewerUsers: this.props.viewerUsers
+      viewerUsers: this.props.viewerUsers,
+      mergedArray: this.props.mergedArray
     })
   }
 
@@ -53,7 +75,7 @@ class WatchlistManager extends Component {
     let movies;
     let adminUsers;
     let viewerUsers;
-
+    console.log(this.state)
     console.log(this.state.movies, this.state.movies.length)
     console.log(this.state.adminUsers, this.state.adminUsers.length)
     console.log(this.state.viewerUsers, this.state.viewerUsers.length)
@@ -70,13 +92,13 @@ class WatchlistManager extends Component {
       movies = <div> No movies added </div>
     }
 
-    if (this.state.adminUsers !== [] && this.state.adminUsers.length > 0) {
+    if (this.state.mergedArray !== [] && this.state.mergedArray.length > 0) {
       adminUsers = (
         <div>
-          Admin Users:
-          {this.props.adminUsers.map(user => <div>
+          Users:
+          {this.props.mergedArray.map(user => <div>
             {user}
-            <select id="isAdmin" name="isAdmin" onChange={this.updateUser} >
+            <select id="isAdmin" name={user} value={this.state.adminUsers.includes(user)} onChange={this.updateUser} >
               <option value="true">Admin</option>
               <option value="false">Viewer</option>
             </select>
@@ -85,26 +107,44 @@ class WatchlistManager extends Component {
         </div>
       )
     } else {
-      adminUsers = <div> No Admin users available </div>
+      adminUsers = <div> No Users available </div>
     }
 
-    if (this.state.viewerUsers !== [] && this.state.viewerUsers.length > 0) {
-      viewerUsers = (
-        <div>
-          Viewer Users:
-          {this.props.viewerUsers.map(user =>
-            <div>
-              {user}
-              <select id="isAdmin" name="isAdmin" onChange={this.updateUser} >
-                <option value="false">Viewer</option>
-                <option value="true">Admin</option>
-              </select>
-              <button type="button" onClick={() => this.props.removeUser(user)}> Remove</button></div>)}
-        </div>
-      )
-    } else {
-      viewerUsers = <div> No Viewer users available </div>
-    }
+    // if (this.state.adminUsers !== [] && this.state.adminUsers.length > 0) {
+    //   adminUsers = (
+    //     <div>
+    //       Admin Users:
+    //       {this.props.adminUsers.map(user => <div>
+    //         {user}
+    //         <select id="isAdmin" name={user} onChange={this.updateUser} >
+    //           <option value="true">Admin</option>
+    //           <option value="false">Viewer</option>
+    //         </select>
+    //         <button onClick={() => this.props.removeUser(user)}> Remove</button>
+    //       </div>)}
+    //     </div>
+    //   )
+    // } else {
+    //   adminUsers = <div> No Users available </div>
+    // }
+
+    // if (this.state.viewerUsers !== [] && this.state.viewerUsers.length > 0) {
+    //   viewerUsers = (
+    //     <div>
+    //       Viewer Users:
+    //       {this.props.viewerUsers.map(user =>
+    //         <div>
+    //           {user}
+    //           <select id="isAdmin" name={user} onChange={this.updateUser} >
+    //             <option value="false">Viewer</option>
+    //             <option value="true">Admin</option>
+    //           </select>
+    //           <button type="button" onClick={() => this.props.removeUser(user)}> Remove</button></div>)}
+    //     </div>
+    //   )
+    // } else {
+    //   viewerUsers = <div> No Viewer users available </div>
+    // }
 
 
     return (
@@ -135,7 +175,7 @@ class WatchlistManager extends Component {
               {viewerUsers}
             </Modal.Body>
             <Modal.Footer>
-              <button onClick={() => this.props.saveWatchlist(this.state.id, this.state.ownerUsername, this.state.movies, this.state.isPublic, this.state.title, this.state.adminUsers, this.state.viewerUsers)}>Submit </button>
+              <button onClick={() => this.props.saveWatchlist(this.state.id, this.state.ownerUsername, this.props.movies, this.state.isPublic, this.state.title, this.props.adminUsers, this.props.viewerUsers)}>Submit </button>
               {/* <button onClick={() => this.props.deleteReview(this.props.reviewId)}>Delete </button> */}
               <button onClick={() => this.closeModal()}>Close</button>
             </Modal.Footer>

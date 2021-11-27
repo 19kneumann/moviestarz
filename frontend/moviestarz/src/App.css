@@ -1,5 +1,6 @@
 body {
-    background-color: #2d2e38;
+    background-image: url("background.jpg");
+    /* background-color: #2d2e38; */
     color: #F5FBEF;
     margin-left: 200px;
   }
@@ -10,6 +11,9 @@ a:hover   {
   }
 
 /* NAVBAR */
+#signOut{
+    margin-top: 65%;
+}
 .navLinkBlock {
     background-color: #AF125A;
     height: 100%;
@@ -30,6 +34,7 @@ a:hover   {
     text-align: center;
     color: #F5FBEF;
     /* margin-left: 20px; */
+    margin-bottom: 5%;
     font-size: x-large;
 }
 .navLink a:visited{
@@ -50,7 +55,7 @@ a:hover   {
     height: 150px;
     width: 150px;
     /* padding-left: 20px; */
-    padding-bottom: 100px;
+    margin-bottom: 100px;
 }
 /* END NAVBAR */
 
@@ -204,5 +209,14 @@ a:hover   {
     margin-bottom: 20px;
 }
 .title{
+color: #AF125A;
+font-size: large;
+  text-shadow:
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+}
+.plainPinkTitle{
     color: #AF125A;
 }

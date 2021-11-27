@@ -11,10 +11,11 @@ class NavBar extends Component {
         </a>
         {this.props.cookies.ownerUsername ?
           <Nav>
-            <Nav.Link href="/" className="navLink"> Home </Nav.Link>  <br /> <br />
-            <Nav.Link href="/feed" className="navLink"> Reviews </Nav.Link> <br /> <br />
-            <Nav.Link href="/watchlists" className="navLink"> Watchlists </Nav.Link> <br /> <br />
-            <Nav.Link href="/account" className="navLink"> Account </Nav.Link> <br /> <br />
+            <Nav.Link href="/" className="navLink"> Home </Nav.Link> 
+            <Nav.Link href="/feed" className="navLink"> Reviews </Nav.Link>
+            <Nav.Link href="/watchlists" className="navLink"> Watchlists </Nav.Link> 
+            <Nav.Link href="/account" className="navLink"> Account </Nav.Link>
+            <Nav.Link id="signOut" className="navLink" onClick={this.props.removeCookies}>Sign Out</Nav.Link>
           </Nav>
           :
           <Nav>

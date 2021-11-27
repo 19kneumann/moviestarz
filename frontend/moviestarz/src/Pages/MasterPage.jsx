@@ -51,24 +51,24 @@ class MasterPage extends Component {
       <div>
         {this.props.cookies.ownerUsername ?
           <Router>
-            <Nav cookies={this.props.cookies} />
+            <Nav cookies={this.props.cookies} removeCookies={this.props.removeCookies}/>
             <Switch>
               {/* <Route exact path="/" component={<StartPage logIn={this.logIn.bind()}/>} /> */}
-              <Route exact path="/" component={() => (<HomePage cookies={this.props.cookies} />)} />
+              <Route exact path="/" component={() => (<HomePage cookies={this.props.cookies}  />)} />
               {/* component={}  */}
               <Route path="/feed" component={() => (<FeedPage cookies={this.props.cookies} />)} />
               <Route path="/watchlists" component={() => (<WatchlistPage cookies={this.props.cookies} />)} />
-              <Route path="/account" component={() => (<AccountPage cookies={this.props.cookies} removeCookies={this.props.removeCookies} />)} />
+              <Route path="/account" component={() => (<AccountPage cookies={this.props.cookies} removeCookies={this.props.removeCookies}  />)} />
             </Switch>
           </Router>
           :
           <div>
             <Nav cookies={this.props.cookies} openModal={this.openModal.bind()} />
             {this.state.logIn === true &&
-              <Login logIn={this.logIn.bind()} show={this.state.logIn} closeModal={this.closeModal.bind()}></Login>
+              <Login logIn={this.logIn.bind()} show={this.state.logIn} closeModal={this.closeModal.bind()} errorMessage={this.props.errorMessage} ></Login>
             }
             {this.state.signUp === true &&
-              <SignUp show={this.state.signUp} closeModal={this.closeModal.bind()} error={this.state.usernameTaken}></SignUp>
+              <SignUp show={this.state.signUp} closeModal={this.closeModal.bind()} error={this.state.usernameTaken} logIn={this.logIn.bind()}></SignUp>
             }
             <StartPage logIn={this.props.logIn} />
           </div>

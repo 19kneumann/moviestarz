@@ -4,7 +4,7 @@ class ReviewComment extends Component {
   render() {
     return (
         <div className="Comment">
-          <b className="title">{this.props.ownerUsername}</b>
+          <b className="plainPinkTitle">{this.props.ownerUsername}</b>
           <br />
           "{this.props.content}"
         </div>

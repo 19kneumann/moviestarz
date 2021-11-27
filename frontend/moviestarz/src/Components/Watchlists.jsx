@@ -21,7 +21,10 @@ class Watchlists extends Component {
     viewerUsers: null,
     show: false,
     friends: [],
-    openWatchlist: false
+    openWatchlist: false,
+    home: true,
+    ownedWatchlists: [],
+    publicWatchlists:[]
   };
   constructor() {
     super();
@@ -77,18 +80,43 @@ class Watchlists extends Component {
       });
   }
 
-  seperateLists(){
-    this.state.watchlists.forEach(watchlist => {
-      if(this.state.friends.includes(watchlist.ownerUsername)){
+  seperateLists = () => {
+    console.log(this.state)
+    let owned = [];
+    let publics = [];
+    this.state.watchlists.map((watchlist) => {
+      console.log(watchlist.adminUsers)
+      // if (this.state.friends.includes(watchlist.ownerUsername)) {
+      if(watchlist.adminUsers.includes(this.props.cookies.ownerUsername) || watchlist.viewerUsers.includes(this.props.cookies.ownerUsername) || watchlist.ownerUsername === this.props.cookies.ownerUsername ){
         console.log("friend");
+        owned.push(watchlist)
+      }else{
+        publics.push(watchlist)
       }
     });
+    this.setState({ownedWatchlists: owned,
+    publicWatchlists: publics,
+    watchlists: owned})
   }
 
+  friendsAndWatchlists = () => {
+    let getWatchlists = axios.get("http://localhost:8089/watchlist-service/" + this.props.cookies.ownerUsername)
+    let getFriends = axios.get("http://localhost:8089/user-service/getFriends/" + this.props.cookies.ownerUsername)
+    let self = this;
+    axios.all([getWatchlists, getFriends]).then(axios.spread((...responses) => {
+      self.setState({
+        watchlists: responses[0].data,
+        friends: responses[1].data
+      })
+      self.seperateLists();
+    })).catch(errors => {
+    })
+  }
   componentWillMount = () => {
     // this.getFriends();
-    this.callWatchlists();
-    this.seperateLists();
+    // this.callWatchlists();
+    this.friendsAndWatchlists()
+    // this.seperateLists();
     this.setState({
       ownerUsername: this.props.cookies.ownerUsername
     })
@@ -135,10 +163,10 @@ class Watchlists extends Component {
       title: watchlist.watchlistTitle,
       adminUsers: watchlist.adminUsers,
       viewerUsers: watchlist.viewerUsers,
-      show: true
+      show: true,
+      mergedArray: watchlist.adminUsers.concat(watchlist.viewerUsers)
     })
   }
-
   saveWatchlist(id, ownerUsername, movies, isPublic, title, adminUsers, viewerUsers) {
     this.setState({
       editWatchlist: false,
@@ -149,9 +177,27 @@ class Watchlists extends Component {
       title: title,
       adminUsers: adminUsers,
       viewerUsers: viewerUsers,
-      show: false
+      show: false,
+      editWatchlist: false,
+      addUser: false
     })
-    this.sendEditRequest();
+    axios
+      .patch("http://localhost:8089/watchlist-service/" + id, {
+        ownerUsername: `${ownerUsername}`,
+        isPublic: `${isPublic}`,
+        title: `${title}`,
+        movies: `${movies}`,
+        adminUsers: `${adminUsers}`,
+        viewerUsers: `${viewerUsers}`
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    this.callWatchlists();
+
   }
 
   createWatchlist(isPublic, title) {
@@ -180,6 +226,7 @@ class Watchlists extends Component {
   }
 
   sendEditRequest() {
+    console.log(this.state)
     axios
       .patch("http://localhost:8089/watchlist-service/" + this.state.id, {
         ownerUsername: `${this.state.ownerUsername}`,
@@ -206,12 +253,19 @@ class Watchlists extends Component {
 
   removeUser = (user) => {
     let filterAdmin = this.state.adminUsers.filter(users => users !== user)
+    let filterUser = this.state.viewerUsers.filter(users => users !== user)
     this.setState({
       adminUsers: filterAdmin,
-      viewerUsers: this.state.viewerUsers.filter(users => users !== user)
+      viewerUsers: filterUser,
+      mergedArray: filterAdmin.concat(filterUser)
     });
     //this.state.adminUsers = filterAdmin;
-    console.log(filterAdmin)
+    console.log(this.state.mergedArray)
+    console.log(this.state.adminUsers)
+    console.log(this.state.viewerUsers)
+
+    console.log("hsdfj")
+
   }
 
   removeMovie = (movie) => {
@@ -249,11 +303,22 @@ class Watchlists extends Component {
     })
   }
 
+  changeFeed = () =>{
+    if(this.state.home === true){
+      this.setState({watchlists: this.state.publicWatchlists, home:false})
+    }else{
+      this.setState({watchlists: this.state.ownedWatchlists, home:true})
+    }
+  }
   render() {
     return (
       <React.Fragment>
         <h1>Watchlists</h1>
         <Button onClick={() => this.setState({ createWatchlist: true })} variant="dark" className="actionIcons"> +</Button>
+        <select onChange={()=> this.changeFeed()}>
+          <option value={true}>Home</option>
+          <option value={false}>Public</option>
+        </select>
         <div className="watchlistContainer">
           {this.state.createWatchlist &&
             <WatchlistCreate
@@ -361,7 +426,7 @@ class Watchlists extends Component {
                 show={this.state.show}
                 saveWatchlist={this.saveWatchlist.bind()}
                 closeModal={this.closeModal.bind()}
-
+                mergedArray={this.state.mergedArray}
               />
             </div>
             :

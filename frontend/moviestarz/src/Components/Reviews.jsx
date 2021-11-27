@@ -192,7 +192,7 @@ class Reviews extends Component {
                 {/* <br /><br /> */}
               </Modal.Body>
               <h1>Comments</h1>
-              <input type="text" name="comment" className="commentBar" placeholder="" onChange={this.onChange} />
+              <input type="text" name="comment" className="commentBar" placeholder="Add a Comment!" onChange={this.onChange} />
               <button onClick={()=> this.addComment()} className="actionIcons">💬</button>
               {this.state.comments.map(comment => <ReviewComment ownerUsername={comment.ownerUsername} content={comment.comment}> </ReviewComment>)}
               <Modal.Footer>
