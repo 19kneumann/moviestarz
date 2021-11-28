@@ -40,7 +40,6 @@ class WatchlistCreate extends Component {
                 <br />
                 <input type="text" name="title" onChange={this.onChange} />
                 <br />
-                <button type="submit">Create Watchlist</button>
               </form>
             </Modal.Body>
             <Modal.Footer>

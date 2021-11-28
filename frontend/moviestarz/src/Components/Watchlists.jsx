@@ -24,7 +24,8 @@ class Watchlists extends Component {
     openWatchlist: false,
     home: true,
     ownedWatchlists: [],
-    publicWatchlists:[]
+    publicWatchlists:[],
+    refresh: true
   };
   constructor() {
     super();
@@ -118,7 +119,7 @@ class Watchlists extends Component {
     this.friendsAndWatchlists()
     // this.seperateLists();
     this.setState({
-      ownerUsername: this.props.cookies.ownerUsername
+      ownerUsername: this.props.cookies.ownerUsername,
     })
 
     // var watchlist = [
@@ -201,7 +202,6 @@ class Watchlists extends Component {
   }
 
   createWatchlist(isPublic, title) {
-    //e.preventDefault();
     axios
       .post("http://localhost:8089/watchlist-service", {
         ownerUsername: this.state.ownerUsername,
@@ -210,10 +210,13 @@ class Watchlists extends Component {
       })
       .then((response) => {
         console.log(response.data);
+        this.closeModal()
       })
       .catch(function (error) {
         console.log(error);
       });
+      this.setState({refresh: !this.state.refresh})
+      this.forceUpdate();
   }
   closeModal() {
     this.setState({
@@ -316,15 +319,15 @@ class Watchlists extends Component {
         <h1>Watchlists</h1>
         <Button onClick={() => this.setState({ createWatchlist: true })} variant="dark" className="actionIcons"> +</Button>
         <select onChange={()=> this.changeFeed()}>
-          <option value={true}>Home</option>
-          <option value={false}>Public</option>
+          <option value={true}>Your Watchlists</option>
+          <option value={false}>Explore Public</option>
         </select>
         <div className="watchlistContainer">
           {this.state.createWatchlist &&
             <WatchlistCreate
-              createWatchlist={this.createWatchlist.bind()}
+              createWatchlist={this.createWatchlist.bind(this)}
               show={this.state.createWatchlist}
-              closeModal={this.closeModal.bind()}
+              closeModal={this.closeModal.bind(this)}
             />
           }
           {this.state.watchlists.map((watchlist) => (

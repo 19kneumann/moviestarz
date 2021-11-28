@@ -18,7 +18,9 @@ class Reviews extends Component {
     openReview: false,
     image: null,
     comment: "",
-    comments: []
+    comments: [],
+    friends: [],
+    home: true
   };
 
   editReview(e, review) {
@@ -42,7 +44,6 @@ class Reviews extends Component {
       )
       .then((response) => {
         console.log(response.data);
-        console.log(response.data[0].public)
         this.setState({ reviews: response.data });
       })
       .catch(function (error) {
@@ -52,6 +53,38 @@ class Reviews extends Component {
       edit: null
     })
   };
+
+  seperateLists = () => {
+    console.log(this.state)
+    let friends = [];
+    let publics = [];
+    this.state.reviews.map((review) => {
+      if (this.state.friends.includes(review.ownerUsername) || review.ownerUsername === this.props.cookies.ownerUsername) {
+      // if(watchlist.adminUsers.includes(this.props.cookies.ownerUsername) || watchlist.viewerUsers.includes(this.props.cookies.ownerUsername) || watchlist.ownerUsername === this.props.cookies.ownerUsername ){
+        console.log("friend");
+        friends.push(review)
+      }else{
+        publics.push(review)
+      }
+    });
+    this.setState({friendsReview: friends,
+    publicReviews: publics,
+    reviews: friends})
+  }
+
+  friendsAndReviews = () => {
+    let getReviews = axios.get("http://localhost:8089/review-service/" + this.props.cookies.ownerUsername)
+    let getFriends = axios.get("http://localhost:8089/user-service/getFriends/" + this.props.cookies.ownerUsername)
+    let self = this;
+    axios.all([getReviews, getFriends]).then(axios.spread((...responses) => {
+      self.setState({
+        reviews: responses[0].data,
+        friends: responses[1].data
+      })
+      self.seperateLists();
+    })).catch(errors => {
+    })
+  }
 
   updateReview = (reviewId, isPublic, movie, rating, description) => {
     axios
@@ -94,7 +127,8 @@ class Reviews extends Component {
     })
   }
   componentDidMount = () => {
-    this.getReviews();
+    // this.getReviews();
+    this.friendsAndReviews();
   }
 
   onChange = (evt) => {
@@ -130,10 +164,24 @@ class Reviews extends Component {
         console.log("errorFetching");
       });
   }
+
+  changeFeed = () =>{
+    if(this.state.home === true){
+      this.setState({reviews: this.state.publicReviews, home:false})
+    }else{
+      this.setState({reviews: this.state.friendsReview, home:true})
+    }
+  }
+
   render() {
     return (
+      <React.Fragment>
+
+        <select onChange={()=> this.changeFeed()}>
+          <option value={true}>Feed</option>
+          <option value={false}>Public Reviews</option>
+        </select>
       <div className="reviewContainer">
-        <div />
         {this.state.reviews.map((review) => (
           <React.Fragment key={review.reviewId}>
             <div className="reviewCard" onClick={() => this.openModal(review)}>
@@ -202,6 +250,7 @@ class Reviews extends Component {
 
         }
       </div>
+      </React.Fragment>
     );
   }
 }
