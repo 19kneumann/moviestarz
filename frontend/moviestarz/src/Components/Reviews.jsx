@@ -23,6 +23,10 @@ class Reviews extends Component {
     home: true
   };
 
+  constructor() {
+    super();
+    this.addComment = this.addComment.bind(this)
+  }
   editReview(e, review) {
     e.stopPropagation()
     console.log(review.public);
@@ -54,22 +58,47 @@ class Reviews extends Component {
     })
   };
 
+  setComments = () =>{
+    this.state.reviews.map((review) => {
+      if(review.reviewId === this.state.editId){
+        this.setState({
+          comments: review.comments
+        })
+      }
+    })
+  }
+
+  getReviewForComments = () =>{
+    axios
+      .get("http://localhost:8089/review-service/review/" + this.state.editId
+      )
+      .then((response) => {
+        console.log(response.data);
+        this.setState({ comments: response.data.comments });
+      })
+      .catch(function (error) {
+        console.log("errorFetching");
+      });
+  }
+
   seperateLists = () => {
     console.log(this.state)
     let friends = [];
     let publics = [];
     this.state.reviews.map((review) => {
       if (this.state.friends.includes(review.ownerUsername) || review.ownerUsername === this.props.cookies.ownerUsername) {
-      // if(watchlist.adminUsers.includes(this.props.cookies.ownerUsername) || watchlist.viewerUsers.includes(this.props.cookies.ownerUsername) || watchlist.ownerUsername === this.props.cookies.ownerUsername ){
+        // if(watchlist.adminUsers.includes(this.props.cookies.ownerUsername) || watchlist.viewerUsers.includes(this.props.cookies.ownerUsername) || watchlist.ownerUsername === this.props.cookies.ownerUsername ){
         console.log("friend");
         friends.push(review)
-      }else{
+      } else {
         publics.push(review)
       }
     });
-    this.setState({friendsReview: friends,
-    publicReviews: publics,
-    reviews: friends})
+    this.setState({
+      friendsReview: friends,
+      publicReviews: publics,
+      reviews: friends
+    })
   }
 
   friendsAndReviews = () => {
@@ -149,7 +178,8 @@ class Reviews extends Component {
         console.log(error);
       });
   }
-  addComment(){
+  addComment() {
+    var self = this;
     axios
       .patch("http://localhost:8089/review-service/addComment", {
         reviewId: `${this.state.editId}`,
@@ -157,99 +187,114 @@ class Reviews extends Component {
         comment: `${this.state.comment}`
       })
       .then((response) => {
-        this.getReviews();
         console.log(response.data);
+        self.getReviewForComments();
       })
       .catch(function (error) {
         console.log("errorFetching");
       });
+      self.setState({
+        comment: ""
+      })
   }
 
-  changeFeed = () =>{
-    if(this.state.home === true){
-      this.setState({reviews: this.state.publicReviews, home:false})
-    }else{
-      this.setState({reviews: this.state.friendsReview, home:true})
+  changeFeed = () => {
+    if (this.state.home === true) {
+      this.setState({ reviews: this.state.publicReviews, home: false })
+    } else {
+      this.setState({ reviews: this.state.friendsReview, home: true })
     }
   }
 
   render() {
     return (
       <React.Fragment>
-
-        <select onChange={()=> this.changeFeed()}>
+        <select onChange={() => this.changeFeed()}>
           <option value={true}>Feed</option>
           <option value={false}>Public Reviews</option>
         </select>
-      <div className="reviewContainer">
-        {this.state.reviews.map((review) => (
-          <React.Fragment key={review.reviewId}>
-            <div className="reviewCard" onClick={() => this.openModal(review)}>
-              {review.ownerUsername === this.props.cookies.ownerUsername &&
-                <Button className="actionIcons" variant="dark" onClick={(e) => this.editReview(e, review)}>✎</Button>
-              }
-              <ReviewCard
-                reviewId={review.reviewId}
-                ownerUsername={review.ownerUsername}
-                isPublic={review.public.toString()}
-                movie={review.movie}
-                rating={review.rating}
-                description={review.description}
-                image={review.image}
-              >
-              </ReviewCard>
-              <br /><br />
+        <div className="reviewContainer">
+          {this.state.reviews.map((review) => (
+            <React.Fragment key={review.reviewId}>
+              <div className="reviewCard" onClick={() => this.openModal(review)}>
+                <ReviewCard
+                  reviewId={review.reviewId}
+                  ownerUsername={review.ownerUsername}
+                  isPublic={review.public.toString()}
+                  movie={review.movie}
+                  rating={review.rating}
+                  description={review.description}
+                  image={review.image}
+                  editReview={this.editReview.bind(this)}
+                  cookies={this.props.cookies}
+                  review={review}
+                >
+                </ReviewCard>
+                <br /><br />
+              </div>
+            </React.Fragment>
+          ))}
+          {this.state.edit &&
+            <div>
+              <EditReview updateReview={this.updateReview.bind()}
+                reviewId={this.state.editId}
+                ownerUsername={this.state.editOwnerUsername}
+                isPublic={this.state.editIsPublic.toString()}
+                movie={this.state.editMovie}
+                rating={this.state.editRating}
+                description={this.state.editDescription}
+                show={this.state.showEdit}
+                closeModal={this.closeModal}
+                deleteReview={this.deleteReview.bind()}
+              />
             </div>
-          </React.Fragment>
-        ))}
-        {this.state.edit &&
-          <div>
-            <EditReview updateReview={this.updateReview.bind()}
-              reviewId={this.state.editId}
-              ownerUsername={this.state.editOwnerUsername}
-              isPublic={this.state.editIsPublic}
-              movie={this.state.editMovie}
-              rating={this.state.editRating}
-              description={this.state.editDescription}
-              show={this.state.showEdit}
-              closeModal={this.closeModal}
-              deleteReview={this.deleteReview.bind()}
-            />
-          </div>
-        }
-        {this.state.openReview &&
-          <Modal show={this.state.openReview} backdrop="static" className="ModalContainer" centered animation={false}>
-            <div className="ModalContent">
-              <h1>Detailed Review</h1>
-              <button onClick={() => this.closeModal()}>Close</button>
-              <Modal.Body>
-                <div>
-                  OwnerUsername: {this.state.editOwnerUsername}
-                  <br />
-                  Is Public: {this.state.editIsPublic}
-                  <br />
-                  Movie: {this.state.editMovie}
-                  <br />
-                  Rating: {this.state.editRating}
-                  <br />
-                  Description: {this.state.editDescription}
-                  <br />
-                  <img src={this.state.image} height='150' width='100' alt="" />
-                </div>
-                {/* <button onClick="editReview(${review.id})">Edit</button> */}
-                {/* <br /><br /> */}
-              </Modal.Body>
-              <h1>Comments</h1>
-              <input type="text" name="comment" className="commentBar" placeholder="Add a Comment!" onChange={this.onChange} />
-              <button onClick={()=> this.addComment()} className="actionIcons">💬</button>
-              {this.state.comments.map(comment => <ReviewComment ownerUsername={comment.ownerUsername} content={comment.comment}> </ReviewComment>)}
-              <Modal.Footer>
-              </Modal.Footer>
-            </div>
-          </Modal>
-
-        }
-      </div>
+          }
+          {this.state.openReview &&
+            <Modal show={this.state.openReview} backdrop="static" className="ModalContainer" centered animation={false}>
+              <div className="ModalContent">
+                <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
+                <p id="marginLeft">
+                  <span className="title">{this.state.editOwnerUsername}</span>
+                  {/* {this.state.editOwnerUsername} */}
+                  's review of 
+                  <span className="title"> {this.state.editMovie} </span>
+                  </p>
+                <Modal.Body>
+                  <div>
+                    {/* <p>{this.state.editOwnerUsername}
+                      {this.state.editIsPublic.toString() === "true" ?
+                        '  \uD83D\uDD13'
+                        :
+                        // Closed Lock '\uD83D\uDD12'
+                        ' 👥'
+                      }
+                    </p>
+                    Movie: {this.state.editMovie}
+                    <br /> */}
+                    <img src={this.state.image} height='150' width='100' alt="" />
+                    <img height="45px" width="200px" src={this.state.editRating +".png"}/>
+                    <br />
+                    <br/>
+                    "{this.state.editDescription}"
+                    <br />
+                  </div>
+                  {/* <button onClick="editReview(${review.id})">Edit</button> */}
+                  {/* <br /><br /> */}
+                </Modal.Body>
+                <h1>Comments</h1>
+                <input type="text" name="comment" className="commentBar" placeholder="Add a Comment!" onChange={this.onChange} value={this.state.comment}/>
+                <button onClick={() => this.addComment()} className="actionIcons">💬</button>
+                {this.state.comments.length != 0 ? 
+                <React.Fragment>
+                  {this.state.comments.map(comment => <ReviewComment ownerUsername={comment.ownerUsername} content={comment.comment}> </ReviewComment>)}
+                </React.Fragment>
+                :
+                <p>Hmmm, there doesnt seem to be any comments! Be the first to make one</p>
+                }
+              </div>
+            </Modal>
+          }
+        </div>
       </React.Fragment>
     );
   }

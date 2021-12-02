@@ -49,7 +49,6 @@ class Login extends Component {
             </Modal.Body>
             <Modal.Footer>
             <p>{this.props.errorMessage}</p>
-
             {this.props.errorMessage !=="" &&
               <React.Fragment>
               </React.Fragment>

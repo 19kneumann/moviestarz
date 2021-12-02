@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 
 class ReviewCard extends Component {
 
@@ -8,19 +9,33 @@ class ReviewCard extends Component {
 
   render() {
     return (
-        <div>
-          OwnerUsername: {this.props.ownerUsername}
-          <br />
-          Is Public: {this.props.isPublic}
-          <br />
-          Movie: {this.props.movie}
-          <br />
-          Rating: {this.props.rating}
-          <br />
-          Description: {this.props.description}
-          <br />
-          <img src={this.props.image} height='150' width='100' alt="" />
+      <div className="reviewCardAllItems">
+        <div className="reviewFirstBox">
+          <img src={this.props.image} height='175' width='125' alt="" />
+          <p>By: {this.props.ownerUsername}
+            {this.props.isPublic === "true" ?
+              '  \uD83D\uDD13'
+              :
+              // Closed Lock '\uD83D\uDD12'
+              ' 👥'
+            }
+          </p>
         </div>
+        <div className="reviewSecondBox">
+          <p className="title">{this.props.movie}</p>
+          {/* Rating: {this.props.rating} */}
+          <img height="45px" width="200px"src={this.props.rating +".png"}/>
+          <br/>
+          <br/>
+
+          <p>"{this.props.description}"</p>
+        </div>
+        <div className="reviewThirdBox">
+        {this.props.ownerUsername === this.props.cookies.ownerUsername &&
+          <Button className="actionIcons" variant="dark" onClick={(e) => this.props.editReview(e, this.props.review)}>✎</Button>
+        }
+        </div>
+      </div>
     );
   }
 }

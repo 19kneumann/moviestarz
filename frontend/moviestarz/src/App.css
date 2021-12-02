@@ -72,7 +72,7 @@ a:hover   {
     text-decoration: none;
     /* background-color: #5BC0BE; */
     color: #F5FBEF;
-    width: 47%;
+    width: 45%;
     min-height: 200px;
     height: 20%;
     margin: auto;
@@ -83,8 +83,24 @@ a:hover   {
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
+    justify-content: space-between;
 }
-
+.movieContent{
+    display: flex;
+    flex-wrap: wrap;
+    flex-flow: column;
+}
+#moviePicture{
+    justify-self: start;
+}
+#movieRating{
+    align-self: center;
+    /* justify-self: center; */
+}
+#movieTitle{
+    height: fit-content;
+    /* justify-self: center; */
+}
 .movieContainer a:hover{
     color: #F5FBEF;
 }
@@ -99,21 +115,25 @@ a:hover   {
     color: #F5FBEF;
 }
 
-.addToWatchlistOverall{
+#addToWatchlistOverall{
     /* background-color: #AF125A; */
     /* position: absolute;
     top: 10px;
     left: 90%; */
     /* position: right;
-    justify-self: flex-end;
     align-self:flex-start; */
-    float: right
+    /* float: right */
+    justify-self: center;
+    margin-right: 35px;
 }
 
 .createReviewBtn{
     height: 31px;
+    margin-left: 10px;
 }
-
+/* #watchlistAdd{
+    margin-left: 10px;
+} */
 .actionIcons{
     width: 32px;
     height: 33px;
@@ -140,10 +160,43 @@ a:hover   {
     padding: auto;
     margin-bottom: 30px;
     cursor: pointer;
-    display: flex;
-    flex-wrap: wrap;
+    /* display: flex;
+    flex-wrap: wrap; */
 }
 
+.reviewCardAllItems{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.reviewFirstBox{
+
+}
+.reviewSecondBox{
+    
+}
+.reviewThirdBox{
+    margin-right: 35px;
+}
+.watchlistFirstBox{
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+}
+.watchlistSecondBox{
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+}
+.watchlistThirdBox{
+    margin-right: 35px;
+}
+.watchlistAllItems{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
 .watchlistContainer{
     display: flex;
@@ -165,8 +218,10 @@ a:hover   {
     padding: auto;
     margin-bottom: 10px;
     cursor: pointer;
-    display: flex;
-    flex-wrap: wrap;
+    /* display: flex;
+    flex-wrap: wrap; */
+    /* justify-content: space-between; */
+
 }
 
 .searchBar{
@@ -208,6 +263,10 @@ a:hover   {
     width: 80%;
     margin-bottom: 20px;
 }
+.closeModalBtn{
+    margin-left: 85%;
+    margin-top: 20px;
+}
 .title{
 color: #AF125A;
 font-size: large;
@@ -219,4 +278,11 @@ font-size: large;
 }
 .plainPinkTitle{
     color: #AF125A;
+    font-size:large;
+}
+#marginLeft{
+    margin-left: 15px;
+}
+#noMarginButton{
+    padding-left: 0;
 }

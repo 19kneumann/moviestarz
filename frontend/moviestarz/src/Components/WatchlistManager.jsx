@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Modal } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+import ModalHeader from "react-bootstrap/esm/ModalHeader";
 
 class WatchlistManager extends Component {
 
@@ -35,7 +37,8 @@ class WatchlistManager extends Component {
     }
     this.setState({
       adminUsers : filteredAdmin,
-      viewerUsers: filteredViewer
+      viewerUsers: filteredViewer,
+      mergedArray: filteredAdmin.concat(filteredViewer)
     })
   }
 
@@ -74,35 +77,33 @@ class WatchlistManager extends Component {
   render() {
     let movies;
     let adminUsers;
-    let viewerUsers;
     console.log(this.state)
     console.log(this.state.movies, this.state.movies.length)
-    console.log(this.state.adminUsers, this.state.adminUsers.length)
-    console.log(this.state.viewerUsers, this.state.viewerUsers.length)
+    console.log("Admins: " + this.state.adminUsers, this.state.adminUsers.length)
+    console.log("Viewers:" + this.state.viewerUsers, this.state.viewerUsers.length)
 
     if (this.state.movies !== [] && this.state.movies.length > 0) {
       movies = (<div>
-        Movie:
+        Movies:
         {this.props.movies.map(movie => <div>
-          {movie}
-          <button type="button" onClick={() => this.props.removeMovie(movie)}> Remove</button>
+          <pre>     {'\u2022'} {movie} <Button variant='dark' type="button" id="noMarginButton"onClick={() => this.props.removeMovie(movie)}> Remove</Button></pre>
+          {/* <Button variant='dark' type="button" onClick={() => this.props.removeMovie(movie)}> Remove</Button> */}
         </div>)}
       </div>)
     } else {
       movies = <div> No movies added </div>
     }
 
-    if (this.state.mergedArray !== [] && this.state.mergedArray.length > 0) {
+    if (this.state.mergedArray.length > 0) {
       adminUsers = (
         <div>
           Users:
           {this.props.mergedArray.map(user => <div>
-            {user}
-            <select id="isAdmin" name={user} value={this.state.adminUsers.includes(user)} onChange={this.updateUser} >
+            <pre>     {'\u2022'} {user} <select id="isAdmin" name={user} value={this.state.adminUsers.includes(user)} onChange={this.updateUser} >
               <option value="true">Admin</option>
               <option value="false">Viewer</option>
-            </select>
-            <button onClick={() => this.props.removeUser(user)}> Remove</button>
+            </select>  <Button variant='dark' id="noMarginButton" onClick={() => this.props.removeUser(user)}> Remove</Button>
+            </pre>
           </div>)}
         </div>
       )
@@ -151,33 +152,36 @@ class WatchlistManager extends Component {
       <div>
         <Modal show={this.state.show} backdrop="static" className="ModalContainer" centered animation={false}>
           <div className="ModalContent">
-            <h1> EDIT REVIEW </h1>
+          <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
+          <ModalHeader>
+            <div>Edit the watchlist <span className="title">{this.state.title}</span></div>
+            </ModalHeader>
             <Modal.Body>
-              <h1> EDIT FORM </h1>
               <form onSubmit={this.createWatchlist}>
-                <label>Id:</label> <b />
-                <input type="text" name="id" value={this.state.id} readOnly />
-                <br />
-                <input type="text" name="ownerUsername" value={this.state.ownerUsername} readOnly />
-                <br />
+              {this.state.isPublic.toString() === "true" ?
+                  '  \uD83D\uDD13'
+                  :
+                  ' 👥'
+                }
                 <select id="isPublic" name="isPublic" value={this.state.isPublic} onChange={this.onChange} >
                   <option value="true">Public</option>
                   <option value="false">Friends Only</option>
                 </select>
+                <br/>
                 <br />
-                <label>Watchlist Title</label>
+                <label>Watchlist Title:  </label>
                 <br />
                 <input type="text" name="title" value={this.state.title} onChange={this.onChange} />
                 <br />
+                <br/>
               </form>
               {movies}
               {adminUsers}
-              {viewerUsers}
             </Modal.Body>
             <Modal.Footer>
-              <button onClick={() => this.props.saveWatchlist(this.state.id, this.state.ownerUsername, this.props.movies, this.state.isPublic, this.state.title, this.props.adminUsers, this.props.viewerUsers)}>Submit </button>
+              <Button variant='dark' onClick={() => this.props.saveWatchlist(this.state.id, this.state.ownerUsername, this.props.movies, this.state.isPublic, this.state.title, this.state.adminUsers, this.state.viewerUsers)}>Submit </Button>
               {/* <button onClick={() => this.props.deleteReview(this.props.reviewId)}>Delete </button> */}
-              <button onClick={() => this.closeModal()}>Close</button>
+              {/* <button onClick={() => this.closeModal()}>Close</button> */}
             </Modal.Footer>
           </div>
         </Modal>

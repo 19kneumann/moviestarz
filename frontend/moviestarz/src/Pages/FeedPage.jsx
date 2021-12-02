@@ -154,7 +154,6 @@ class FeedPage extends Component {
 
     return (
       <div>
-        <p>Feed Page</p>
         <Button type="button" className="actionIcons" variant="dark" onClick={() => this.addFriend()}>👤+</Button>
         <Button type="button" className="actionIcons" variant="dark" onClick={() => this.showIncoming()}>{'\ud83d\udce8'}</Button>
         <Button type="button" className="actionIcons" variant="dark" onClick={() => this.showFriendsList()}>👥</Button>

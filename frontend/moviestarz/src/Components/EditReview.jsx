@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Modal, ModalBody } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
+import ModalHeader from "react-bootstrap/esm/ModalHeader";
 class CreateReview extends Component {
 
 
@@ -19,7 +20,7 @@ class CreateReview extends Component {
       ownerUsername: this.props.ownerUsername,
       isPublic: this.props.isPublic,
       movie: this.props.movie,
-      rating: this.props.rating,
+      rating: this.props.rating.toString(),
       description: this.props.description,
       show: this.props.show
     })
@@ -36,49 +37,52 @@ class CreateReview extends Component {
   }
   render() {
     return (
+
       <div>
         <Modal show={this.state.show} backdrop="static" className="ModalContainer" centered animation={false}>
           <div className="ModalContent">
-            <h1> EDIT REVIEW </h1>
+            <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
+            <ModalHeader>
+              <span>
+              Edit your review for:
+              <br/>
+              <h4 className="plainPinkTitle">{this.props.movie}</h4>
+              </span>
+            </ModalHeader>
             <Modal.Body>
               <form onSubmit={this.props.updateReview}>
-                Id
-                <br />
-                <input type="text" name="reviewId" value={this.state.reviewId} readOnly />
-                <br />
-                Owner Username:
-                <br />
-                <input type="text" name="ownerUsername" value={this.state.ownerUsername} readOnly />
-                <br />
-                <label>Visibility</label>
-                <br />
+
+                {this.state.isPublic === "true" ?
+                  '  \uD83D\uDD13'
+                  :
+                  ' 👥'
+                }
                 <select id="isPublic" name="isPublic" value={this.state.isPublic} onChange={this.onChange} >
                   <option value="true">Public</option>
                   <option value="false">Friends Only</option>
                 </select>
                 <br />
-                <label>Movie Title</label>
-                <br />
-                <input type="text" name="movie" value={this.state.movie} onChange={this.onChange} />
-                <br />
+                {/* <input type="text" name="movie" value={this.state.movie} onChange={this.onChange} />
+                <br /> */}
                 <label>Rating</label>
                 <br />
-                <select id="rating" name="rating" value={this.state.rating} onChange={this.onChange}>
-                  <option value=".5">.5 Stars</option>
-                  <option value="1">1 Stars</option>
-                  <option value="1.5">1.5 Stars</option>
-                  <option value="2">2 Stars</option>
-                  <option value="2.5">2.5 Stars</option>
-                  <option value="3">3 Stars</option>
-                  <option value="3.5">3.5 Stars</option>
-                  <option value="4">4 Stars</option>
-                  <option value="4.5">4.5 Stars</option>
-                  <option value="5">5 Stars</option>
+                <img height="45px" width="200px" src={this.state.rating + ".png"} />
+                <select id="rating" name="rating" onChange={this.onChange} value={this.state.rating}>
+                  <option value="0.5">.5</option>
+                  <option value="1">1</option>
+                  <option value="1.5">1.5</option>
+                  <option value="2">2</option>
+                  <option value="2.5">2.5</option>
+                  <option value="3">3</option>
+                  <option value="3.5">3.5</option>
+                  <option value="4">4</option>
+                  <option value="4.5">4.5</option>
+                  <option value="5">5</option>
                 </select>
                 <br />
                 <label>Description</label>
                 <br />
-                <input type="text" name="description" value={this.state.description} onChange={this.onChange} />
+                <textarea type="text" name="description" value={this.state.description} onChange={this.onChange} rows="4" cols="50" />
               </form>
 
             </Modal.Body>

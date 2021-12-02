@@ -34,6 +34,7 @@ public class WatchlistController {
 
     @GetMapping("/watchlist/{watchListId}")
     public ResponseEntity<Object> getSingle(@PathVariable String watchListId){
+        System.out.println(watchListId);
         Watchlist watchlist = repo.findById(watchListId).orElse(null);
         if(watchlist!= null){
             return new ResponseEntity<>(watchlist, HttpStatus.OK);

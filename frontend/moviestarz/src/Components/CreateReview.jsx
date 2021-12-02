@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 class CreateReview extends Component {
 
   state = {
-    isPublic: true,
+    isPublic: "true",
     title: null,
-    rating: ".5",
+    rating: "0.5",
     description: "",
     show: true
   };
@@ -26,42 +26,50 @@ class CreateReview extends Component {
       <div>
         <Modal show={this.state.show} backdrop="static" className="ModalContainer" centered animation={false}>
           <div className="ModalContent">
+          <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
+
             <Modal.Body>
               <form onSubmit={this.props.createReview}>
-                <label>Visibility</label>
+
+                Create a review for:
+                <h4 className="plainPinkTitle">{this.props.movie.title}</h4>
                 <br />
+
+                {this.state.isPublic === "true" ?
+                  '  \uD83D\uDD13'
+                  :
+                  ' 👥'
+                }
                 <select id="isPublic" name="isPublic" onChange={this.onChange} >
                   <option value="true">Public</option>
                   <option value="false">Friends Only</option>
                 </select>
                 <br />
-                <label>Movie Title</label>
                 <br />
-                <input type="text" name="movie" value={this.props.movie.title} readOnly />
+                <label>Rating:</label>
                 <br />
-                <label>Rating</label>
-                <br />
+                <img height="45px" width="200px" src={this.state.rating + ".png"} />
                 <select id="rating" name="rating" onChange={this.onChange}>
-                  <option value=".5">.5 Stars</option>
-                  <option value="1">1 Stars</option>
-                  <option value="1.5">1.5 Stars</option>
-                  <option value="2">2 Stars</option>
-                  <option value="2.5">2.5 Stars</option>
-                  <option value="3">3 Stars</option>
-                  <option value="3.5">3.5 Stars</option>
-                  <option value="4">4 Stars</option>
-                  <option value="4.5">4.5 Stars</option>
-                  <option value="5">5 Stars</option>
+                  <option value="0.5">.5</option>
+                  <option value="1">1</option>
+                  <option value="1.5">1.5</option>
+                  <option value="2">2</option>
+                  <option value="2.5">2.5</option>
+                  <option value="3">3</option>
+                  <option value="3.5">3.5</option>
+                  <option value="4">4</option>
+                  <option value="4.5">4.5</option>
+                  <option value="5">5</option>
                 </select>
                 <br />
-                <label>Description</label>
                 <br />
-                <input type="text" name="description" onChange={this.onChange} />
+                <label>Description:</label>
+                <br />
+                <textarea type="text" name="description" onChange={this.onChange} rows="4" cols="50" />
               </form>
             </Modal.Body>
             <Modal.Footer>
-              <button onClick={() => this.props.createReview(this.state.isPublic, this.props.movie.title, this.state.rating, this.state.description, "https://image.tmdb.org/t/p/original" + this.props.movie.poster_path)}>Submit </button>
-              <button onClick={() => this.closeModal()}>Close</button>
+              <button onClick={() => this.props.createReview(this.state.isPublic, this.props.movie.title, this.state.rating, this.state.description, "https://image.tmdb.org/t/p/original" + this.props.movie.poster_path)}>Create Review </button>
             </Modal.Footer>
           </div>
         </Modal>

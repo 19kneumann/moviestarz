@@ -6,6 +6,7 @@ import WatchlistManager from "./WatchlistManager"
 import WatchlistCreate from "./WatchlistCreate";
 import { Button, ModalBody } from "react-bootstrap";
 import { Modal } from "react-bootstrap";
+import ModalHeader from "react-bootstrap/esm/ModalHeader";
 class Watchlists extends Component {
 
   state = {
@@ -23,8 +24,9 @@ class Watchlists extends Component {
     friends: [],
     openWatchlist: false,
     home: true,
+    allWatchlists: [],
     ownedWatchlists: [],
-    publicWatchlists:[],
+    publicWatchlists: [],
     refresh: true
   };
   constructor() {
@@ -36,6 +38,8 @@ class Watchlists extends Component {
     this.closeModal = this.closeModal.bind(this);
     this.getFriends = this.getFriends.bind(this);
     this.callWatchlists = this.callWatchlists.bind(this);
+    this.editWatchlist = this.editWatchlist.bind(this);
+    this.toggleAddUser = this.toggleAddUser.bind(this);
   }
 
   onChange = (evt) => {
@@ -85,19 +89,21 @@ class Watchlists extends Component {
     console.log(this.state)
     let owned = [];
     let publics = [];
-    this.state.watchlists.map((watchlist) => {
+    this.state.allWatchlists.map((watchlist) => {
       console.log(watchlist.adminUsers)
       // if (this.state.friends.includes(watchlist.ownerUsername)) {
-      if(watchlist.adminUsers.includes(this.props.cookies.ownerUsername) || watchlist.viewerUsers.includes(this.props.cookies.ownerUsername) || watchlist.ownerUsername === this.props.cookies.ownerUsername ){
+      if (watchlist.adminUsers.includes(this.props.cookies.ownerUsername) || watchlist.viewerUsers.includes(this.props.cookies.ownerUsername) || watchlist.ownerUsername === this.props.cookies.ownerUsername) {
         console.log("friend");
         owned.push(watchlist)
-      }else{
+      } else {
         publics.push(watchlist)
       }
     });
-    this.setState({ownedWatchlists: owned,
-    publicWatchlists: publics,
-    watchlists: owned})
+    this.setState({
+      ownedWatchlists: owned,
+      publicWatchlists: publics,
+      watchlists: owned
+    })
   }
 
   friendsAndWatchlists = () => {
@@ -106,7 +112,7 @@ class Watchlists extends Component {
     let self = this;
     axios.all([getWatchlists, getFriends]).then(axios.spread((...responses) => {
       self.setState({
-        watchlists: responses[0].data,
+        allWatchlists: responses[0].data,
         friends: responses[1].data
       })
       self.seperateLists();
@@ -137,13 +143,13 @@ class Watchlists extends Component {
 
   toggleAddUser(e, watchlist) {
     e.stopPropagation();
-    console.log(watchlist.id)
+    console.log(watchlist)
     this.setState({
       addUser: true,
       id: watchlist.watchlistId,
       ownerUsername: watchlist.ownerUsername,
       movies: watchlist.movies,
-      isPublic: watchlist.isPublic,
+      isPublic: watchlist.public,
       title: watchlist.watchlistTitle,
       adminUsers: watchlist.adminUsers,
       viewerUsers: watchlist.viewerUsers
@@ -192,31 +198,30 @@ class Watchlists extends Component {
         viewerUsers: `${viewerUsers}`
       })
       .then((response) => {
+        this.friendsAndWatchlists();
         console.log(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
-    this.callWatchlists();
-
   }
 
-  createWatchlist(isPublic, title) {
+  createWatchlist = (isPublic, title) => {
+    var self = this;
     axios
       .post("http://localhost:8089/watchlist-service", {
-        ownerUsername: this.state.ownerUsername,
+        ownerUsername: self.state.ownerUsername,
         isPublic: `${isPublic}`,
         title: `${title}`
       })
       .then((response) => {
         console.log(response.data);
-        this.closeModal()
+        self.closeModal()
+        self.friendsAndWatchlists()
       })
       .catch(function (error) {
         console.log(error);
       });
-      this.setState({refresh: !this.state.refresh})
-      this.forceUpdate();
   }
   closeModal() {
     this.setState({
@@ -241,6 +246,7 @@ class Watchlists extends Component {
       })
       .then((response) => {
         console.log(response.data);
+        this.friendsAndWatchlists()
       })
       .catch(function (error) {
         console.log(error);
@@ -287,6 +293,7 @@ class Watchlists extends Component {
       viewerArray.push(username)
     }
     this.setState({
+      id: id,
       adminUsers: adminArray,
       viewerUsers: viewerArray
     })
@@ -306,28 +313,27 @@ class Watchlists extends Component {
     })
   }
 
-  changeFeed = () =>{
-    if(this.state.home === true){
-      this.setState({watchlists: this.state.publicWatchlists, home:false})
-    }else{
-      this.setState({watchlists: this.state.ownedWatchlists, home:true})
+  changeFeed = () => {
+    if (this.state.home === true) {
+      this.setState({ watchlists: this.state.publicWatchlists, home: false })
+    } else {
+      this.setState({ watchlists: this.state.ownedWatchlists, home: true })
     }
   }
   render() {
     return (
       <React.Fragment>
-        <h1>Watchlists</h1>
         <Button onClick={() => this.setState({ createWatchlist: true })} variant="dark" className="actionIcons"> +</Button>
-        <select onChange={()=> this.changeFeed()}>
+        <select onChange={() => this.changeFeed()}>
           <option value={true}>Your Watchlists</option>
           <option value={false}>Explore Public</option>
         </select>
         <div className="watchlistContainer">
           {this.state.createWatchlist &&
             <WatchlistCreate
-              createWatchlist={this.createWatchlist.bind(this)}
+              createWatchlist={this.createWatchlist}
               show={this.state.createWatchlist}
-              closeModal={this.closeModal.bind(this)}
+              closeModal={this.closeModal}
             />
           }
           {this.state.watchlists.map((watchlist) => (
@@ -342,15 +348,19 @@ class Watchlists extends Component {
                   adminUsers={watchlist.adminUsers}
                   viewerUsers={watchlist.viewerUsers}
                   sendEditRequest={this.sendEditRequest.bind()}
+                  ownWatchlist={(watchlist.ownerUsername === this.props.cookies.ownerUsername || watchlist.adminUsers.filter(user => user === this.props.cookies.ownerUsername).length !== 0)}
+                  editWatchlist={this.editWatchlist.bind()}
+                  toggleAddUser={this.toggleAddUser.bind()}
+                  watchlist={watchlist}
                 ></WatchlistCard>
-                {(watchlist.ownerUsername === this.props.cookies.ownerUsername || watchlist.adminUsers.filter(user => user === this.props.cookies.ownerUsername).length !== 0) ?
-                  <div>
-                    <Button type="button" className="actionIcons" variant="dark" onClick={(e) => this.editWatchlist(e, watchlist)}>✎</Button>
-                    <Button type="button" className="actionIcons" variant="dark" onClick={(e) => this.toggleAddUser(e, watchlist)}>👤+</Button>
-                  </div>
-                  :
-                  null
-                }
+                {/* {(watchlist.ownerUsername === this.props.cookies.ownerUsername || watchlist.adminUsers.filter(user => user === this.props.cookies.ownerUsername).length !== 0) ?
+                    <div>
+                      <Button type="button" className="actionIcons" variant="dark" onClick={(e) => this.editWatchlist(e, watchlist)}>✎</Button>
+                      <Button type="button" className="actionIcons" variant="dark" onClick={(e) => this.toggleAddUser(e, watchlist)}>👤+</Button>
+                    </div>
+                    :
+                    null
+                  } */}
 
               </div>
             </React.Fragment>
@@ -358,12 +368,20 @@ class Watchlists extends Component {
           {this.state.openWatchlist &&
             <Modal show={this.state.openWatchlist} backdrop="static" className="ModalContainer" centered animation={false}>
               <div className="ModalContent">
-                <button onClick={() => this.closeModal()}>Close</button>
-                <h1 className="title">'{this.state.title}'</h1>
-                <ModalBody>
+                
+                <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
+                <ModalHeader>
+                <h1 className="title">'{this.state.title}'
+                  {this.state.isPublic === "true" ?
+                    '  \uD83D\uDD13'
+                    :
+                    ' 👥'
+                  }
+                </h1>
                   Created By: {this.state.ownerUsername}
-                  <br />
-                  Is Public: {this.state.isPublic}
+
+                  </ModalHeader>
+                <ModalBody>
                   <br />
                   {this.state.movies.length === 0 ?
                     <p>No movies added yet</p>
@@ -374,19 +392,26 @@ class Watchlists extends Component {
                       {this.state.movies.map(movie => <React.Fragment key={movie}> <pre>     {'\u2022'} {movie} </pre> <br /></React.Fragment>)}
                     </React.Fragment>
                   }
-                  <br />
                   {this.state.adminUsers.length === 0 ?
-                    <p>No admins</p>
+                    <p>No Admins</p>
                     :
                     <React.Fragment>
                       Admins:
                       <br />
-                      {'\t'}{this.state.adminUsers.map(user => <React.Fragment key={user}>{user}, </React.Fragment>)}
+                      {'\t'}{this.state.adminUsers.map(user => <React.Fragment key={user}><pre>     {'\u2022'} {user} </pre> <br /> </React.Fragment>)}
                     </React.Fragment>
                   }
                   {/* Admin Users: {this.state.adminUsers.map(user => <React.Fragment key={user}>{user} </React.Fragment>)} */}
-                  <br />
-                  Viewer Users: {this.state.viewerUsers.map(user => <React.Fragment key={user}>{user} <br /></React.Fragment>)}
+                  {/* <br /> */}
+                  {this.state.viewerUsers.length === 0 ?
+                    <p>No Viewers</p>
+                    :
+                    <React.Fragment>
+                      Viewers:
+                      <br />
+                      {'\t'}{this.state.viewerUsers.map(user => <React.Fragment key={user}><pre>     {'\u2022'} {user} </pre> <br /> </React.Fragment>)}
+                    </React.Fragment>
+                  }
                   <br />
                   {/* <button onClick="editReview(${review.id})">Edit</button> */}
                   {/* <br /><br /> */}

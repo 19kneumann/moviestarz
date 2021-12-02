@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import MovieCard from "./MovieCard";
 import axios from "axios";
 import CreateReview from "./CreateReview";
-import { Modal } from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 
 import '../App.css'
 class Movies extends Component {
@@ -182,6 +182,7 @@ class Movies extends Component {
               {this.state.modalId === movie.id &&
                 <Modal show={this.state.modalId === movie.id} backdrop="static" className="ModalContainer" centered animation={false}>
                   <div className="ModalContent">
+                  <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
                     <Modal.Body>
                       <div className="ModalBody">
                         <img src={"https://image.tmdb.org/t/p/original" + movie.poster_path} height='150' width='100' alt="" />
@@ -189,9 +190,9 @@ class Movies extends Component {
                         {this.state.movies[this.state.modalIndex].overview}
                       </div>
                     </Modal.Body>
-                    <Modal.Footer>
+                    {/* <Modal.Footer>
                       <button onClick={() => this.closeModal()}>Close</button>
-                    </Modal.Footer>
+                    </Modal.Footer> */}
                   </div>
                 </Modal>
               }

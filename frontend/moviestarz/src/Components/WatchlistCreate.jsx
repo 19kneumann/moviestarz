@@ -26,7 +26,7 @@ class WatchlistCreate extends Component {
       <div>
         <Modal show={this.state.show} backdrop="static" className="ModalContainer" centered animation={false}>
           <div className="ModalContent">
-            <h1> ADD USER </h1>
+            <h1> Create Review </h1>
             <Modal.Body>
               <form onSubmit={this.props.createWatchlist}>
                 <label>Visibility</label>
