@@ -28,6 +28,7 @@ class StartPage extends Component {
     return (
       <div>
         <h1>WELCOME TO MOVIESTARZ!!</h1>
+        
       </div>
     );
   }

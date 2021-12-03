@@ -313,8 +313,8 @@ class Watchlists extends Component {
     })
   }
 
-  changeFeed = () => {
-    if (this.state.home === true) {
+  changeFeed = (home) => {
+    if (home !== true) {
       this.setState({ watchlists: this.state.publicWatchlists, home: false })
     } else {
       this.setState({ watchlists: this.state.ownedWatchlists, home: true })
@@ -324,13 +324,29 @@ class Watchlists extends Component {
     return (
       <React.Fragment>
         <div className="marginTop" />
-        <div className="overAllFriendButtons">
-          <select onChange={() => this.changeFeed()}>
-            <option value={true}>Your Watchlists</option>
-            <option value={false}>Explore Public</option>
-          </select>
           <Button onClick={() => this.setState({ createWatchlist: true })} variant="dark" className="">Create Watchlist +</Button>
+        <div className="overAllFriendButtons">
         </div>
+        <div className="marginTop" />
+        {this.state.home ?
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" id="active" onClick={() => this.changeFeed(true)}>Your Watchlists</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="inactive" onClick={() => this.changeFeed(false)}>Explore Public</a>
+            </li>
+          </ul>
+          :
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" id="inactive" onClick={() => this.changeFeed(true)}>Your Watchlists</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" id="active" onClick={() => this.changeFeed(false)}>Explore Public</a>
+            </li>
+          </ul>
+        }
         <br/>
         <div className="watchlistContainer">
           {this.state.createWatchlist &&

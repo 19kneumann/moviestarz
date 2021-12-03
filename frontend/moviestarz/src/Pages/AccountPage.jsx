@@ -133,7 +133,7 @@ class AccountPage extends Component {
           {/* Welcome {this.props.cookies.ownerUsername} */}
 
           <div className="updateUser">
-            <h4>Edit Your information!</h4>
+            <h4><span className="title"> Edit Your information!</span></h4>
             Password: ******** <Button variant="dark" onClick={() => this.setState({ editPassword: true, editEmail: false })}>Change</Button>
             <br />
             Email: {this.state.email} <Button variant="dark" onClick={() => this.setState({ editEmail: true, editPassword: false, newPassword: "" })}>Change</Button>
@@ -191,14 +191,14 @@ class AccountPage extends Component {
             </form>
           </div>
           <div className="stats">
-            <h4>STATS!</h4>
-            <span className="title"> Watchlists Owned/Admin : </span>
+          <h4><span className="title">Stats!!</span></h4>
+            <span className=""> Watchlists Owned/Admin : </span>
             {this.state.watchlistCount}
             <br />
-            <span className="title"> Movies Reviewed: </span>
+            <span className=""> Movies Reviewed: </span>
             {this.state.reviewCount}
             <br />
-            <span className="title"> Number of Friends: </span>
+            <span className=""> Number of Friends: </span>
             {this.state.friendCount}
           </div>
         </div>

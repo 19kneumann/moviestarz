@@ -35,7 +35,7 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="image">
       <MasterPage logIn={logIn.bind()} cookies={cookies} removeCookies={handleRemoveCookies.bind()} errorMessage={error} />
     </div>
   );

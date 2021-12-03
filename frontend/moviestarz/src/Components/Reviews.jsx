@@ -198,8 +198,8 @@ class Reviews extends Component {
     })
   }
 
-  changeFeed = () => {
-    if (this.state.home === true) {
+  changeFeed = (home) => {
+    if (home !== true) {
       this.setState({ reviews: this.state.publicReviews, home: false })
     } else {
       this.setState({ reviews: this.state.friendsReview, home: true })
@@ -210,15 +210,36 @@ class Reviews extends Component {
     return (
       <React.Fragment>
         {/* <div className="overAllFriendButtons"> */}
-          <select onChange={() => this.changeFeed()}>
-            <option value={true}>Feed</option>
-            <option value={false}>Public Reviews</option>
-          </select>
-          {/* <Button type="button" className="" variant="dark" onClick={() => this.props.addFriend}>Add Friend 👤+</Button>
+        <div className="marginTop">
+          </div>
+        {this.state.home ?
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" id="active" onClick={() => this.changeFeed(true)}>Feed</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="inactive" onClick={() => this.changeFeed(false)}>Public Review</a>
+            </li>
+          </ul>
+          :
+          <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link" id="inactive" onClick={() => this.changeFeed(true)}>Feed</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" id="active" onClick={() => this.changeFeed(false)}>Public Review</a>
+            </li>
+          </ul>
+        }
+        {/* <select onChange={() => this.changeFeed()}>
+          <option value={true}>Feed</option>
+          <option value={false}>Public Reviews</option>
+        </select> */}
+        {/* <Button type="button" className="" variant="dark" onClick={() => this.props.addFriend}>Add Friend 👤+</Button>
           <Button type="button" className="" variant="dark" onClick={() => this.props.showIncoming}>Incoming Requests{'\ud83d\udce8'}</Button>
           <Button type="button" className="" variant="dark" onClick={() => this.props.showFriendsList}>Friends List👥</Button>
         </div> */}
-        <br/>
+        <br />
         <div className="reviewContainer">
           {this.state.reviews.map((review) => (
             <React.Fragment key={review.reviewId}>
@@ -295,7 +316,7 @@ class Reviews extends Component {
                     {this.state.comments.map(comment => <ReviewComment ownerUsername={comment.ownerUsername} content={comment.comment}> </ReviewComment>)}
                   </React.Fragment>
                   :
-                  <p>Hmmm, there doesnt seem to be any comments! Be the first to make one</p>
+                  <p>Hmmm, there doesnt seem to be any comments!Be the first to make one</p>
                 }
               </div>
             </Modal>

@@ -3,6 +3,7 @@ import MovieCard from "./MovieCard";
 import axios from "axios";
 import CreateReview from "./CreateReview";
 import { Modal, Button } from "react-bootstrap";
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import '../App.css'
 class Movies extends Component {
@@ -21,7 +22,8 @@ class Movies extends Component {
     watchlists: [],
     movieId: null,
     watchlistId: null,
-    search: null
+    search: null,
+    page: 1
   };
 
   onChange = (evt) => {
@@ -31,19 +33,23 @@ class Movies extends Component {
   };
 
   componentDidMount = () => {
+    this.getMovies();
+    this.friendsAndWatchlists()
+  };
+
+  getMovies = () => {
     axios
-      .get("https://api.themoviedb.org/3/discover/movie?api_key=af69558f05513147c6444f75dd27b6a1&language=en-US&sort_by=popularity.desc"
+      .get("https://api.themoviedb.org/3/discover/movie?api_key=af69558f05513147c6444f75dd27b6a1&language=en-US&sort_by=popularity.desc&page=" + this.state.page
       )
       .then((response) => {
         console.log(response.data);
-        this.setState({ movies: response.data.results });
+        this.setState({ movies: this.state.movies.concat(response.data.results) });
       })
       .catch(function (error) {
         console.log("errorFetching");
       });
-
-    this.friendsAndWatchlists()
-  };
+    this.setState({ page: this.state.page + 1 })
+  }
 
   seperateLists = () => {
     console.log(this.state)
@@ -192,51 +198,62 @@ class Movies extends Component {
       <div>
         <input type="text" name="search" className="searchBar" placeholder="Search for a movie!!" onChange={this.onChange} />
         <button onClick={this.search} className="actionIcons">{'\uD83D\uDD0D\uFE0E'}</button>
-        <div className="movieContainer">
-          {this.state.movies.map((movie, index) => (
-            <React.Fragment key={movie.id}>
-              <MovieCard
-                index={index}
-                openModal={this.openModal.bind()}
-                addMovie={this.addMovie.bind()}
-                toggleCreateReview={this.toggleCreateReview.bind()}
-                id={movie.id}
-                title={movie.title}
-                poster={movie.poster_path}
-                rating={movie.vote_average}
-                watchlists={this.state.watchlists.filter(watchlist => !watchlist.movies.includes(movie.title))}
-              ></MovieCard>
+          <InfiniteScroll
+            dataLength={this.state.movies.length} //This is important field to render the next data
+            next={this.getMovies}
+            hasMore={true}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: 'center' }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+          >
+                <div className="movieContainer">
+        {this.state.movies.map((movie, index) => (
+          <React.Fragment key={movie.id}>
+          <MovieCard
+          index={index}
+          openModal={this.openModal.bind()}
+          addMovie={this.addMovie.bind()}
+          toggleCreateReview={this.toggleCreateReview.bind()}
+          id={movie.id}
+          title={movie.title}
+          poster={movie.poster_path}
+          rating={movie.vote_average}
+          watchlists={this.state.watchlists.filter(watchlist => !watchlist.movies.includes(movie.title))}
+          ></MovieCard>
 
-              {this.state.modalId === movie.id &&
-                <Modal show={this.state.modalId === movie.id} backdrop="static" className="ModalContainer" centered animation={false}>
-                  <div className="ModalContent">
-                  <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
-                    <Modal.Body>
-                      <div className="ModalBody">
-                        <img src={"https://image.tmdb.org/t/p/original" + movie.poster_path} height='150' width='100' alt="" />
-                        <p className="title">{this.state.movies[this.state.modalIndex].title} </p> <br />
-                        {this.state.movies[this.state.modalIndex].overview}
-                      </div>
-                    </Modal.Body>
-                    {/* <Modal.Footer>
+        {this.state.modalId === movie.id &&
+          <Modal show={this.state.modalId === movie.id} backdrop="static" className="ModalContainer" centered animation={false}>
+          <div className="ModalContent">
+          <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
+          <Modal.Body>
+          <div className="ModalBody">
+          <img src={"https://image.tmdb.org/t/p/original" + movie.poster_path} height='150' width='100' alt="" />
+          <p className="title">{this.state.movies[this.state.modalIndex].title} </p> <br />
+        {this.state.movies[this.state.modalIndex].overview}
+          </div>
+          </Modal.Body>
+        {/* <Modal.Footer>
                       <button onClick={() => this.closeModal()}>Close</button>
                     </Modal.Footer> */}
-                  </div>
-                </Modal>
-              }
+          </div>
+          </Modal>
+        }
 
-              {movie.id === this.state.movieId &&
-                <CreateReview
-                  createReview={this.createReview.bind()}
-                  movie={movie}
-                  closeModal={this.closeModal.bind()}
-                  show={this.state.movieId === movie.id}
-                ></CreateReview>
-              } 
-
-            </React.Fragment>
-          ))}
+        {movie.id === this.state.movieId &&
+          <CreateReview
+          createReview={this.createReview.bind()}
+          movie={movie}
+          closeModal={this.closeModal.bind()}
+          show={this.state.movieId === movie.id}
+          ></CreateReview>
+        }
+          </React.Fragment>
+        ))}
         </div>
+        </InfiniteScroll>
       </div>
     );
   }

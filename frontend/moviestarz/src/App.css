@@ -1,10 +1,11 @@
 body {
-    background-image: url("background.jpg");
     /* background-color: #2d2e38; */
     color: #F5FBEF;
     margin-left: 200px;
-  }
+    background-image: url("background.jpg");
+    background-attachment: fixed;
 
+  }
 a:hover   {
     color: #F5FBEF;
     cursor: pointer;
@@ -72,7 +73,7 @@ a:hover   {
     text-decoration: none;
     /* background-color: #5BC0BE; */
     color: #F5FBEF;
-    width: 45%;
+    width: 46%;
     min-height: 200px;
     height: 20%;
     margin: auto;
@@ -331,6 +332,14 @@ font-size: large;
     padding-left: 20px;
     padding: auto;
     margin-bottom: 10px;
+}
+#inactive{
+    background-color: #515152;
+    color: #F5FBEF;
+}
+#active{
+    background-color: #F5FBEF;
+    color: #AF125A;
 }
 /* .accountPage{
     display: flex;
