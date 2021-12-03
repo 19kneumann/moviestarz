@@ -58,9 +58,9 @@ class Reviews extends Component {
     })
   };
 
-  setComments = () =>{
+  setComments = () => {
     this.state.reviews.map((review) => {
-      if(review.reviewId === this.state.editId){
+      if (review.reviewId === this.state.editId) {
         this.setState({
           comments: review.comments
         })
@@ -68,7 +68,7 @@ class Reviews extends Component {
     })
   }
 
-  getReviewForComments = () =>{
+  getReviewForComments = () => {
     axios
       .get("http://localhost:8089/review-service/review/" + this.state.editId
       )
@@ -193,9 +193,9 @@ class Reviews extends Component {
       .catch(function (error) {
         console.log("errorFetching");
       });
-      self.setState({
-        comment: ""
-      })
+    self.setState({
+      comment: ""
+    })
   }
 
   changeFeed = () => {
@@ -209,10 +209,16 @@ class Reviews extends Component {
   render() {
     return (
       <React.Fragment>
-        <select onChange={() => this.changeFeed()}>
-          <option value={true}>Feed</option>
-          <option value={false}>Public Reviews</option>
-        </select>
+        {/* <div className="overAllFriendButtons"> */}
+          <select onChange={() => this.changeFeed()}>
+            <option value={true}>Feed</option>
+            <option value={false}>Public Reviews</option>
+          </select>
+          {/* <Button type="button" className="" variant="dark" onClick={() => this.props.addFriend}>Add Friend 👤+</Button>
+          <Button type="button" className="" variant="dark" onClick={() => this.props.showIncoming}>Incoming Requests{'\ud83d\udce8'}</Button>
+          <Button type="button" className="" variant="dark" onClick={() => this.props.showFriendsList}>Friends List👥</Button>
+        </div> */}
+        <br/>
         <div className="reviewContainer">
           {this.state.reviews.map((review) => (
             <React.Fragment key={review.reviewId}>
@@ -256,9 +262,9 @@ class Reviews extends Component {
                 <p id="marginLeft">
                   <span className="title">{this.state.editOwnerUsername}</span>
                   {/* {this.state.editOwnerUsername} */}
-                  's review of 
+                  's review of
                   <span className="title"> {this.state.editMovie} </span>
-                  </p>
+                </p>
                 <Modal.Body>
                   <div>
                     {/* <p>{this.state.editOwnerUsername}
@@ -272,9 +278,9 @@ class Reviews extends Component {
                     Movie: {this.state.editMovie}
                     <br /> */}
                     <img src={this.state.image} height='150' width='100' alt="" />
-                    <img height="45px" width="200px" src={this.state.editRating +".png"}/>
+                    <img height="45px" width="200px" src={this.state.editRating + ".png"} />
                     <br />
-                    <br/>
+                    <br />
                     "{this.state.editDescription}"
                     <br />
                   </div>
@@ -282,14 +288,14 @@ class Reviews extends Component {
                   {/* <br /><br /> */}
                 </Modal.Body>
                 <h1>Comments</h1>
-                <input type="text" name="comment" className="commentBar" placeholder="Add a Comment!" onChange={this.onChange} value={this.state.comment}/>
+                <input type="text" name="comment" className="commentBar" placeholder="Add a Comment!" onChange={this.onChange} value={this.state.comment} />
                 <button onClick={() => this.addComment()} className="actionIcons">💬</button>
-                {this.state.comments.length != 0 ? 
-                <React.Fragment>
-                  {this.state.comments.map(comment => <ReviewComment ownerUsername={comment.ownerUsername} content={comment.comment}> </ReviewComment>)}
-                </React.Fragment>
-                :
-                <p>Hmmm, there doesnt seem to be any comments! Be the first to make one</p>
+                {this.state.comments.length != 0 ?
+                  <React.Fragment>
+                    {this.state.comments.map(comment => <ReviewComment ownerUsername={comment.ownerUsername} content={comment.comment}> </ReviewComment>)}
+                  </React.Fragment>
+                  :
+                  <p>Hmmm, there doesnt seem to be any comments! Be the first to make one</p>
                 }
               </div>
             </Modal>

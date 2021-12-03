@@ -31,6 +31,7 @@ class FriendsList extends Component {
                       <React.Fragment key={user}>
                         {user}
                         <Button type="button" className="actionIcons" variant="dark" onClick={() => this.props.removeUser(user)}>X</Button>
+                        <br/>
                       </React.Fragment>
                     ))}
                   </div>

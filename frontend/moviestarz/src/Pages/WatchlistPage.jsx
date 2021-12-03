@@ -8,7 +8,6 @@ class WatchlistPage extends Component {
       <React.Fragment>
           <Watchlists cookies={this.props.cookies}></Watchlists>
       </React.Fragment>
-
     );
   }
 }

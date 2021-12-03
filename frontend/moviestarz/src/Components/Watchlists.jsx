@@ -323,11 +323,15 @@ class Watchlists extends Component {
   render() {
     return (
       <React.Fragment>
-        <Button onClick={() => this.setState({ createWatchlist: true })} variant="dark" className="actionIcons"> +</Button>
-        <select onChange={() => this.changeFeed()}>
-          <option value={true}>Your Watchlists</option>
-          <option value={false}>Explore Public</option>
-        </select>
+        <div className="marginTop" />
+        <div className="overAllFriendButtons">
+          <select onChange={() => this.changeFeed()}>
+            <option value={true}>Your Watchlists</option>
+            <option value={false}>Explore Public</option>
+          </select>
+          <Button onClick={() => this.setState({ createWatchlist: true })} variant="dark" className="">Create Watchlist +</Button>
+        </div>
+        <br/>
         <div className="watchlistContainer">
           {this.state.createWatchlist &&
             <WatchlistCreate
@@ -368,19 +372,19 @@ class Watchlists extends Component {
           {this.state.openWatchlist &&
             <Modal show={this.state.openWatchlist} backdrop="static" className="ModalContainer" centered animation={false}>
               <div className="ModalContent">
-                
+
                 <Button onClick={() => this.closeModal()} className="closeModalBtn" variant="dark">X</Button>
                 <ModalHeader>
-                <h1 className="title">'{this.state.title}'
-                  {this.state.isPublic === "true" ?
-                    '  \uD83D\uDD13'
-                    :
-                    ' 👥'
-                  }
-                </h1>
+                  <h1 className="title">'{this.state.title}'
+                    {this.state.isPublic === "true" ?
+                      '  \uD83D\uDD13'
+                      :
+                      ' 👥'
+                    }
+                  </h1>
                   Created By: {this.state.ownerUsername}
 
-                  </ModalHeader>
+                </ModalHeader>
                 <ModalBody>
                   <br />
                   {this.state.movies.length === 0 ?

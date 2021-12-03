@@ -89,7 +89,26 @@ public class UserController {
         }
     }
 
-    @PatchMapping("/addFriend")
+    @PatchMapping("/updateUser")
+    public ResponseEntity<Object> change(@RequestBody Map<String, Object> payload) throws Exception {
+        String username = payload.get("ownerUsername").toString();
+        String oldPassword = payload.get("oldPassword").toString();
+        String newPassword = payload.get("newPassword").toString();
+        String email = payload.get("email").toString();
+        UserClass user = repo.findById(username).orElse(null);
+        if(user == null || !passwordEncoder.matches(oldPassword, user.getPassword())){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        if(newPassword != ""){
+            user.setPassword(passwordEncoder.encode(newPassword));
+        }
+        if(email != ""){
+            user.setEmail(email);
+        }
+        repo.save(user);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+        @PatchMapping("/addFriend")
     public ResponseEntity<Object> sendFriendRequest(@RequestBody Map<String, Object> payload){
         String ownerUsername = payload.get("ownerUsername").toString();
         String friendUsername = payload.get("friendUsername").toString();

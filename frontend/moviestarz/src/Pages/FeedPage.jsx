@@ -80,7 +80,7 @@ class FeedPage extends Component {
         })
       });
   }
-  
+
   getFriends() {
     var self = this;
     axios
@@ -132,7 +132,7 @@ class FeedPage extends Component {
       });
   }
 
-  removeUser(user){
+  removeUser(user) {
     var self = this;
     axios
       .patch("http://localhost:8089/user-service/removeFriend", {
@@ -153,12 +153,17 @@ class FeedPage extends Component {
   render() {
 
     return (
-      <div>
-        <Button type="button" className="actionIcons" variant="dark" onClick={() => this.addFriend()}>👤+</Button>
-        <Button type="button" className="actionIcons" variant="dark" onClick={() => this.showIncoming()}>{'\ud83d\udce8'}</Button>
-        <Button type="button" className="actionIcons" variant="dark" onClick={() => this.showFriendsList()}>👥</Button>
-
-        <Reviews cookies={this.props.cookies}></Reviews>
+      <div className="marginTop">
+          <div className="overAllFriendButtons">
+            <Button type="button" className="" variant="dark" onClick={() => this.addFriend()}>Add Friend 👤+</Button>
+            <Button type="button" className="" variant="dark" onClick={() => this.showIncoming()}>Incoming Requests{'\ud83d\udce8'}</Button>
+            <Button type="button" className="" variant="dark" onClick={() => this.showFriendsList()}>Friends List👥</Button>
+          </div>
+        <Reviews cookies={this.props.cookies}
+        addFriend={this.addFriend.bind()}
+        showIncoming={this.showIncoming.bind()}
+        showFriendsList={this.showFriendsList.bind()}
+        ></Reviews>
 
         {this.state.showAdd &&
           <Modal show={this.state.showAdd} backdrop="static" className="ModalContainer" centered animation={false}>

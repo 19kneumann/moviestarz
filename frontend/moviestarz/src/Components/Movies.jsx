@@ -42,17 +42,43 @@ class Movies extends Component {
         console.log("errorFetching");
       });
 
-    axios
-      .get("http://localhost:8089/watchlist-service/" + this.props.cookies.ownerUsername
-      )
-      .then((response) => {
-        console.log(response.data);
-        this.setState({ watchlists: response.data });
-      })
-      .catch(function (error) {
-        console.log("errorFetching");
-      });
+    this.friendsAndWatchlists()
   };
+
+  seperateLists = () => {
+    console.log(this.state)
+    let owned = [];
+    let publics = [];
+    this.state.allWatchlists.map((watchlist) => {
+      console.log(watchlist.adminUsers)
+      // if (this.state.friends.includes(watchlist.ownerUsername)) {
+      if (watchlist.adminUsers.includes(this.props.cookies.ownerUsername) || watchlist.viewerUsers.includes(this.props.cookies.ownerUsername) || watchlist.ownerUsername === this.props.cookies.ownerUsername) {
+        console.log("friend");
+        owned.push(watchlist)
+      } else {
+        publics.push(watchlist)
+      }
+    });
+    this.setState({
+      ownedWatchlists: owned,
+      publicWatchlists: publics,
+      watchlists: owned
+    })
+  }
+
+  friendsAndWatchlists = () => {
+    let getWatchlists = axios.get("http://localhost:8089/watchlist-service/" + this.props.cookies.ownerUsername)
+    let getFriends = axios.get("http://localhost:8089/user-service/getFriends/" + this.props.cookies.ownerUsername)
+    let self = this;
+    axios.all([getWatchlists, getFriends]).then(axios.spread((...responses) => {
+      self.setState({
+        allWatchlists: responses[0].data,
+        friends: responses[1].data
+      })
+      self.seperateLists();
+    })).catch(errors => {
+    })
+  }
 
   addMovie = (e, id, watchlistId) => {
     e.stopPropagation();
@@ -63,6 +89,7 @@ class Movies extends Component {
     })
     this.addToWatchlist(id, watchlistId);
   }
+
   toggleCreateReview = (e, id) => {
     e.stopPropagation();
     this.setState({
@@ -87,6 +114,7 @@ class Movies extends Component {
           addToWatchlist: false,
           movieId: null
         })
+        this.friendsAndWatchlists()
       })
       .catch(function (error) {
         console.log(error);

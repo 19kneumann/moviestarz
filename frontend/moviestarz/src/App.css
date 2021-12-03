@@ -286,3 +286,52 @@ font-size: large;
 #noMarginButton{
     padding-left: 0;
 }
+.marginTop{
+    margin-top: 30px;
+}
+.overAllFriendButtons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.friendButtons{
+    display: flex;
+    justify-content: space-between;
+}
+
+.updateUser{
+    border-radius: 25px;
+    background-color: #515152;
+    border: 2px solid #F5FBEF;
+    text-decoration: none;
+    /* background-color: #5BC0BE; */
+    color: #F5FBEF;
+    width: 45%;
+    min-height: 150px;
+    height: 20%;
+    margin: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding: auto;
+    margin-bottom: 10px;
+}
+
+.stats{
+    border-radius: 25px;
+    background-color: #515152;
+    border: 2px solid #F5FBEF;
+    text-decoration: none;
+    /* background-color: #5BC0BE; */
+    color: #F5FBEF;
+    width: 45%;
+    min-height: 150px;
+    height: 20%;
+    margin: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding: auto;
+    margin-bottom: 10px;
+}
+/* .accountPage{
+    display: flex;
+} */

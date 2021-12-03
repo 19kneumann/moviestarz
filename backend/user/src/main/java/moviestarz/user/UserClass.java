@@ -1,5 +1,6 @@
 package moviestarz.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -11,6 +12,7 @@ public class UserClass {
     @Id
     private String username;
 
+    @JsonIgnore
     private String password;
 
     private String email;
