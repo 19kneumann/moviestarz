@@ -68,7 +68,7 @@ class MasterPage extends Component {
               <Login logIn={this.logIn.bind()} show={this.state.logIn} closeModal={this.closeModal.bind()} errorMessage={this.props.errorMessage} ></Login>
             }
             {this.state.signUp === true &&
-              <SignUp show={this.state.signUp} closeModal={this.closeModal.bind()} error={this.state.usernameTaken} logIn={this.logIn.bind()}></SignUp>
+              <SignUp show={this.state.signUp} closeModal={this.closeModal.bind()} usernameTaken={this.state.usernameTaken} logIn={this.logIn.bind()}></SignUp>
             }
             <StartPage logIn={this.props.logIn} />
           </div>

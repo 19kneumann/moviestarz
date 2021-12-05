@@ -202,10 +202,10 @@ class Movies extends Component {
             dataLength={this.state.movies.length} //This is important field to render the next data
             next={this.getMovies}
             hasMore={true}
-            loader={<h4>Loading...</h4>}
+            loader={<h4 className="title">Loading...</h4>}
             endMessage={
               <p style={{ textAlign: 'center' }}>
-                <b>Yay! You have seen it all</b>
+                <b>Uh oh, no more movies</b>
               </p>
             }
           >

@@ -20,25 +20,25 @@ class SignUp extends Component {
       error: false,
       [evt.target.name]: evt.target.value,
     },
-    this.checkRegex
+      this.checkRegex
     );
   };
 
-  checkRegex(){
+  checkRegex() {
     const password_pattern = /(?=.*[A-Z])(?=.*[\d])(?=.*[!@#$%^&*()\[\]{};:'"<>,.\/?])[\w\W]{8,}/;
     const email_pattern = /.*\w.*\w.*@.*\w.*\w.*[.].*\w.*\w.*/i;
 
     console.log(this.state.password)
     console.log(this.state.passwordCheck)
 
-    if(!password_pattern.test(this.state.password)){
-      this.setState({error: true, errorMessage: "password needs to be  at least 8 characters and include one capitalized letter, one digit, and one special character !@#$%^&*()[]{};:'\"<>,./?.<br />"}) ;
+    if (!password_pattern.test(this.state.password)) {
+      this.setState({ error: true, errorMessage: "password needs to be  at least 8 characters and include one capitalized letter, one digit, and one special character !@#$%^&*()[]{};:'\"<>,./?.<br />" });
     }
-    else if(this.state.password != (this.state.passwordCheck)){
-      this.setState({error: true, errorMessage: "passwords must match"}) ;
-    }else if(!email_pattern.test(this.state.email)){
-      this.setState({error: true, errorMessage: "email have at least two characters, followed by an '@', then at least two characters, followed by a dot, and then at least two more characters.<br />"}) ;
-    }else{
+    else if (this.state.password != (this.state.passwordCheck)) {
+      this.setState({ error: true, errorMessage: "passwords must match" });
+    } else if (!email_pattern.test(this.state.email)) {
+      this.setState({ error: true, errorMessage: "email have at least two characters, followed by an '@', then at least two characters, followed by a dot, and then at least two more characters.<br />" });
+    } else {
       this.setState({
         error: false
       })
@@ -54,7 +54,7 @@ class SignUp extends Component {
   }
 
   SignUp(username, password, email) {
-    var self= this;
+    var self = this;
     axios
       .post("http://localhost:8089/user-service", {
         username: `${username}`,
@@ -96,7 +96,7 @@ class SignUp extends Component {
                 <br />
                 <label>Confirm Password</label>
                 <br />
-                <input type="password" name="passwordCheck" onChange={this.onChange}/>
+                <input type="password" name="passwordCheck" onChange={this.onChange} />
                 <br />
                 <label>Email</label>
                 <br />
@@ -105,10 +105,15 @@ class SignUp extends Component {
             </Modal.Body>
             <Modal.Footer>
               {this.state.error &&
-              <React.Fragment>
-              <p>The name {this.state.username} is already taken. Please try again!</p>
-              <p>{this.state.errorMessage}</p>
-              </React.Fragment>
+                <React.Fragment>
+                  <p>{this.state.errorMessage}</p>
+                </React.Fragment>
+              }
+              {this.props.usernameTaken &&
+                <React.Fragment>
+                  <p>The name {this.state.username} is already taken. Please try again!</p>
+                  {/* <p>{this.state.errorMessage}</p> */}
+                </React.Fragment>
               }
               <button onClick={() => this.SignUp(this.state.username, this.state.password, this.state.email)} disabled={this.state.error}>Create Account</button>
               <button onClick={() => this.closeModal()}>Close</button>

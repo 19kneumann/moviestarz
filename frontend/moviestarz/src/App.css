@@ -277,6 +277,15 @@ font-size: large;
     -1px 1px 0 #000,
      1px 1px 0 #000;
 }
+.welcomeTitle{
+    text-align: center;
+    color: #F5FBEF;
+    text-shadow:
+   -1px -1px 0 #000,  
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+     1px 1px 0 #000;
+}
 .plainPinkTitle{
     color: #AF125A;
     font-size:large;
@@ -344,3 +353,25 @@ font-size: large;
 /* .accountPage{
     display: flex;
 } */
+
+.startPageCard{
+    border-radius: 25px;
+    background-color: #515152;
+    border: 2px solid #F5FBEF;
+    text-decoration: none;
+    /* background-color: #5BC0BE; */
+    color: #F5FBEF;
+    width: 45%;
+    min-height: 150px;
+    height: 20%;
+    margin: auto;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding: auto;
+    margin-bottom: 10px;
+}
+.startContainer{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
