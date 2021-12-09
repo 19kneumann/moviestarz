@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -58,8 +59,9 @@ public class ReviewController {
         ServiceInstance serviceInstance = loadBalancerClient.choose("user-service");
         String url = serviceInstance.getUri() + "/getFriends/" + ownerUsername;
         List<String> friends = restTemplate.getForObject(url, List.class);
-
-        return repo.findAllByOwnerUsernameOrPublicIsTrue(ownerUsername, friends);
+        List<Review> reviews = repo.findAllByOwnerUsernameOrPublicIsTrue(ownerUsername, friends);
+        Collections.reverse(reviews);
+        return reviews;
     }
 
     @PatchMapping("/{reviewId}")

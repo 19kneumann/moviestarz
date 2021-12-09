@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Modal, ModalBody } from "react-bootstrap";
 import { Button } from "react-bootstrap";
+import ModalHeader from "react-bootstrap/esm/ModalHeader";
+
 class FriendsList extends Component {
 
   state = {
@@ -22,6 +24,9 @@ class FriendsList extends Component {
       <div>
         <Modal show={this.props.show} backdrop="static" className="ModalContainer" centered animation={false}>
             <div className="ModalContent">
+              <ModalHeader>
+                Friends!
+                </ModalHeader>
               <Modal.Body>
                 {this.props.friends.length === 0 ?
                   <p> You have no friends yet :( </p>

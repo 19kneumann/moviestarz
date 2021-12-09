@@ -4,6 +4,8 @@ import { Button, Modal } from "react-bootstrap";
 import axios from "axios";
 import FriendIncomingRequests from "../Components/FriendIncomingRequests";
 import FriendsList from "../Components/FriendsList";
+import ModalHeader from "react-bootstrap/esm/ModalHeader";
+
 class FeedPage extends Component {
 
   constructor() {
@@ -168,7 +170,9 @@ class FeedPage extends Component {
         {this.state.showAdd &&
           <Modal show={this.state.showAdd} backdrop="static" className="ModalContainer" centered animation={false}>
             <div className="ModalContent">
-
+              <ModalHeader>
+                Search for a friend!
+                </ModalHeader>
               <Modal.Body>
                 <input type="text" name="username" className="searchBar" placeholder="Enter your friend's username!" onChange={this.onChange} />
                 <button onClick={this.search} className="actionIcons">{'\uD83D\uDD0D\uFE0E'}</button>
